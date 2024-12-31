@@ -1,0 +1,14 @@
+#ebooks{
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: red;
+    margin-bottom: 50px;
+    .container-ebooks{
+        margin: 0;
+    width: 80%;
+    background-color: blue;
+    }
+}

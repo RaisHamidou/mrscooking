@@ -1,0 +1,17 @@
+.books-page-hero{
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: $montserrat;
+    color: $blue;
+}
+
+.container-ebooks{
+    width: 70%;
+    margin: auto;
+    margin-bottom: 50px;
+    @media (max-width: 561px) {
+        width: 95% ;
+      }
+}

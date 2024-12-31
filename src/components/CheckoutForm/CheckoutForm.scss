@@ -1,0 +1,195 @@
+.checkout {
+    display: flex;
+    height: auto;
+
+    @media screen and (max-width:768px) {
+        flex-direction: column;
+    }
+
+    .title-form {
+        margin: 50px auto 30px auto;
+        @media screen and (max-width:425px) {
+            width: 90%;
+        }
+        h1 {
+            font-family: $poppins;
+            font-weight: 500;
+            font-size: 2rem;
+            text-align: center;
+        }
+    }
+}
+
+.container-form {
+    position: relative;
+    width: 50%;
+    height: auto;
+    margin-top: -0.5px;
+    background-color: $whiteSecondary;
+    border-left: solid 2px #f6efef;
+
+    @media screen and (max-width:768px) {
+        width: 100%;
+        border-top: solid 2px #f6efef;
+    }
+
+}
+
+.checkout-form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+
+    .input-elements {
+        width: 60%;
+        margin-top: 20px;
+        margin-bottom: 5px;
+        display: flex;
+        justify-content: space-between;
+        
+        @media screen and (max-width:425px) {
+            width: 90%;
+        }
+
+        input {
+            width: 49.5%;
+            height: 50px;
+            padding-left: 15px;
+            border-radius: 7px;
+            border: none;
+            background-color: #D9D9D9;
+
+            &:focus {
+                outline: none;
+            }
+        }
+
+        ::placeholder {
+            color: #949393;
+            font-family: $roboto;
+            font-size: 16px;
+                  
+        }
+    }
+
+    .card-element {
+        background-color: #D9D9D9;
+        width: 60%;
+        padding: 15px 20px 15px 30px;
+        border-radius: 7px;
+        margin-top: 30px;
+
+        @media screen and (max-width:425px) {
+            width: 90%;
+        }
+
+        &:focus {
+            outline: none;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        }
+    }
+
+    .pay-btn {
+        background-color: black;
+        color: white;
+        font-family: $inter;
+        font-weight: bold;
+        margin-top: 30px;
+        width: 60%;
+        height: 40px;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+
+        @media screen and (max-width:425px) {
+            width: 90%;
+        }
+    }
+
+    .pay-legal {
+        width: 58%;
+        margin: auto;
+        margin-top: 10px;
+        padding-bottom: 20px;
+        @media screen and (max-width:425px) {
+            width: 89%;
+        }
+        p {
+            text-align: center;
+            color: #8E8E8E;
+            font-size: .8rem;
+        }
+
+        .info-legal {
+            color: $pink;
+            font-size: .8rem;
+        }
+    }
+}
+
+.checkout-cart {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: auto;
+
+    @media screen and (max-width:768px) {
+        width: 100%;
+    }
+    .Cart {
+        position: relative;
+        height: auto;
+        width: 100%;
+        margin: auto;
+        margin-top: 0;
+        z-index: 10;
+        .hr {
+            width: 70%;
+            height: 2px;
+            margin: auto;
+            border-radius: 10px;
+            background-color: #f6efef;
+        }
+        .container-product-added{
+            background-color: #f5f5f5;
+            width: 70%;
+            margin: auto;
+            border-radius: 7px;
+            border: solid 2px #f6efef;
+            z-index: 10;
+            @media screen and (max-width:425px) {
+                width: 90%;
+            }
+        }
+
+        .product-added {
+            margin-top: 0;
+            z-index: 10;
+            color: #5d5d5d;
+        }
+
+        .containter-total-price {
+            border: none;
+            background-color: #f5f5f5;
+            width: 70%;
+            height: 60px;
+            align-items: center;
+            justify-content: space-around;
+            margin: 20px auto 50px auto;
+            border-radius: 7px;
+            padding: 0;
+            color: #8E8E8E;
+            border: solid 2px #f6efef;
+            @media screen and (max-width:425px) {
+                width: 90%;
+            }
+            .total {
+                font-weight: 500;
+                color: #8E8E8E;
+            }
+        }
+    }
+}

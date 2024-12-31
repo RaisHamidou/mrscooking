@@ -1,0 +1,113 @@
+
+  .container-cards-16-9 {
+    width: 100%;
+    margin: auto;
+    display: flex;
+    flex-wrap:wrap;
+    
+    .content-card-16-9 {
+      width: 25%;
+      height: auto;
+      padding: 5px;
+      overflow:hidden;
+      @media (max-width: 896px) {
+        width: 33.33% ;
+      }
+  
+      @media (max-width: 375px) {
+        width: 50% ;
+      }
+  
+      .img-card-16-9 {
+        width: 100%;
+        aspect-ratio: 1/1;
+        border-radius: 5px;
+        background: $beige;
+        position: relative;
+        img{
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+  
+        .buy {
+           position: absolute;
+          bottom: 10px;
+         left: 50%;
+         transform: translateX(-50%);
+          background:white;
+          color: $goldenPink;
+          font-weight: 500;
+          width: 70%;
+          height: 30px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 50px;
+          cursor: pointer;
+          font-size: .7rem;
+          border:none;
+          @media (max-width: 896px) {
+            width: 50% ;
+          }
+          @media (max-width: 769px) {
+            width: 55% ;
+            font-size: .6rem;
+          }
+          @media (max-width: 425px) {
+            width: 65% ;
+            height: 25px;
+            font-size: .5rem;
+          }
+          @media (max-width: 376px) {
+            
+            font-size: .7rem;
+          }
+          &:hover{
+            background: $goldenPink;
+            color: white;
+          }
+        }
+      }
+      .card-price{
+        font-family: $inter;
+        font-weight: 500;
+        font-size: 0.8rem;
+        color: $goldenPink;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 20%;
+        height: 20%;
+        border-radius: 50px;
+        background-color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .description-card-16-9 {
+        h2 {
+          margin-top: 10px;
+          font-size: 1rem;
+          line-clamp: 3;
+          -webkit-line-clamp: 3;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          color: $blue;
+          font-weight: normal;
+          font-weight: 600;
+          font-family: $montserrat;
+          @media (max-width: 896px) {
+            font-size: .8rem;
+          }
+          @media (max-width: 376px) {
+            font-size: .8rem;
+          }
+        }
+       
+      }
+    }
+  }
+  
