@@ -64,6 +64,9 @@ app.get("/api/instagram-posts", async (req, res) => {
     res.json(posts);
   }); 
   
+  app.get("/api/test", (req,res)=>{
+    res.json("test")
+  })
 export default app
 
 //
