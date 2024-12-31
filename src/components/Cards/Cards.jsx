@@ -1,10 +1,33 @@
 "use client";
 import { MyContext } from "@/context/Context";
+import axios from "axios";
+
 import Link from "next/link";
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
+import URL from "../config/config";
 
 const Cards = ({ array }) => {
     const { addToCart, checkCart } = useContext(MyContext);
+    const [loading, setLoading] = useState(true)
+    const [posts, setPosts] = useState()
+
+    useEffect(() => {
+        const loadPost = async () => {
+          setLoading(true);
+    
+          const response = await axios.get(`${URL}/api/books`, {
+            method: "GET",
+            headers: {
+              Authorization:"bejaia1984",
+              Accept: "Application/json",
+            },
+          });
+    
+          setPosts(response.data);
+          setLoading(false);
+        };
+        loadPost();
+      }, []);
 
     const formatString = (str) => {
         return str
@@ -14,13 +37,13 @@ const Cards = ({ array }) => {
             .toLowerCase();
     };
 
-    if (!Array.isArray(array)) {
+   /*  if (!Array.isArray(array)) {
         return <p>Aucune donnée à afficher</p>;
-    }
+    } */
 
     return (
         <div className="container-cards-16-9">
-            {array.map((post) => {
+            {loading?"":posts.map((post) => {
                 const isInCart = checkCart(post.id);
 
                 return (

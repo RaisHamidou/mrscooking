@@ -18,7 +18,7 @@ export default async function Page() {
         <h1>Ebooks</h1>
       </div>
       <div className="container-ebooks">
-        <Cards array={posts} />
+        <Cards />
       </div>
     </section>
   );
