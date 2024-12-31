@@ -1,8 +1,9 @@
 import axios from "axios";
 import Cards from "@/components/Cards/Cards";
+import URL from "@/components/config/config";
 
 export default async function Page() {
-  let data = await axios.get(`http://localhost:4000/api/books`, {
+  let data = await axios.get(`${URL}/api/books`, {
     method: "GET",
     headers: {
       Authorization: "bejaia1984",
