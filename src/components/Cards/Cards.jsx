@@ -1,7 +1,7 @@
 "use client";
 import { MyContext } from "@/context/Context";
 import axios from "axios";
-
+import "dotenv/config";
 import Link from "next/link";
 import React, { useContext, useState, useEffect } from "react";
 import URL from "../config/config";

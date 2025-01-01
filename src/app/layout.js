@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
   <MyContextProvider>
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <Headers/>
+        
         {children}
        <Footer/>
       </body>

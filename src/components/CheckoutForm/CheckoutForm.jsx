@@ -5,6 +5,7 @@ import axios from "axios";
 import { MyContext } from "@/context/Context";
 import URL from "../config/config";
 import { useRouter } from "next/navigation";
+import ThankYou from "../ThankYou/ThankYou";
 const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
@@ -180,20 +181,25 @@ setPaymentStatus("loading")
 </button>
           <div className="pay-legal">
             <p>
-              En cliquant sur Payer, vous acceptez nos
+              En cliquant sur Payer, vous acceptez nos 
               <a href="#" className="info-legal">
                 conditions générales de vente
               </a>
               ainsi que nos
               <a href="#" className="info-legal">
-                conditions générales d’utilisation
+                conditions générales d’utilisation.
               </a>
-              .
+              
             </p>
           </div>
          {/*  {paymentStatus && <p>{paymentStatus}</p>} */}
         </form>
       </div>
+      {paymentStatus === "Paiement réussi !" ? ( <div className="status">
+      <ThankYou/>
+      </div>):""}
+     
+     
     </section>
   );
 };
