@@ -17,7 +17,7 @@ router.get("/:id", (req, res)=>{
         return res.status(403).json({error:"Access denied"})
     }
 
-    const filePath = path.join(__dirname,"../Books", `livre${id}.pdf`)
+    const filePath = path.join(__dirname,"../Books", `${id}.pdf`)
 
     if(!fs.existsSync(filePath)){
         return res.status(404).json({error:"File not found"})

@@ -40,7 +40,7 @@ router.post("/confirm-payment", async (req, res) => {
         const book = books.find((b) => b.id === id);
         return {
           filename: `${book.titre}.pdf`,
-          path: book.pdfPath, // Assurez-vous que pdfPath est défini
+          path: book.apiEndpoint, // Assurez-vous que pdfPath est défini
           contentType: "application/pdf",
         };
       });

@@ -13,15 +13,7 @@ app.use(express.json())
 const PASSWORD = process.env.PASSWORD
 
 app.use("/api/payment",paymentRoute)
-app.use("/api/book", bookRouter, (req, res, next)=>{
-    const auth = req.headers.authorization
-
-    if(auth && auth === PASSWORD){
-        next()
-    }else {
-        res.status(401).json({ message: 'Accès interdit.' });
-    }
-})
+app.use("/api/book", bookRouter)
 
 
 app.get('/api/books', (req, res) => {

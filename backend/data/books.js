@@ -1,7 +1,7 @@
 const books = [
   {
     id: 1,
-    titre: "10 recettes de desserts édition tête-à-tête avec Mr",
+    titre: "livre1",
     price: 9.99,
     originalPrice: 9.99,
     description:
