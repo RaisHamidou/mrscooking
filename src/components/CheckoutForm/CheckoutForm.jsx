@@ -8,18 +8,18 @@ import { useRouter } from "next/navigation";
 const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
-  const [paymentStatus, setPaymentStatus] = useState(null);
+  const [paymentStatus, setPaymentStatus] = useState("Payer");
   const [nameValue, setNameValue] = useState();
   const [emailValue, setEmailValue] = useState();
   const [numberValue, setNumberValue] = useState();
   const [adressValue, setAdressValue] = useState();
   const { currentCart, total, clearCart } = useContext(MyContext);
-
+  const [loading, setLoading] = useState(true)
  const route = useRouter()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+setPaymentStatus("loading")
     if (!stripe || !elements) {
       return;
     }
@@ -73,8 +73,9 @@ const CheckoutForm = () => {
           bookIds: bookIds,
       }),
     });
+    
     clearCart()
-     route.push("/thank-you") 
+     /* route.push("/thank-you")  */
     }
   };
 
@@ -173,8 +174,10 @@ const CheckoutForm = () => {
           </div>
 
           <button className="pay-btn" type="submit" disabled={!stripe}>
-            Payer
-          </button>
+  
+    {paymentStatus}
+      
+</button>
           <div className="pay-legal">
             <p>
               En cliquant sur Payer, vous acceptez nos
@@ -188,7 +191,7 @@ const CheckoutForm = () => {
               .
             </p>
           </div>
-          {paymentStatus && <p>{paymentStatus}</p>}
+         {/*  {paymentStatus && <p>{paymentStatus}</p>} */}
         </form>
       </div>
     </section>
