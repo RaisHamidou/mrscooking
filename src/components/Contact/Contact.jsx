@@ -4,7 +4,7 @@ import { FaInstagram } from "react-icons/fa6";
 
 const Contact = () => {
     return (
-        <section className="container-form">
+        <section className="container-form-contact">
             <div className="title-section">
                 <h1>Des questions ?</h1>
             </div>
