@@ -93,11 +93,11 @@ router.post("/confirm-payment", async (req, res) => {
             <p style="text-align:center;color:#8E8E8E;">Retrouvez-nous également sur :</p>
             <div style="text-align: center; margin-top: 20px;">
              <a style="text-decoration: none;" href="https://www.instagram.com/mrs__cooking_/">
-              <img style="width:25px;height:25px;" src="https://www.mrscooking.com/image/icons/instagram-brands-solid.svg" alt="Instagram" /> </a>
+              <img style="width:25px;height:25px;" src="https://www.mrscooking.com/image/icons/insta.png" alt="Instagram" /> </a>
               <a style="text-decoration: none;" href="https://www.tiktok.com/@mrs__cooking_">
-              <img style="width:25px;height:25px;" src="https://www.mrscooking.com/image/icons/tiktok-brands-solid.svg" alt="Instagram" /> </a>
+              <img style="width:25px;height:25px;" src="https://www.mrscooking.com/image/icons/tiktok.png" alt="TikTok" /> </a>
               <a style="text-decoration: none;"href="https://www.instagram.com/mrs__cooking_/">
-              <img style="width:25px;height:25px;" src="https://www.mrscooking.com/image/icons/facebook-f-brands-solid.svg" alt="Instagram" /> </a>
+              <img style="width:25px;height:25px;" src="https://www.mrscooking.com/image/icons/fb.png" alt="Facebook" /> </a>
             </div>
           </footer>
         </div>
