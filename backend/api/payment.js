@@ -60,12 +60,13 @@ router.post("/confirm-payment", async (req, res) => {
         to: email,
         subject: 'Vos ebooks sont disponibles',
         text: 'Merci pour votre achat. Vous trouverez vos ebooks en pièce jointe.',
-        html: `<div style="background: #F5F5F5; width: 90%; border-radius: 7px; font-family: 'Poppins', sans-serif;">
+        html: `<main style="background:#f5F5F5;padding:50px">
+  <div style="margin:auto;background: #F7EDE2; width: 70%; border-radius: 7px; font-family: 'Poppins', sans-serif;">
           <div style="padding: 30px;box-sizing: border-box;">
             <div style="text-align: center; margin-bottom: 20px;">
-              <img src="https://example.com/logo.png" alt="Logo" style="max-width: 150px;" />
+              <img src="https://www.mrscooking.com/_next/static/media/logo.7a3626d4.svg" alt="Logo" style="max-width: 150px;" />
             </div>
-            <div style="color: #FF4D6D; font-size: 2rem; font-weight: 700; text-align: center;">
+            <div style="color: #white; font-size: 2rem; font-weight: 700; text-align: center;">
               Merci pour votre achat !
             </div>
             <p style="font-size: 1rem; color: #8E8E8E; text-align: center;">
@@ -73,7 +74,7 @@ router.post("/confirm-payment", async (req, res) => {
             </p>
       
             <h2 style="color: #444;">Détails de votre commande :</h2>
-            <div style="width:100%; padding:10px; box-sizing: border-box ; background:#D9D9D9;border-radius:7px">
+            <div style="width:100%; padding:10px; box-sizing: border-box ; background:#F1E3D4;border-radius:7px">
               <ul style="color: #555; font-size: 1rem; width:50%; font-weight:500;">
                 ${bookIds.map((id) => {
                   const book = books.find((b) => b.id === id);
@@ -88,13 +89,19 @@ router.post("/confirm-payment", async (req, res) => {
               <p>Cordialement,<br> <span style="font-weight: 700;"> L'équipe </span></p>
             </div>
           </div>
-          <footer style="width:100%; box-sizing: border-box;background:#D9D9D9;padding:20px">
+          <footer style="width:100%; box-sizing: border-box;background:#F1E3D4;padding:20px">
             <p style="text-align:center;color:#8E8E8E;">Retrouvez-nous également sur :</p>
             <div style="text-align: center; margin-top: 20px;">
-              <img src="https://example.com/icons/insta.png" alt="Instagram" />
+             <a style="text-decoration: none;" href="https://www.instagram.com/mrs__cooking_/">
+              <img style="width:25px;height:25px;" src="https://www.mrscooking.com/image/icons/instagram-brands-solid.svg" alt="Instagram" /> </a>
+              <a style="text-decoration: none;" href="https://www.tiktok.com/@mrs__cooking_">
+              <img style="width:25px;height:25px;" src="https://www.mrscooking.com/image/icons/tiktok-brands-solid.svg" alt="Instagram" /> </a>
+              <a style="text-decoration: none;"href="https://www.instagram.com/mrs__cooking_/">
+              <img style="width:25px;height:25px;" src="https://www.mrscooking.com/image/icons/facebook-f-brands-solid.svg" alt="Instagram" /> </a>
             </div>
           </footer>
-        </div>`,
+        </div>
+</main>`,
         attachments: attachments,
       };
       
