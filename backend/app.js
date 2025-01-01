@@ -13,7 +13,7 @@ app.use(express.json())
 const PASSWORD = process.env.PASSWORD
 
 app.use("/api/payment",paymentRoute)
-app.use("/api/book", bookRouter, (req,res,next)=>{
+app.use("/api/book/:id", bookRouter, (req, res, next)=>{
     const auth = req.headers.authorization
 
     if(auth && auth === PASSWORD){
