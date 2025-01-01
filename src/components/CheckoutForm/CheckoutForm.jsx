@@ -20,7 +20,7 @@ const CheckoutForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-setPaymentStatus("loading")
+setPaymentStatus("paiement en cours...")
     if (!stripe || !elements) {
       return;
     }
@@ -59,6 +59,11 @@ setPaymentStatus("loading")
     if (error) {
       console.error(error.message);
       setPaymentStatus("Erreur : " + error.message);
+    
+      // Remettre le statut "Payer" après 5 secondes
+      setTimeout(() => {
+        setPaymentStatus("Payer");
+      }, 5000);
     } else if (paymentIntent && paymentIntent.status === "succeeded") {
       setPaymentStatus("Paiement réussi !");
       const bookIds = currentCart.map(book => book.id)

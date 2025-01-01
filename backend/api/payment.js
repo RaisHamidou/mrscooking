@@ -64,7 +64,7 @@ router.post("/confirm-payment", async (req, res) => {
   <div style="margin:auto;background: #F7EDE2; width: 70%; border-radius: 7px; font-family: 'Poppins', sans-serif;">
           <div style="padding: 30px;box-sizing: border-box;">
             <div style="text-align: center; margin-bottom: 20px;">
-              <img src="https://www.mrscooking.com/_next/static/media/logo.7a3626d4.svg" alt="Logo" style="max-width: 150px;" />
+              <img src="https://www.mrscooking.com/image/icons/logo.png" alt="Logo" style="max-width: 150px;" />
             </div>
             <div style="color: #white; font-size: 2rem; font-weight: 700; text-align: center;">
               Merci pour votre achat !
