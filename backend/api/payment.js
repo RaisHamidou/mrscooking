@@ -61,7 +61,7 @@ router.post("/confirm-payment", async (req, res) => {
         subject: 'Vos ebooks sont disponibles',
         text: 'Merci pour votre achat. Vous trouverez vos ebooks en pièce jointe.',
         html: `<main style="background:#f5F5F5;padding:50px">
-  <div style="margin:auto;background: #F7EDE2; width: 70%; border-radius: 7px; font-family: 'Poppins', sans-serif;">
+  <div style="margin:auto;background: #F7EDE2; width: 90%; border-radius: 7px; font-family: 'Poppins', sans-serif;">
           <div style="padding: 30px;box-sizing: border-box;">
             <div style="text-align: center; margin-bottom: 20px;">
               <img src="https://www.mrscooking.com/image/icons/logo.png" alt="Logo" style="max-width: 150px;" />
@@ -93,15 +93,16 @@ router.post("/confirm-payment", async (req, res) => {
             <p style="text-align:center;color:#8E8E8E;">Retrouvez-nous également sur :</p>
             <div style="text-align: center; margin-top: 20px;">
              <a style="text-decoration: none;" href="https://www.instagram.com/mrs__cooking_/">
-              <img style="width:25px;height:25px;" src="https://www.mrscooking.com/image/icons/insta.png" alt="Instagram" /> </a>
+              <img style="width:25px;height:25px;object-fit:contain" src="https://www.mrscooking.com/image/icons/insta.png" alt="Instagram" /> </a>
               <a style="text-decoration: none;" href="https://www.tiktok.com/@mrs__cooking_">
-              <img style="width:25px;height:25px;" src="https://www.mrscooking.com/image/icons/tiktok.png" alt="TikTok" /> </a>
+              <img style="width:25px;height:25px;object-fit:contain" src="https://www.mrscooking.com/image/icons/tiktok.png" alt="Instagram" /> </a>
               <a style="text-decoration: none;"href="https://www.instagram.com/mrs__cooking_/">
-              <img style="width:25px;height:25px;" src="https://www.mrscooking.com/image/icons/fb.png" alt="Facebook" /> </a>
+              <img style="width:25px;height:25px;object-fit:contain" src="https://www.mrscooking.com/image/icons/fb.png" alt="Instagram" /> </a>
             </div>
           </footer>
         </div>
-</main>`,
+</main>
+`,
         attachments: attachments,
       };
       
