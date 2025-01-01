@@ -2,7 +2,7 @@ import "dotenv/config";
 const books = [
   {
     id: 1,
-    titre: "livre1",
+    titre: "10 recettes de desserts édition tête-à-tête avec Mr",
     price: 9.99,
     originalPrice: 9.99,
     description:
