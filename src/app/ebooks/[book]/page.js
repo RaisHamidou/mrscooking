@@ -1,6 +1,6 @@
 import axios from "axios";
 import Details from "@/components/Details/Details";
-import URL from "@/components/config/config";
+import {URL, PASSWORD} from "@/components/config/config";
 import Header from "@/components/Header/Header";
 
 export default async function Page({ params }) {
@@ -8,7 +8,7 @@ export default async function Page({ params }) {
   let data = await axios.get(`${URL}/api/books/${book}`,{
     method: "GET",
             headers: {
-              Authorization:"bejaia1984",
+              Authorization:PASSWORD,
               Accept: "Application/json",
             },
   });

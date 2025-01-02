@@ -51,8 +51,8 @@ router.post("/confirm-payment", async (req, res) => {
         port: 465,  // Port SMTP avec TLS
         secure: true,
         auth: {
-          user: "contact@mrscooking.com",
-          pass: "boumerdes2984"
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASSWORD
         },
       });
       const mailOptions = {

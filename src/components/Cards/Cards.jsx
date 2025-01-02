@@ -4,21 +4,21 @@ import axios from "axios";
 import "dotenv/config";
 import Link from "next/link";
 import React, { useContext, useState, useEffect } from "react";
-import URL from "../config/config";
+import {URL, PASSWORD} from "../config/config";
 
 const Cards = ({ array }) => {
     const { addToCart, checkCart } = useContext(MyContext);
     const [loading, setLoading] = useState(true)
     const [posts, setPosts] = useState()
 
-    useEffect(() => {
+     /* useEffect(() => {
         const loadPost = async () => {
           setLoading(true);
     
           const response = await axios.get(`${URL}/api/books`, {
             method: "GET",
             headers: {
-              Authorization:"bejaia1984",
+              Authorization:PASSWORD,
               Accept: "Application/json",
             },
           });
@@ -27,7 +27,7 @@ const Cards = ({ array }) => {
           setLoading(false);
         };
         loadPost();
-      }, []);
+      }, []);  */
 
     const formatString = (str) => {
         return str
@@ -41,9 +41,11 @@ const Cards = ({ array }) => {
         return <p>Aucune donnée à afficher</p>;
     } */
 
+        
+
     return (
         <div className="container-cards-16-9">
-            {loading?"":posts.map((post) => {
+            {/* loading?"": */array.map((post) => {
                 const isInCart = checkCart(post.id);
 
                 return (

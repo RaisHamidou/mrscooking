@@ -1,10 +1,18 @@
 import axios from "axios";
 import Cards from "@/components/Cards/Cards";
-import URL from "@/components/config/config";
+import {URL} from "@/components/config/config";
 import Header from "@/components/Header/Header";
 
-export default async function Page() {
-
+export default async function Page({params}) {
+  const {book} = await params
+  let data = await axios.get(`${URL}/api/books`,{
+      method: "GET",
+      headers: {
+        Authorization:process.env.PASSWORD,
+        Accept: "Application/json",
+      },
+  })
+  let posts = await data.data 
   return (
     <section>
       <Header/>
@@ -12,7 +20,7 @@ export default async function Page() {
         <h1>Ebooks</h1>
       </div>
       <div className="container-ebooks">
-        <Cards />
+        <Cards array={posts} />
       </div>
     </section>
   );
