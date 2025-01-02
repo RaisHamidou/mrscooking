@@ -3,8 +3,8 @@ import Cards from "@/components/Cards/Cards";
 import {URL} from "@/components/config/config";
 import Header from "@/components/Header/Header";
 
-export default async function Page({params}) {
-  const {book} = await params
+export default async function Page() {
+  
   let data = await axios.get(`${URL}/api/books`,{
       method: "GET",
       headers: {
