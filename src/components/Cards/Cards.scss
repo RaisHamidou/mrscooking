@@ -13,8 +13,8 @@
       @media (max-width: 896px) {
         width: 33.33% ;
       }
-  
-      @media (max-width: 375px) {
+      
+      @media (max-width: 600px) {
         width: 50% ;
       }
   
@@ -63,6 +63,10 @@
             
             font-size: .7rem;
           }
+          @media (max-width: 320px) {
+            width: 70% ;
+            font-size: .6rem;
+          }
           &:hover{
             background: $goldenPink;
             color: white;
@@ -84,6 +88,17 @@
         display: flex;
         align-items: center;
         justify-content: center;
+
+        @media (max-width: 600px) {
+          width: 22% ;
+          height: 22%;
+          font-size: 0.7rem;
+        }
+        @media (max-width: 320px) {
+          width: 25% ;
+          height: 25%;
+          font-size: 0.6rem;
+        }
       }
       .description-card-16-9 {
         h2 {
