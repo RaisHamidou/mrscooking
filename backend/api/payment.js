@@ -56,7 +56,7 @@ router.post("/confirm-payment", async (req, res) => {
         },
       });
       const mailOptions = {
-        from: process.env.EMAIL_USER,
+        from: "Mrs Cooking",
         to: email,
         subject: 'Vos ebooks sont disponibles',
         text: 'Merci pour votre achat. Vous trouverez vos ebooks en pièce jointe.',

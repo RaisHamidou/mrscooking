@@ -1,16 +1,17 @@
-// components/Payement/Payement.js
+
 "use client";
 
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import CheckoutForm from "../CheckoutForm/CheckoutForm";  // Import correct de CheckoutForm
+import CheckoutForm from "../CheckoutForm/CheckoutForm"; 
 
-const stripePromise = loadStripe("pk_test_51QC2ngCtuk8oqqoGX1ed7LADRPRdPcHvZVXleH2S7s3Naa4SwSSV3nRQJGrvaTuRQA59t6kLbkoF2RtJQLUkKMnl00bvjqljuo");
 
-const PaymentComponents = () => {
+const PaymentComponents = ({URL}) => {
+    const stripePromise = loadStripe("pk_test_51QC2ngCtuk8oqqoGX1ed7LADRPRdPcHvZVXleH2S7s3Naa4SwSSV3nRQJGrvaTuRQA59t6kLbkoF2RtJQLUkKMnl00bvjqljuo");
+
     return (
         <Elements stripe={stripePromise}>
-            <CheckoutForm />  {/* Assurez-vous que le composant est bien importé */}
+            <CheckoutForm URL={URL} /> 
         </Elements>
     );
 };

@@ -3,10 +3,10 @@ import React, { useState, useContext } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import axios from "axios";
 import { MyContext } from "@/context/Context";
-import URL from "../config/config";
+//import {URL} from "../config/config";
 import { useRouter } from "next/navigation";
 import ThankYou from "../ThankYou/ThankYou";
-const CheckoutForm = () => {
+const CheckoutForm = ({URL}) => {
   const stripe = useStripe();
   const elements = useElements();
   const [paymentStatus, setPaymentStatus] = useState("Payer");
@@ -17,7 +17,7 @@ const CheckoutForm = () => {
   const { currentCart, total, clearCart } = useContext(MyContext);
   const [loading, setLoading] = useState(true)
  const route = useRouter()
-
+console.log(URL)
   const handleSubmit = async (e) => {
     e.preventDefault();
 setPaymentStatus("paiement en cours...")
