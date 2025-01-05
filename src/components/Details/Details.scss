@@ -177,6 +177,7 @@
         padding: 30px;
         margin-top: 20px;
         border-radius: 7px;
+       
         @media screen and (max-width:1024px) {
             padding: 25px;
         }
@@ -196,6 +197,19 @@
             color: $thirdGrey;
             @media screen and (max-width:1024px) {
                 font-size: .9rem;
+            }
+        }
+        ul{
+            margin: 20px 0px 0px 20px;
+            @media screen and (max-width:1024px) {
+                margin: 20px 0px 0px 0px;
+            }
+            li{
+                list-style: inside;
+                color: $thirdGrey;
+                @media screen and (max-width:1024px) {
+                    font-size: .9rem;
+                }
             }
         }
         

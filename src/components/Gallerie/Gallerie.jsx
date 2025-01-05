@@ -136,6 +136,15 @@ const InfiniteScroll = ({ images }) => {
           display: block;
           pointer-events: none;
         }
+          @media screen and (max-width: 768px) {
+            .post-img {
+          width: 200px;
+        }
+          @media screen and (max-width: 425px) {
+            .post-img {
+          width: 150px;
+        }
+          }
       `}</style>
     </div>
   );

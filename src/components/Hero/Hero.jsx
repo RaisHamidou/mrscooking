@@ -4,9 +4,7 @@ import bg from "../../assets/hero/OmBtXx8iBp2.png";
 
 const Hero = () => {
  
-  const addToCart = ()=>{
-    localStorage.setItem("book", JSON.stringify({title: "titre du livre", price: "15€"}))
-  }
+  
   
   return (
     <section className="hero">
@@ -15,9 +13,11 @@ const Hero = () => {
       </div>
       <div className="overlay">
         <div className="container-overlay">
-          <h1>Titre</h1>
-          <h2>Sous titre</h2>
-          <button onClick={addToCart}>Acheter maintenant !</button>
+          <h1>Mrs Cooking</h1>
+          <h2>Ebook 1 : 10 recettes de desserts édition tête-à-tête avec Mr</h2>
+          <a href={"ebooks/ebook-1-:-10-recettes-de-desserts-edition-tete-a-tete-avec-mr"}>
+          <button >Acheter maintenant !</button>
+          </a>
         </div>
       </div>
     </section>

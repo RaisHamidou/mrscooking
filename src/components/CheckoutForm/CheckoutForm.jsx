@@ -1,11 +1,12 @@
 "use client";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import axios from "axios";
 import { MyContext } from "@/context/Context";
 //import {URL} from "../config/config";
 import { useRouter } from "next/navigation";
 import ThankYou from "../ThankYou/ThankYou";
+import Checkout from "./Checkout";
 const CheckoutForm = ({URL}) => {
   const stripe = useStripe();
   const elements = useElements();
@@ -15,9 +16,10 @@ const CheckoutForm = ({URL}) => {
   const [numberValue, setNumberValue] = useState();
   const [adressValue, setAdressValue] = useState();
   const { currentCart, total, clearCart } = useContext(MyContext);
+  const [showAlert, setShowAlert] = useState(false);
   const [loading, setLoading] = useState(true)
  const route = useRouter()
-console.log(URL)
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 setPaymentStatus("paiement en cours...")
@@ -81,16 +83,21 @@ setPaymentStatus("paiement en cours...")
     });
     
     clearCart()
-     /* route.push("/thank-you")  */
+      route.push("/thank-you")  
     }
   };
-
+  useEffect(()=>{
+if(nameValue && emailValue){
+  setShowAlert(false)
+}
+},[nameValue, emailValue, showAlert])
   return (
     <section className="checkout">
       <div className="checkout-cart">
         <div className="title-form">
           <h1>Votre panier</h1>
         </div>
+        
         <div className="Cart">
           <div className="container-product-added">
             {currentCart != null
@@ -131,6 +138,7 @@ setPaymentStatus("paiement en cours...")
           <div className="title-form">
             <h1>Finaliser votre commande</h1>
           </div>
+          {showAlert ? <div className="alerte"><p>Veuillez renseigner votre nom complet et votre email</p></div>:null}
           <div className="input-elements">
             <input
               onChange={(e) => setNameValue(e.target.value)}
@@ -150,7 +158,14 @@ setPaymentStatus("paiement en cours...")
               directement dans votre boîte de réception.
             </p>
           </div>
-
+          <div className="paypal-button">
+          <Checkout URL={URL} email={emailValue} name={nameValue}/>
+          {!nameValue&& !emailValue || !emailValue || !nameValue ? <div onClick={()=>setShowAlert(true)} className="check-button"/>:null}
+          </div>
+          
+<div className="separation">
+ <span></span> ou <span></span>
+</div>
           <div className="card-element">
             <CardElement
               options={{

@@ -1,6 +1,8 @@
 "use client";
 import { MyContext } from "@/context/Context";
 import React, { useContext, useEffect, useState } from "react";
+import ReactMarkdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
 const Details = ({ posts }) => {
   const { addToCart, checkCart } = useContext(MyContext);
   const isInCart = checkCart(posts.id);
@@ -41,7 +43,10 @@ const Details = ({ posts }) => {
         </div>
         <div className="description-detail-book">
           <h2>Description</h2>
-          <p>{posts.description}</p>
+          <ReactMarkdown /* children={data.body} */ rehypePlugins={[rehypeRaw]} >
+          {posts.description}
+        </ReactMarkdown>
+          
         </div>
       </div>
     </>

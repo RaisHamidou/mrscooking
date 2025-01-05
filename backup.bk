@@ -9,17 +9,12 @@ const router = express.Router();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 router.post("/create-payment", async (req, res) => {
-  const { amount, email, name } = req.body;
   try {
-    const customer = await stripe.customers.create({
-      email: email,
-      name: name,
-    });
-
+    const { amount } = req.body; // Récupérez le montant du corps de la requête
+    // Créez le Payment Intent avec le montant et la devise
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amount,
       currency: "eur",
-      customer: customer.id,
     });
     // Envoyez l'ID et le client_secret au frontend
     res.status(200).send({
@@ -33,12 +28,17 @@ router.post("/create-payment", async (req, res) => {
 });
 
 router.post("/confirm-payment", async (req, res) => {
-  const { paymentIntentId, email, bookIds } = req.body;
+  const { paymentIntentId, email, bookIds } = req.body; 
+  
 
   try {
     // Obtenez le PaymentIntent en utilisant l'ID
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
-
+// Si le statut nécessite une capture manuelle
+if (paymentIntent.status === "requires_capture") {
+  const capturedPayment = await stripe.paymentIntents.capture(paymentIntentId);
+  console.log("Paiement capturé :", capturedPayment);
+}
     if (paymentIntent.status === "succeeded") {
       const attachments = bookIds.map((id) => {
         const book = books.find((b) => b.id === id);
@@ -49,20 +49,21 @@ router.post("/confirm-payment", async (req, res) => {
         };
       });
 
+     
       const transporter = nodemailer.createTransport({
         host: "smtp.ionos.fr",
-        port: 465, // Port SMTP avec TLS
+        port: 465,  // Port SMTP avec TLS
         secure: true,
         auth: {
           user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASSWORD,
+          pass: process.env.EMAIL_PASSWORD
         },
       });
       const mailOptions = {
         from: process.env.EMAIL_USER,
         to: email,
-        subject: "Vos ebooks sont disponibles",
-        text: "Merci pour votre achat. Vous trouverez vos ebooks en pièce jointe.",
+        subject: 'Vos ebooks sont disponibles',
+        text: 'Merci pour votre achat. Vous trouverez vos ebooks en pièce jointe.',
         html: `<main style="background:#f5F5F5;padding:50px">
   <div style="margin:auto;background: #F7EDE2; width: 90%; border-radius: 7px; font-family: 'Poppins', sans-serif;">
           <div style="padding: 30px;box-sizing: border-box;">
@@ -79,12 +80,10 @@ router.post("/confirm-payment", async (req, res) => {
             <h2 style="color: #444;">Détails de votre commande :</h2>
             <div style="width:100%; padding:10px; box-sizing: border-box ; background:#F1E3D4;border-radius:7px">
               <ul style="color: #555; font-size: 1rem; width:50%; font-weight:500;">
-                ${bookIds
-                  .map((id) => {
-                    const book = books.find((b) => b.id === id);
-                    return `<li>${book.titre}</li>`;
-                  })
-                  .join("")}
+                ${bookIds.map((id) => {
+                  const book = books.find((b) => b.id === id);
+                  return `<li>${book.titre}</li>`;
+                }).join('')}
               </ul>
             </div>
             <div style="color:#8E8E8E">
@@ -101,14 +100,16 @@ router.post("/confirm-payment", async (req, res) => {
               <img style="width:25px;height:25px;object-fit:contain" src="https://www.mrscooking.com/image/icons/insta.png" alt="Instagram" /> </a>
               <a style="text-decoration: none;" href="https://www.tiktok.com/@mrs__cooking_">
               <img style="width:25px;height:25px;object-fit:contain" src="https://www.mrscooking.com/image/icons/tiktok.png" alt="Instagram" /> </a>
-              <a style="text-decoration: none;"href="https://www.facebook.com/profile.php?id=61566511624992&mibextid=LQQJ4d&rdid=2WMYolaKOL2i5BRG&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F18hooAw13c%2F%3Fmibextid%3DLQQJ4d#">
+              <a style="text-decoration: none;"href="https://www.instagram.com/mrs__cooking_/">
               <img style="width:25px;height:25px;object-fit:contain" src="https://www.mrscooking.com/image/icons/fb.png" alt="Instagram" /> </a>
             </div>
           </footer>
         </div>
-</main>`,
+</main>
+`,
         attachments: attachments,
       };
+      
 
       await transporter.sendMail(mailOptions);
       console.log("Ebooks envoyé avec succès.");

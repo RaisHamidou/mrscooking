@@ -1,0 +1,106 @@
+import React, { useContext, useEffect, useState } from "react";
+import { ExpressCheckoutElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { MyContext } from "@/context/Context";
+import { useRouter } from "next/navigation";
+const Checkout = ({ URL,  email, name, }) => {
+  const stripe = useStripe();
+  const elements = useElements();
+  const { currentCart, total, clearCart } = useContext(MyContext);
+  /* const [clientSecret, setClientSecret] = useState(null); */
+const route = useRouter()
+  /* useEffect(() => {
+    const fetchPaymentIntent = async () => {
+      try {
+        const response = await fetch(`${URL}/api/payment/create-payment`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ amount: total * 100, name:name, email:email }), // Montant en centimes
+        });
+        const data = await response.json();
+        setClientSecret(data.clientSecret);
+      } catch (error) {
+        console.error("Erreur lors de la création du Payment Intent :", error);
+      }
+    };
+    fetchPaymentIntent();
+  }, [URL, total]); */
+
+  const handleExpressCheckout = async (event) => {
+    /* if(!email || !name){
+      alert("Veuillez renseigner votre nom et votre email")
+      return
+    } */
+    if (!stripe || !elements) {
+      return;
+    }
+    const response = await fetch(
+      `${URL}/api/payment/create-payment`,
+      {
+        method: "POST",
+        headers: {
+          
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ amount: total * 100, name:name, email:email }), // Montant en centimes (ex: 1000 = 10,00€)
+      }
+    );
+
+    const { clientSecret } = await response.json();
+    try {
+      const { error, paymentIntent } = await stripe.confirmPayment({clientSecret,
+        elements,
+        amount: total * 100,  // Montant en centimes
+        currency: 'eur',
+        payment_method: {
+          billing_details: {
+            name: name, // Vous pouvez remplacer par une variable si vous collectez cette info
+            email: email,
+            
+          },
+        },
+        confirmParams: {
+          return_url: `${URL}/thank-you`, // URL de redirection après le succès
+        },
+        redirect: "if_required", // Permet la redirection si nécessaire
+      });
+
+      if (error) {
+        console.error("Erreur lors de la confirmation :", error.message);
+        alert("Une erreur est survenue lors du paiement.");
+      } else if (paymentIntent?.status === "succeeded") {
+        route.push("/thank-you")
+        /* alert("Paiement réussi !"); */
+       
+        clearCart(); // Réinitialisez le panier
+        // Envoyez des informations au backend si nécessaire
+        await fetch(`${URL}/api/payment/confirm-payment`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            paymentIntentId: paymentIntent.id,
+            email: email, // Récupérez l'email du client
+            name: name, // Récupérez le nom du client
+            bookIds: currentCart.map((book) => book.id), // IDs des livres dans le panier
+          }),
+        });
+      }
+    } catch (error) {
+      console.error("Erreur lors de la confirmation du paiement :", error);
+    }
+  };
+ 
+  return (
+    <>
+      <ExpressCheckoutElement
+        onConfirm={handleExpressCheckout}
+        options={{
+          amount: total * 100,
+          currency: "eur",
+          wallets: { paypal: "auto" },
+        }}
+      />
+    </>
+  );
+};
+
+export default Checkout;

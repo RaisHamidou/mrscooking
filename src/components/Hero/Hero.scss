@@ -38,7 +38,7 @@
         font-size: 2rem;
       }
       button {
-        width: 100%;
+        width: 25%;
         height: 30px;
         border: none;
         background: $pink;
@@ -61,7 +61,44 @@
     }
   }
 }
-
+@media screen and (max-width: 768px) {
+  .hero {
+      .overlay {
+       
+        .container-overlay {
+          h2 {
+            color: white;
+            font-family: $inter;
+            font-weight: 500;
+            /* font-size: 1.5rem;
+            line-height: 1; */
+          }
+          button {
+            width: 35%;
+          }
+        }
+      }
+    }
+}
+@media screen and (max-width: 576px) {
+  .hero {
+      .overlay {
+       
+        .container-overlay {
+          h2 {
+            color: white;
+            font-family: $inter;
+            font-weight: 500;
+            font-size: 1.5rem;
+            line-height: 1; 
+          }
+          button {
+            width: 45%;
+          }
+        }
+      }
+    }
+}
 @media screen and (max-width: 426px) {
     .hero {
         .overlay {
@@ -75,12 +112,16 @@
               text-align: center;
             }
             h2 {
-              font-size: 2rem;
+              font-size: 1.4rem;
               text-align: center;
+              line-height: 1.2;
             }
             button {
-              font-size: 1rem;
+              font-size: 0.8rem;
               padding: 20px;
+              
+              margin: auto;
+              width: 42%;
               margin-top: 15px;
             }
           }

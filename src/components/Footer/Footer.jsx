@@ -11,9 +11,9 @@ const Footer = () => {
             <h3>Get In Touch</h3>
             <p>Retrouvez-nous également sur nos réseaux sociaux !</p>
             <ul>
-                <li><a href="#"><FaInstagram /></a></li>
-                <li><a href="#"><FaFacebook /></a></li>
-                <li><a href="#"><FaTiktok /></a></li>
+                <li><a href="https://www.instagram.com/mrs__cooking_/?fbclid=IwZXh0bgNhZW0CMTAAAR0g3-HICPYh_n3I7nDEt0HzwKRyVaIxWhal3E2Lz__ZWLai2_j0PGkC3SE_aem_8eY5satE9VDlc6CtGr2ptQ"><FaInstagram /></a></li>
+                <li><a href="https://www.facebook.com/profile.php?id=61566511624992&mibextid=LQQJ4d&rdid=2WMYolaKOL2i5BRG&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F18hooAw13c%2F%3Fmibextid%3DLQQJ4d#"><FaFacebook /></a></li>
+                <li><a href="https://www.tiktok.com/@mrs__cooking_?_t=ZN-8snJRXUdJjS&_r=1&fbclid=IwZXh0bgNhZW0CMTAAAR0g3-HICPYh_n3I7nDEt0HzwKRyVaIxWhal3E2Lz__ZWLai2_j0PGkC3SE_aem_8eY5satE9VDlc6CtGr2ptQ"><FaTiktok /></a></li>
             </ul>
         </nav>
         <nav className="conditions">

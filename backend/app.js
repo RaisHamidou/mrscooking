@@ -51,6 +51,7 @@ function formatString(str) {
         .normalize("NFD") // Décompose les caractères accentués en caractères de base et leurs diacritiques
         .replace(/[\u0300-\u036f]/g, "") // Supprime les diacritiques (accents)
         .replace(/\s+/g, "-") // Remplace les espaces par des tirets
+      
         .toLowerCase(); // Convertit la chaîne en minuscules
 }
 app.get("/api/books/:title", (req, res) => {

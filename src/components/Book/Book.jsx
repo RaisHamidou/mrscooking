@@ -1,6 +1,6 @@
 "use client"
 import React from "react";
-import book from "../../assets/book/book1.png";
+import book from "../../assets/book/ebook1.png";
 import Link from "next/link";
 const Book = () => {
   const addToCart = ()=>{
@@ -16,13 +16,13 @@ const Book = () => {
   return (
     <section id="book">
       <div className="container-info-book">
-        <h1>10 recettes de desserts édition tête-à-tête avec Mr</h1>
+        <h1>Ebook 1 : 10 recettes de desserts édition tête-à-tête avec Mr</h1>
         <p className="info-book">
             Retrouvez 10 recettes de desserts incontournables et 
             faciles à réaliser pour vous régaler avec Mr. E-book détaillé 
             et bien expliqué afin de permettre à chacune d’entre vous de réussir votre tête-à-tête avec Mr.
           </p>
-          <a className="book-btn-link" href={"ebooks/10-recettes-de-desserts-edition-tete-a-tete-avec-mr"}> 
+          <a className="book-btn-link" href={"ebooks/ebook-1-:-10-recettes-de-desserts-edition-tete-a-tete-avec-mr"}> 
             Acheter
           </a>
       </div>

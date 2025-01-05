@@ -40,6 +40,8 @@ export const MyContext = createContext();
         localStorage.removeItem("book"); // Supprimer les données du panier du stockage local
         setRefrech(!refrech); // Actualiser si nécessaire
       };
+
+      
       
     return(
         <MyContext.Provider value={{currentCart, setCurrentCart, addToCart, checkCart, total, clearCart}}>
