@@ -1,18 +1,14 @@
 "use client"
-import React from "react";
+import React, { useContext } from "react";
 import book from "../../assets/book/ebook1.png";
 import Link from "next/link";
+import books from "../../../backend/data/books";
+import { MyContext } from "@/context/Context";
 const Book = () => {
-  const addToCart = ()=>{
-    localStorage.setItem("book", JSON.stringify([{title: "titre du livre", price: "15€"}]))
-  }
-  function formatString(str) {
-    return str
-        .normalize("NFD") // Décompose les caractères accentués en caractères de base et leurs diacritiques
-        .replace(/[\u0300-\u036f]/g, "") // Supprime les diacritiques (accents)
-        .replace(/\s+/g, "-") // Remplace les espaces par des tirets
-        .toLowerCase(); // Convertit la chaîne en minuscules (optionnel)
-}
+  const { addToCart, checkCart } = useContext(MyContext);
+
+  const post = books[0];
+  const isInCart = checkCart(post.id);
   return (
     <section id="book">
       <div className="container-info-book">
@@ -22,11 +18,19 @@ const Book = () => {
             faciles à réaliser pour vous régaler avec Mr. E-book détaillé 
             et bien expliqué afin de permettre à chacune d’entre vous de réussir votre tête-à-tête avec Mr.
           </p>
-          <a className="book-btn-link" href={"ebooks/ebook-1-:-10-recettes-de-desserts-edition-tete-a-tete-avec-mr"}> 
-            Acheter
-          </a>
+          <button onClick={(e) => {
+                                e.preventDefault()
+                                if (!isInCart) {
+                                    addToCart(post.id, post.titre, post.price, post.image);
+                                }
+                            }}
+                            disabled={isInCart}
+                            aria-disabled={isInCart}
+                            aria-label={isInCart ? "Article déjà dans le panier" : "Acheter"} className="book-btn-link"> 
+            {isInCart ? "Article déjà dans le panier" : "Acheter"}
+          </button>
       </div>
-      <div className="book-img">
+      <div  className="book-img">
         <a  href={"ebooks/ebook-1-:-10-recettes-de-desserts-edition-tete-a-tete-avec-mr"}>
         <img src={book.src} alt="book" />
         </a>
