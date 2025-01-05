@@ -75,7 +75,7 @@
         color: #575656;
         display: flex;
         align-items: center;
-
+        font-size: 0.7rem;
 
         a {
             color: $pink;
@@ -94,7 +94,7 @@
 }
 
 @media screen and (max-width: 1024px) {
-    .container-form {
+    .container-form-contact {
         height: auto;
 
         .title-section {
@@ -109,9 +109,8 @@
 }
 
 @media screen and (max-width: 768px) {
-    .container-form {
+    .container-form-contact {
         height: auto;
-
         .title-section {
             width: 60%;
         }
@@ -128,7 +127,7 @@
 }
 
 @media screen and (min-width: 528px) and (max-width: 766px) {
-    .container-form {
+    .container-form-contact {
         height: auto;
 
         .title-section {
@@ -143,7 +142,7 @@
 }
 
 @media screen and (min-width: 426px) and (max-width: 527px) {
-    .container-form {
+    .container-form-contact {
         height: auto;
 
         .title-section {
@@ -157,8 +156,24 @@
     }
 }
 
+@media screen and (max-width: 440px) {
+    .container-form-contact {
+        height: auto;
+
+        .title-section {
+            width: 90%;
+            font-size: 1.5rem;
+        }
+
+        #contact {
+            width: 80%;
+            margin-bottom: 20px;
+        }
+    }
+}
+
 @media screen and (max-width: 426px) {
-    .container-form {
+    .container-form-contact {
         height: auto;
 
         .title-section {
@@ -173,7 +188,7 @@
 }
 
 @media screen and (max-width: 376px) {
-    .container-form {
+    .container-form-contact {
         height: auto;
 
         .title-section {
@@ -192,7 +207,7 @@
 }
 
 @media screen and (min-width: 320px) and (max-width: 374px) {
-    .container-form {
+    .container-form-contact {
         height: auto;
 
         .title-section {

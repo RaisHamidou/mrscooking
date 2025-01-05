@@ -1,9 +1,9 @@
 "use client"
-import React from "react";
+import React, { useContext } from "react";
 import bg from "../../assets/hero/OmBtXx8iBp2.png";
-
+import { MyContext } from "@/context/Context";
 const Hero = () => {
- 
+const { addToCart, checkCart } = useContext(MyContext);
   
   
   return (

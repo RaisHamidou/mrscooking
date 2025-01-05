@@ -27,7 +27,9 @@ const Book = () => {
           </a>
       </div>
       <div className="book-img">
+        <a  href={"ebooks/ebook-1-:-10-recettes-de-desserts-edition-tete-a-tete-avec-mr"}>
         <img src={book.src} alt="book" />
+        </a>
       </div>
     </section>
   );

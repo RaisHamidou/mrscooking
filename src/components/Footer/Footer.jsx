@@ -28,8 +28,8 @@ const Footer = () => {
         <nav className="informaion">
             <h3>Informations</h3>
             <ul>
-                <li><a href="#">A propos de nous</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="/#about">A propos de nous</a></li>
+                <li><a href="/contact">Contact</a></li>
             </ul>
         </nav>
     </div>
