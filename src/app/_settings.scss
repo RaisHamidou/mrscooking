@@ -29,7 +29,9 @@ $thirdGrey :#8E8E8E;
   margin: 0;
   box-sizing: border-box;
 }
-
+body{
+  position: relative;
+}
 li {
   list-style: none;
 }

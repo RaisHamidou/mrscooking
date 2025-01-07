@@ -17,7 +17,7 @@ const Contact = () => {
                 <input type="submit" id="submit" value="Envoyer" />
                 <div className="insta-contact">
                     <p>Pour une réponse plus rapide vous pouvez également nous contacter sur Instagram</p>
-                    <Link href="#" target="_blank">
+                    <Link href="https://www.instagram.com/mrs__cooking_/?fbclid=IwZXh0bgNhZW0CMTAAAR0g3-HICPYh_n3I7nDEt0HzwKRyVaIxWhal3E2Lz__ZWLai2_j0PGkC3SE_aem_8eY5satE9VDlc6CtGr2ptQ" target="_blank">
                         <FaInstagram />
                     </Link>
                 </div>

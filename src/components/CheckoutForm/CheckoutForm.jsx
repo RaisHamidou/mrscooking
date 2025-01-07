@@ -3,7 +3,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import axios from "axios";
 import { MyContext } from "@/context/Context";
-//import {URL} from "../config/config";
+import loader from "@/assets/gif/loader.gif"
 import { useRouter } from "next/navigation";
 import ThankYou from "../ThankYou/ThankYou";
 import Checkout from "./Checkout";
@@ -215,9 +215,13 @@ if(nameValue && emailValue){
          {/*  {paymentStatus && <p>{paymentStatus}</p>} */}
         </form>
       </div>
-      {paymentStatus === "Paiement réussi !" ? ( <div className="status">
-      <ThankYou/>
-      </div>):""}
+      { paymentStatus === "Paiement réussi !" ?  (
+         <div className="status">
+      
+       <img src={loader.src} alt="" />
+      
+      
+      </div>):"" } 
      
      
     </section>

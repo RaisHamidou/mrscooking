@@ -1,3 +1,25 @@
+/* import { useState} from "react";
+
+const BooksImages = ({toggleState, setToggleState, toggleTab, posts})=>{
+    
+    const arrayImage = posts
+    return (
+        <section className="container-Books-images">
+            {arrayImage.map(( post, index)=>{
+                return(
+                    <div key={index} onClick={()=> toggleTab(index)} className="books-images">
+                        <img src={post} alt="" />
+                    </div>
+                )
+            })}
+           
+        </section>
+    )
+}
+
+export default BooksImages */
+
+
 "use client";
 import { MyContext } from "@/context/Context";
 import React, { useContext, useEffect, useState } from "react";
@@ -14,17 +36,21 @@ const Details = ({ posts }) => {
   const isInCart = checkCart(posts.id);
   return (
     <>
-     <section className="details-page">
+      <section>
       <div className="Container-details-img">
-        <div className="details-img">
-        <img src={posts.image_books[toggleState]} alt={posts.title} /> 
-        </div>
-      <EmblaCarousel posts={posts.image_books} alt={posts.title} toggleTab={toggleTab}  />
+        <div className="details-img">a</div>
+      <EmblaCarousel/>
       </div>
-
-      <div className="container-details">
-      <div className="detail-book">
+    
+    </section>
       
+      <div className="detail-book">
+        <div className="container-with-img">
+          <div className="img-book">
+          { <img src={posts.image_books[toggleState]} alt={posts.title} /> }
+            <EmblaCarousel toggleState={toggleState} setToggleState={toggleState} toggleTab={toggleTab} posts={posts.image_books}/> 
+          </div>
+          
           <div className="container-whitout-img">
             <div className="title-detail-book">
               <h1>{posts.titre}</h1>
@@ -47,20 +73,16 @@ const Details = ({ posts }) => {
               {isInCart ? "Déjà dans le panier" : "Ajouter au panier"}
             </button>
           </div>
-        
-      <div className="description-detail-book">
+        </div>
+        <div className="description-detail-book">
           <h2>Description</h2>
-          <ReactMarkdown rehypePlugins={[rehypeRaw]} >
+          <ReactMarkdown /* children={data.body} */ rehypePlugins={[rehypeRaw]} >
           {posts.description}
         </ReactMarkdown>
           
         </div>
-        </div>
+
       </div>
-    
-    </section>
-      
-     {/*  */}
     </>
   );
 };

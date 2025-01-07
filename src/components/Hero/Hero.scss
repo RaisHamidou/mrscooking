@@ -99,7 +99,7 @@
       }
     }
 }
-@media screen and (max-width: 426px) {
+@media screen and (max-width: 431px) {
     .hero {
         .overlay {
           display: flex;
@@ -110,11 +110,16 @@
             h1 {
               font-size: 3rem;
               text-align: center;
+              width: 80%;
+              margin: auto;
+              
             }
             h2 {
               font-size: 1.4rem;
               text-align: center;
               line-height: 1.2;
+              width: 90%;
+              margin: auto;
             }
             button {
               font-size: 0.8rem;
@@ -127,6 +132,32 @@
           }
         }
       }
+}
+@media screen and (max-width: 391px) {
+  .hero {
+      .overlay {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .container-overlay {
+            left: inherit;
+          h1 {
+            font-size: 2.5rem;
+            text-align: center;
+          }
+          h2 {
+            font-size: 1.5rem;
+            text-align: center;
+          }
+          button {
+            font-size: 0.8rem;
+            padding: 18px;
+            margin-top: 15px;
+            
+          }
+        }
+      }
+    }
 }
 @media screen and (max-width: 376px) {
     .hero {
