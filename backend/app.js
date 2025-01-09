@@ -4,6 +4,7 @@ import "dotenv/config";
 import paymentRoute from "./api/payment.js"
 import Databooks from "./data/books.js"
 import bookRouter from "./api/book.js"
+import legalData from "./data/legals.js";
 import axios from "axios";
 const app = express()
 
@@ -51,17 +52,15 @@ function formatString(str) {
         .normalize("NFD") // Décompose les caractères accentués en caractères de base et leurs diacritiques
         .replace(/[\u0300-\u036f]/g, "") // Supprime les diacritiques (accents)
         .replace(/\s+/g, "-") // Remplace les espaces par des tirets
-      
+        .replace(/['’]/g, "-")
         .toLowerCase(); // Convertit la chaîne en minuscules
 }
 app.get("/api/books/:title", (req, res) => {
     const params = req.params.title.toLowerCase();
-    const auth = PASSWORD
-    const data = Databooks.filter(book => formatString(book.titre) === params);
-    if (data.length === 0) {
-        return res.status(404).json({ message: "Book not found" });
-    }
 
+    const auth = req.headers.authorization
+    const data = Databooks.filter(book => formatString(book.titre) === params);
+    
     
     if(auth && auth === PASSWORD){
         res.json(data[0]);
@@ -69,6 +68,12 @@ app.get("/api/books/:title", (req, res) => {
         res.status(401).json({ message: 'Accès interdit.' })
     }
 });
+
+app.get("/api/legals/:id", (req,res)=>{
+   const params = req.params.id.toLowerCase()
+   const data = legalData.filter(data => formatString(data.title) === params)
+   res.json(data[0])
+})
 
 
 

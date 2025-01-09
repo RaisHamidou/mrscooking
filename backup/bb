@@ -76,7 +76,7 @@ const Details = ({ posts }) => {
         </div>
         <div className="description-detail-book">
           <h2>Description</h2>
-          <ReactMarkdown /* children={data.body} */ rehypePlugins={[rehypeRaw]} >
+          <ReactMarkdown rehypePlugins={[rehypeRaw]} >
           {posts.description}
         </ReactMarkdown>
           

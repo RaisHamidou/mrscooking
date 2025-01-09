@@ -204,7 +204,7 @@
     }
 }
 
-@media screen and (max-width: 561px) {
+@media screen and (max-width: 576px) {
     .Cart {
         .product-added {
             margin-top: 10px;
@@ -212,7 +212,13 @@
                 width: 70%;
                 .title-product {
                     h2 {
-                        font-size: 1rem;
+                        font-size: 0.9rem;
+                        display: -webkit-box;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        line-clamp: 2;
+                        -webkit-line-clamp: 2;
                     }
                 }
             }
@@ -220,24 +226,32 @@
                 width: 60px;
                 height: 60px;
             }
+            .delete {
+                font-size: 0.9rem;
+                
+            }
         }
+         .containter-price{
+                font-size: 0.9rem;
+         }
         .containter-total-price {
             margin-top: 10px;
             padding-top: 20px;
+            
             .total {
                 font-weight: 500;
                 color: black;
-                font-size: 1rem;
+                font-size: 0.9rem;
             }
             .price {
                 font-weight: 500;
-                font-size: 1rem;
+                font-size: 0.9rem;
             }
         }
         .btn-buy {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             margin: 40px auto;
-            height: 45px;
+            height: 40px;
         }
     }
 }
@@ -268,10 +282,10 @@
         .product-added {
             margin-top: 10px;
             .product-info {
-                width: 70%;
+              
                 .title-product {
                     h2 {
-                        font-size: 1rem;
+                        font-size: 0.8rem;
                     }
                 }
             }
@@ -280,23 +294,31 @@
                 height: 50px;
             }
         }
+        .delete {
+            font-size: 0.8rem;
+            
+        }
+    
+     .containter-price{
+            font-size: 0.8rem;
+     }
         .containter-total-price {
             margin-top: 10px;
             padding-top: 20px;
             .total {
                 font-weight: 500;
                 color: black;
-                font-size: 1rem;
+                font-size: 0.8rem;
             }
             .price {
                 font-weight: 500;
-                font-size: 1rem;
+                font-size: 0.8rem;
             }
         }
         .btn-buy {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             margin: 40px auto;
-            height: 45px;
+            height: 40px;
         }
     }
 }

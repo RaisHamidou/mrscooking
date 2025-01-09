@@ -8,7 +8,7 @@ export default async function Page({ params }) {
   let data = await axios.get(`${URL}/api/books/${book}`,{
     method: "GET",
             headers: {
-              Authorization:PASSWORD,
+              Authorization:process.env.PASSWORD,
               Accept: "Application/json",
             },
   });
