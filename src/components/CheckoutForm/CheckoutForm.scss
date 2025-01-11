@@ -34,23 +34,64 @@
     }
 
 }
-
+.facturation-title{
+    display: flex;
+    width: 60%;
+    margin-bottom: 10px;
+    @media screen and (max-width:576px) {
+        width: 80%;
+    }  
+    h3{
+        font-weight: bold;
+        font-size: 0.9rem;
+        color: #8E8E8E;
+        font-family: $inter;
+        letter-spacing: -1px;
+    }
+}
 .checkout-form {
     display: flex;
     align-items: center;
     flex-direction: column;
     position: sticky;
     top: 0;
+    .container-input-element{
+        width: 60%;
+        margin-bottom: 10px;
+        //margin: 20px 0px 0px 0px;
+        @media screen and (max-width:576px) {
+            width: 80%;
+        }
+    }
+
 
     .input-elements {
-        width: 60%;
-        margin-top: 20px;
-        margin-bottom: 5px;
+       width: 100%;
+        margin-top: 4px;
+        margin-bottom: 3px;
         display: flex;
         justify-content: space-between;
-        
+
+        /* @media screen and (max-width:576px) {
+            flex-direction: column;
+            
+            gap: 5px;
+           
+        } */
         @media screen and (max-width:425px) {
-            width: 90%;
+            width: 100%;
+        }
+       
+        .input-email{
+            width: 60%;
+            margin: auto;
+
+            @media screen and (max-width:576px) {
+                width: 80%;
+            } 
+        }
+        .name-card-input{
+            @extend .input-email
         }
 
         input {
@@ -60,17 +101,47 @@
             border-radius: 7px;
             border: none;
             background-color: #D9D9D9;
-
+            color: #646464;
             &:focus {
                 outline: none;
             }
+            /* @media screen and (max-width:576px) {
+                width: 100%;
+            } */
+        }
+        
+        select{
+            width: 49.5%;
+            height: 50px;
+            padding-left: 15px;
+            border-radius: 7px;
+            border: none;
+            background-color: #D9D9D9;
+            font-family: $roboto;
+            font-size: 16px;
+           
+            color: #646464;
+            :first-child:required
+      {
+        color: #FF0000 !important;
+      }
+            &:focus {
+                outline: none;
+            }
+            
+            @media screen and (max-width:425px) {
+                font-size: 12px;
+            }
+           
         }
 
         ::placeholder {
-            color: #949393;
+             color: #646464;
             font-family: $roboto;
             font-size: 16px;
-                  
+            @media screen and (max-width:425px) {
+                font-size: 12px;
+            } 
         }
     }
 
@@ -80,10 +151,13 @@
         padding: 15px 20px 15px 30px;
         border-radius: 7px;
         //margin-top: 30px;
+        @media screen and (max-width:576px) {
+            width: 80%;
+        }  
 
-        @media screen and (max-width:425px) {
+        /* @media screen and (max-width:425px) {
             width: 90%;
-        }
+        } */
 
         &:focus {
             outline: none;
@@ -103,9 +177,10 @@
         border-radius: 50px;
         cursor: pointer;
 
-        @media screen and (max-width:425px) {
-            width: 90%;
-        }
+        @media screen and (max-width:576px) {
+            width: 80%;
+            height: 45px;
+        }  
     }
 
     .pay-legal {
@@ -131,6 +206,8 @@
         }
     }
 }
+
+
 
 .checkout-cart {
     width: 50%;
@@ -193,6 +270,10 @@
                 font-weight: 500;
                 color: #8E8E8E;
             }
+            .ttc{
+                font-size: 0.7rem;
+                font-weight: bold;
+            }
         }
     }
 }
@@ -200,6 +281,9 @@
 .paypal-button{
     width: 60%;
     position: relative;
+    @media screen and (max-width:576px) {
+        width: 80%;
+    }
 
     .check-button{
         width:100%;

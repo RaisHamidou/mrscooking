@@ -19,10 +19,10 @@ const Footer = () => {
         <nav className="conditions">
             <h3>Conditions</h3>
             <ul>
-                <li><a href="/mention-legal">Mention Legal</a></li>
-                <li><a href="/condition-general-d-utilisation">Condition général d’utilisation</a></li>
-                <li><a href="/condition-general-de-vente">Condition général de vente</a></li>
-                <li><a href="/politique-des-cookies">politique des cookies</a></li>
+                <li><a href="/legal/mentions-legales-et-politique-de-confidentialite">Mention Legal</a></li>
+                <li><a href="/legal/condition-general-d-utilisation">Condition général d’utilisation</a></li>
+                <li><a href="/legal/condition-general-de-vente">Condition général de vente</a></li>
+                <li><a href="/legal/politique-des-cookies">politique des cookies</a></li>
             </ul>
         </nav>
         <nav className="informaion">

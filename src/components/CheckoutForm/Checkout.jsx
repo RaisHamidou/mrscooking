@@ -6,7 +6,7 @@ import {
 } from "@stripe/react-stripe-js";
 import { MyContext } from "@/context/Context";
 import { useRouter } from "next/navigation";
-const Checkout = ({ URL, email, name }) => {
+const Checkout = ({ URL, email, name, surname, address, city, codePostal, country }) => {
   const stripe = useStripe();
   const elements = useElements();
   const { currentCart, total, clearCart } = useContext(MyContext);
@@ -14,6 +14,8 @@ const Checkout = ({ URL, email, name }) => {
   const route = useRouter();
 
   const handleExpressCheckout = async (event) => {
+    
+    
     if (!stripe || !elements) {
       return;
     }
@@ -22,7 +24,7 @@ const Checkout = ({ URL, email, name }) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ amount: total * 100, name: name, email: email }),
+      body: JSON.stringify({ amount: total * 100, name: name, surname:surname,  email: email, address:address, city:city, codePostal:codePostal, country:country }),
     });
 
     const { clientSecret } = await response.json();
@@ -70,8 +72,17 @@ const Checkout = ({ URL, email, name }) => {
           amount: total * 100,
           currency: "eur",
           wallets: { paypal: "auto" },
+          appearance: {
+            theme: 'stripe',
+          },
+          
+      
         }}
+        
       />
+     
+ 
+
     </>
   );
 };

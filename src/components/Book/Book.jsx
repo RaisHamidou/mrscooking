@@ -28,10 +28,10 @@ const Book = () => {
           }}
           disabled={isInCart}
           aria-disabled={isInCart}
-          aria-label={isInCart ? "Article déjà dans le panier" : "Acheter"}
+          aria-label={isInCart ? "Déjà dans le panier" : "Acheter"}
           className="book-btn-link"
         >
-          {isInCart ? "Article déjà dans le panier" : "Acheter"}
+          {isInCart ? "Déjà dans le panier" : "Acheter"}
         </button>
         <div className="see-more">
         <a href="ebooks/ebook-1-:-10-recettes-de-desserts-edition-tete-a-tete-avec-mr">En savoir +</a>

@@ -75,6 +75,10 @@ app.get("/api/legals/:id", (req,res)=>{
    res.json(data[0])
 })
 
+app.get("/api/legals", (req,res)=>{
+ 
+  res.json(legalData)
+})
 
 
 export default app

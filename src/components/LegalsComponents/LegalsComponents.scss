@@ -21,15 +21,27 @@
         
         margin: 10px 0px 10px ;
         @media screen and (max-width:320px) {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
         }
     }
     p{
+        text-align: justify;
         @media screen and (max-width:425px) {
             font-size: 0.9rem;
         }
         @media screen and (max-width:320px) {
             font-size: 0.8rem;
+        }
+    }
+
+    ul{
+        li{
+            @media screen and (max-width:425px) {
+                font-size: 0.9rem;
+            }
+            @media screen and (max-width:320px) {
+                font-size: 0.8rem;
+            }
         }
     }
 

@@ -9,11 +9,17 @@ const router = express.Router();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 router.post("/create-payment", async (req, res) => {
-  const { amount, email, name } = req.body;
+  const { amount, email, name, surname, nameCard, address, city, codePostal, country } = req.body;
   try {
     const customer = await stripe.customers.create({
       email: email,
-      name: name,
+      name: ` ${surname} ${name}  `,
+      address: {
+        line1: address,
+        city: city,
+        postal_code: codePostal,
+        country: country,
+      },
     });
 
     const paymentIntent = await stripe.paymentIntents.create({
@@ -62,7 +68,7 @@ router.post("/confirm-payment", async (req, res) => {
         from: process.env.EMAIL_USER,
         to: email,
         subject: "Vos ebooks sont disponibles",
-        text: "Merci pour votre achat. Vous trouverez vos ebooks en pièce jointe.",
+        //text: "Merci pour votre achat. Vous trouverez vos ebooks en pièce jointe.",
         html: `<main style="background:#f5F5F5;padding:50px">
   <div style="margin:auto;background: #F7EDE2; width: 90%; border-radius: 7px; font-family: 'Poppins', sans-serif;">
           <div style="padding: 30px;box-sizing: border-box;">
