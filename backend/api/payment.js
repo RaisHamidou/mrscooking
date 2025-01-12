@@ -3,6 +3,7 @@ import Stripe from "stripe";
 import "dotenv/config";
 import nodemailer from "nodemailer";
 import books from "../data/books.js";
+import axios from "axios";
 
 const router = express.Router();
 // Instanciez Stripe avec la clé secrète
@@ -46,14 +47,57 @@ router.post("/confirm-payment", async (req, res) => {
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
 
     if (paymentIntent.status === "succeeded") {
-      const attachments = bookIds.map((id) => {
+
+      async function downloadPDF(url) {
+        try {
+          const response = await axios.get(url, {
+            responseType: 'arraybuffer'
+          });
+          return Buffer.from(response.data);
+        } catch (error) {
+          console.error("Erreur lors du téléchargement du PDF:", error);
+          throw error;
+        }
+      }
+
+      // Préparer les pièces jointes
+      const attachments = await Promise.all(
+        bookIds.map(async (id) => {
+          const book = books.find((b) => b.id === id);
+          
+          // Si book.apiEndpoint est un tableau
+          if (Array.isArray(book.apiEndpoint)) {
+            // Traiter chaque URL du tableau
+            return await Promise.all(book.apiEndpoint.map(async (url, index) => {
+              const pdfBuffer = await downloadPDF(url);
+              return {
+                filename: `${book.titre}_partie${index + 1}.pdf`,
+                content: pdfBuffer,
+                contentType: "application/pdf",
+              };
+            }));
+          } else {
+            // Si c'est une seule URL
+            const pdfBuffer = await downloadPDF(book.apiEndpoint);
+            return [{
+              filename: `${book.titre}.pdf`,
+              content: pdfBuffer,
+              contentType: "application/pdf",
+            }];
+          }
+        })
+      );
+
+      // Aplatir le tableau d'attachments
+      const flattenedAttachments = attachments.flat();
+     /*  const attachments = bookIds.map((id) => {
         const book = books.find((b) => b.id === id);
         return {
           filename: `${book.titre}.pdf`,
           path: book.apiEndpoint, // Assurez-vous que pdfPath est défini book.apiEndpoint
           contentType: "application/pdf",
         };
-      });
+      }); */
 
       const transporter = nodemailer.createTransport({
         host: "smtp.ionos.fr",
@@ -113,7 +157,7 @@ router.post("/confirm-payment", async (req, res) => {
           </footer>
         </div>
 </main>`,
-        attachments: attachments,
+        attachments: flattenedAttachments,
       };
 
       await transporter.sendMail(mailOptions);

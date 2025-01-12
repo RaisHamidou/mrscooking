@@ -9,7 +9,7 @@ import {URL, PASSWORD} from "../config/config";
 const Cards = ({ array }) => {
     const { addToCart, checkCart } = useContext(MyContext);
     const [loading, setLoading] = useState(true)
-    const [posts, setPosts] = useState()
+   /*  const [posts, setPosts] = useState() */
 
      /* useEffect(() => {
         const loadPost = async () => {
@@ -41,11 +41,12 @@ const Cards = ({ array }) => {
         return <p>Aucune donnée à afficher</p>;
     } */
 
+        const posts = array.sort((a,b)=>b.id-a.id)
         
 
     return (
         <div className="container-cards-16-9">
-            {/* loading?"": */array.map((post) => {
+            {/* loading?"": */posts.map((post) => {
                 const isInCart = checkCart(post.id);
 
                 return (
