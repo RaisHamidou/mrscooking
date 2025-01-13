@@ -11,7 +11,7 @@ const books = [
     image: "/image/book/ebook1.png",
     image_books:["/image/photo/ebook 1/first.jpg","/image/photo/ebook 1/1.jpg","/image/photo/ebook 1/2.jpg","/image/photo/ebook 1/3.jpg","/image/photo/ebook 1/4.jpg","/image/photo/ebook 1/5.jpg"],
     fileType: "pdf",
-    apiEndpoint: `https://www.mrscooking.com/api/book/10%20recettes%20de%20desserts`,
+    apiEndpoint: `https://www.mrscooking.com/api/book/10%20recettes%20de%20desserts?token=${process.env.BOOK_TOKEN}`,
 
   },
   {
