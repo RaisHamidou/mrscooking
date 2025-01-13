@@ -48,20 +48,89 @@ router.post("/confirm-payment", async (req, res) => {
 
     if (paymentIntent.status === "succeeded") {
 
-      async function downloadPDF(url) {
-        try {
-          const response = await axios.get(url, {
-            responseType: 'arraybuffer'
+      const attachments = [];
+
+      for (const id of bookIds) {
+        const book = books.find((b) => b.id === id);
+      
+        if (Array.isArray(book.apiEndpoint)) {
+          for (let i = 0; i < book.apiEndpoint.length; i++) {
+            const url = encodeURI(book.apiEndpoint[i]); // Encodage de l'URL
+            attachments.push({
+              filename: `${book.titre} - Part ${i + 1}.pdf`,
+              path: url,
+              contentType: "application/pdf",
+            });
+          }
+        } else {
+          const url = encodeURI(book.apiEndpoint); // Encodage de l'URL
+          attachments.push({
+            filename: `${book.titre}.pdf`,
+            path: url,
+            contentType: "application/pdf",
           });
-          return Buffer.from(response.data);
-        } catch (error) {
-          console.error("Erreur lors du téléchargement du PDF:", error);
-          throw error;
         }
       }
+      
+      // Affichez les pièces jointes pour vérifier l'encodage
+      console.log("Attachments après encodage :", attachments);
+
+      /*  const attachments = await Promise.all(
+        bookIds.flatMap(async (id) => {
+          const book = books.find((b) => b.id === id);
+      
+          if (Array.isArray(book.apiEndpoint)) {
+            return await Promise.all(
+              book.apiEndpoint.map(async (url) => {
+                console.log(url); // Affiche l'URL
+                return {
+                  filename: `${book.titre}.pdf`,
+                  path: url,
+                  contentType: "application/pdf",
+                };
+              })
+            );
+          } else {
+            return {
+              filename: `${book.titre}.pdf`,
+              path: book.apiEndpoint,
+              contentType: "application/pdf",
+            };
+          }
+        })
+      );  */
+
+      /* const attachments = await Promise.all(
+        bookIds.map(async (id) => {
+          const book = books.find((b) => b.id === id);
+          
+          // Si book.apiEndpoint est un tableau
+          if (Array.isArray(book.apiEndpoint)) {
+            return await Promise.all(book.apiEndpoint.map(async (url, index) => {
+              const pdf = await url;
+              // Extraire et décoder le nom du fichier
+              const fileName = decodeURIComponent(url.split('/').pop().split('?')[0]);
+              return {
+                filename: `${fileName}.pdf`,
+                content: pdf,
+                contentType: "application/pdf",
+              };
+            }));
+          } else {
+            const pdf = book.apiEndpoint;
+            const fileName = decodeURIComponent(book.apiEndpoint.split('/').pop().split('?')[0]);
+            return [{
+              filename: `${fileName}.pdf`,
+              content: pdf,
+              contentType: "application/pdf",
+            }];
+          }
+        })
+      ); */
+      
 
       // Préparer les pièces jointes
-      const attachments = await Promise.all(
+      /* const attachments = await Promise.all(
         bookIds.map(async (id) => {
           const book = books.find((b) => b.id === id);
           
@@ -69,24 +138,24 @@ router.post("/confirm-payment", async (req, res) => {
           if (Array.isArray(book.apiEndpoint)) {
             // Traiter chaque URL du tableau
             return await Promise.all(book.apiEndpoint.map(async (url, index) => {
-              const pdfBuffer = await downloadPDF(url);
+              const pdf = await url;
               return {
-                filename: `${book.titre}_partie${index + 1}.pdf`,
-                content: pdfBuffer,
+                filename: `${book.titre}.pdf`,
+                content: pdf,
                 contentType: "application/pdf",
               };
             }));
           } else {
             // Si c'est une seule URL
-            const pdfBuffer = await downloadPDF(book.apiEndpoint);
+            const pdf = book.apiEndpoint;
             return [{
               filename: `${book.titre}.pdf`,
-              content: pdfBuffer,
+              content: pdf,
               contentType: "application/pdf",
             }];
           }
         })
-      );
+      ); */
 
       // Aplatir le tableau d'attachments
       const flattenedAttachments = attachments.flat();
@@ -157,7 +226,7 @@ router.post("/confirm-payment", async (req, res) => {
           </footer>
         </div>
 </main>`,
-        attachments: flattenedAttachments,
+attachments,
       };
 
       await transporter.sendMail(mailOptions);
