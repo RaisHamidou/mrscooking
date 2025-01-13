@@ -56,7 +56,7 @@ router.post("/confirm-payment", async (req, res) => {
       //Générer des liens de téléchargement pour chaque livre
       const downloadLinks = bookIds.map((id) => {
         const book = books.find((b) => b.id === id);
-        const downloadUrl = `${book.apiEndpoint}?token=${generateTokenForBook(book)}`; // Générer un token unique pour chaque téléchargement
+        const downloadUrl = `${book.apiEndpoint}`; // Générer un token unique pour chaque téléchargement
         return `<li><a href="${downloadUrl}" download="${book.titre}.zip">${book.titre}</a></li>`;
       }).join("");
 
