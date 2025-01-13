@@ -10,7 +10,8 @@ const books = [
     detail: { pages: 35, format: "PDF", langue: "Français" },
     image: "/image/book/ebook1.png",
     image_books:["/image/photo/ebook 1/first.jpg","/image/photo/ebook 1/1.jpg","/image/photo/ebook 1/2.jpg","/image/photo/ebook 1/3.jpg","/image/photo/ebook 1/4.jpg","/image/photo/ebook 1/5.jpg"],
-    apiEndpoint: `https://www.mrscooking.com/api/book/10%20recettes%20de%20desserts?token=${process.env.BOOK_TOKEN}`,
+    fileType: "pdf",
+    apiEndpoint: `https://www.mrscooking.com/api/book/10%20recettes%20de%20desserts`,
 
   },
   {
@@ -22,6 +23,7 @@ const books = [
     detail: { pages: 35, format: "PDF", langue: "Français" },
     image: "/image/book/ebook2.png",
     image_books:["/image/photo/ebook 2/first.jpg","/image/photo/ebook 2/1.jpg","/image/photo/ebook 2/2.jpg","/image/photo/ebook 2/3.png","/image/photo/ebook 2/4.jpg","/image/photo/ebook 2/5.jpg"],
+    fileType: "pdf",
     apiEndpoint: `https://www.mrscooking.com/api/book/10%20recettes%20de%20plat%20comme%20au%20resto?token=${process.env.BOOK_TOKEN}`,
     
   },
@@ -34,7 +36,8 @@ const books = [
     detail: { pages: 35, format: "PDF", langue: "Français" },
     image: "/image/book/pack1.png",
     image_books:["/image/photo/ebook 1/first.jpg","/image/photo/ebook 1/1.jpg","/image/photo/ebook 1/2.jpg","/image/photo/ebook 1/3.jpg","/image/photo/ebook 1/4.jpg","/image/photo/ebook 1/5.jpg"],
-    apiEndpoint: `https://www.mrscooking.com/api/book/1Pack%20desserts%20et%20plats?token=${process.env.BOOK_TOKEN}`,
+    fileType: "zip",
+    apiEndpoint: `https://www.mrscooking.com/api/book/Pack%20desserts%20et%20plats?token=${process.env.BOOK_TOKEN}`,
    
   },
  
