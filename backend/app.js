@@ -30,7 +30,7 @@ function verifyAccessToken(req, res, next) {
 
 
   // Utiliser le middleware et le router
-  app.use("/api/book", router);
+  app.use("/api/book", verifyAccessToken, router);
   
 
 
