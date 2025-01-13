@@ -48,29 +48,30 @@ router.post("/confirm-payment", async (req, res) => {
 
     if (paymentIntent.status === "succeeded") {
 
-      function generateTokenForBook(book) {
-        // Exemple de génération d'un token unique basé sur l'ID du livre et l'horodatage actuel.
-        return `${book.id}-${Date.now()}`;
-      }
+   
+function generateTokenForBook(book) {
+  // Exemple de génération d'un token unique basé sur l'ID du livre et l'horodatage actuel.
+  return `${book.id}-${Date.now()}`;
+}
 
-      //Générer des liens de téléchargement pour chaque livre
-      const downloadLinks = bookIds.map((id) => {
-        const book = books.find((b) => b.id === id);
-        const downloadUrl = `${book.apiEndpoint}`; // Générer un token unique pour chaque téléchargement
-        return `<li><a href="${downloadUrl}" download="${book.titre}.zip">${book.titre}</a></li>`;
-      }).join("");
+//Générer des liens de téléchargement pour chaque livre
+const downloadLinks = bookIds.map((id) => {
+  const book = books.find((b) => b.id === id);
+  const downloadUrl = `${book.apiEndpoint}?token=${generateTokenForBook(book)}`; // Générer un token unique pour chaque téléchargement
+  return `<li><a href="${downloadUrl}" download="${book.titre}.pdf">${book.titre}</a></li>`;
+}).join("");
 
 console.log(downloadLinks)
-      /* 
-       const attachments = bookIds.map((id) => {
+      
+      /*  const attachments = bookIds.map((id) => {
         const book = books.find((b) => b.id === id);
         return {
           filename: `${book.titre}.pdf`,
           path: book.apiEndpoint, // Assurez-vous que pdfPath est défini book.apiEndpoint
           contentType: "application/pdf",
         };
-      }); 
- */
+      });  */
+
       const transporter = nodemailer.createTransport({
         host: "smtp.ionos.fr",
         port: 465, // Port SMTP avec TLS
@@ -84,6 +85,7 @@ console.log(downloadLinks)
         from: process.env.EMAIL_USER,
         to: email,
         subject: "Vos ebooks sont disponibles",
+        //text: "Merci pour votre achat. Vous trouverez vos ebooks en pièce jointe.",
         html: `<main style="background:#f5F5F5;padding:50px">
   <div style="margin:auto;background: #F7EDE2; width: 90%; border-radius: 7px; font-family: 'Poppins', sans-serif;">
           <div style="padding: 30px;box-sizing: border-box;">
@@ -100,11 +102,17 @@ console.log(downloadLinks)
             <h2 style="color: #444;">Détails de votre commande :</h2>
             <div style="width:100%; padding:10px; box-sizing: border-box ; background:#F1E3D4;border-radius:7px">
               <ul style="color: #555; font-size: 1rem; width:50%; font-weight:500;">
-                ${downloadLinks}
+                ${bookIds
+                  .map((id) => {
+                    const book = books.find((b) => b.id === id);
+                    return `<li>${book.titre}</li>`;
+                  })
+                  .join("")}
               </ul>
             </div>
             <div style="color:#8E8E8E">
-              <p>Vous pouvez télécharger vos ebooks en cliquant sur les liens ci-dessus.</p>
+              <p>Vous trouverez <span style="color: #FF4D6D;">
+                  en pièce jointe </span> les fichiers correspondants à votre commande. </p>
               <p>Nous vous remercions de votre confiance.</p>
               <p>Cordialement,<br> <span style="font-weight: 700;"> L'équipe </span></p>
             </div>
@@ -122,6 +130,7 @@ console.log(downloadLinks)
           </footer>
         </div>
 </main>`,
+//attachments:attachments,
       };
 
       await transporter.sendMail(mailOptions);
@@ -138,3 +147,4 @@ console.log(downloadLinks)
 });
 
 export default router;
+

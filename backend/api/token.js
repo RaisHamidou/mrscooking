@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+/* import jwt from 'jsonwebtoken';
 import rateLimit from 'express-rate-limit';
 
 // Rate limiter pour éviter les abus
@@ -76,4 +76,4 @@ const configureDownloadRoutes = (router) => {
   return router;
 };
 
-export { configureDownloadRoutes, generateDownloadToken };
+export { configureDownloadRoutes, generateDownloadToken }; */

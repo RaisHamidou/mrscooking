@@ -6,10 +6,10 @@ import Databooks from "./data/books.js"
 import bookRouter from "./api/book.js"
 import legalData from "./data/legals.js";
 import axios from "axios";
-import {configureDownloadRoutes} from './api/token.js'
+
 const app = express()
-const router = express.Router()
-configureDownloadRoutes(router)
+
+
 app.use(cors());
 app.use(express.json())
 
@@ -30,7 +30,7 @@ function verifyAccessToken(req, res, next) {
 
 
   // Utiliser le middleware et le router
-  app.use("/api/book", verifyAccessToken, router);
+  app.use("/api/book", bookRouter);
   
 
 
