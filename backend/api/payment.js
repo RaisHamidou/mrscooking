@@ -4,6 +4,7 @@ import "dotenv/config";
 import nodemailer from "nodemailer";
 import books from "../data/books.js";
 import axios from "axios";
+import { Html } from "next/document.js";
 
 const router = express.Router();
 // Instanciez Stripe avec la clé secrète
@@ -85,8 +86,7 @@ console.log(downloadLinks)
         from: process.env.EMAIL_USER,
         to: email,
         subject: "Vos ebooks sont disponibles",
-        //text: "Merci pour votre achat. Vous trouverez vos ebooks en pièce jointe.",
-        html: `<main style="background:#f5F5F5;padding:50px">
+         html: `<main style="background:#f5F5F5;padding:50px">
   <div style="margin:auto;background: #F7EDE2; width: 90%; border-radius: 7px; font-family: 'Poppins', sans-serif;">
           <div style="padding: 30px;box-sizing: border-box;">
             <div style="text-align: center; margin-bottom: 20px;">
@@ -106,7 +106,7 @@ console.log(downloadLinks)
                 ${downloadLinks}
               </ul>
 
-              <
+            
             </div>
             <div style="color:#8E8E8E">
               <p>Vous trouverez <span style="color: #FF4D6D;">
@@ -127,7 +127,7 @@ console.log(downloadLinks)
             </div>
           </footer>
         </div>
-</main>`,
+</main>`, 
 //attachments:attachments,
       };
 

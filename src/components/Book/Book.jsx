@@ -7,17 +7,16 @@ import { MyContext } from "@/context/Context";
 const Book = () => {
   const { addToCart, checkCart } = useContext(MyContext);
 
-  const post = books[0];
+  const post = books[2];
   const isInCart = checkCart(post.id);
   return (
     <section id="book">
       <div className="container-info-book">
-        <h1>Ebook 1 : 10 recettes de desserts édition tête-à-tête avec Mr</h1>
+        <h1>Pack desserts et plats</h1>
         <p className="info-book">
-          Retrouvez 10 recettes de desserts incontournables et faciles à
-          réaliser pour vous régaler avec Mr. E-book détaillé et bien expliqué
-          afin de permettre à chacune d’entre vous de réussir votre tête-à-tête
-          avec Mr.
+        Un pack avec les deux premiers E-books recettes 
+        desserts et plats pour vous régaler. Des recettes 
+        incontournables et faciles à réaliser.
         </p>
         <button
           onClick={(e) => {
@@ -34,14 +33,14 @@ const Book = () => {
           {isInCart ? "Déjà dans le panier" : "Acheter"}
         </button>
         <div className="see-more">
-        <a href="ebooks/ebook-1-:-10-recettes-de-desserts-edition-tete-a-tete-avec-mr">En savoir +</a>
+        <a href="ebooks/pack-desserts-et-plats">En savoir +</a>
         </div>
         
       </div>
       <div className="book-img">
         <a
           href={
-            "ebooks/ebook-1-:-10-recettes-de-desserts-edition-tete-a-tete-avec-mr"
+            "/ebooks/pack-desserts-et-plats"
           }
         >
           <img src={book.src} alt="book" />
