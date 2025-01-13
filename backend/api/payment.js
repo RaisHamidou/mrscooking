@@ -48,125 +48,22 @@ router.post("/confirm-payment", async (req, res) => {
 
     if (paymentIntent.status === "succeeded") {
 
-      const attachments = [];
+   
 
-      for (const id of bookIds) {
+      const attachments = bookIds.map((id) => {
         const book = books.find((b) => b.id === id);
+        
+        // Détermine le type de fichier et le contentType en fonction de l'extension
+        const isZip = book.apiEndpoint.toLowerCase().endsWith('.zip');
+        const fileExtension = isZip ? 'zip' : 'pdf';
+        const contentType = isZip ? 'application/zip' : 'application/pdf';
       
-        if (Array.isArray(book.apiEndpoint)) {
-          for (let i = 0; i < book.apiEndpoint.length; i++) {
-            const url = encodeURI(book.apiEndpoint[i]); // Encodage de l'URL
-            attachments.push({
-              filename: `${book.titre} - Part ${i + 1}.pdf`,
-              path: url,
-              contentType: "application/pdf",
-            });
-          }
-        } else {
-          const url = encodeURI(book.apiEndpoint); // Encodage de l'URL
-          attachments.push({
-            filename: `${book.titre}.pdf`,
-            path: url,
-            contentType: "application/pdf",
-          });
-        }
-      }
-      
-      // Affichez les pièces jointes pour vérifier l'encodage
-      console.log("Attachments après encodage :", attachments);
-
-      /*  const attachments = await Promise.all(
-        bookIds.flatMap(async (id) => {
-          const book = books.find((b) => b.id === id);
-      
-          if (Array.isArray(book.apiEndpoint)) {
-            return await Promise.all(
-              book.apiEndpoint.map(async (url) => {
-                console.log(url); // Affiche l'URL
-                return {
-                  filename: `${book.titre}.pdf`,
-                  path: url,
-                  contentType: "application/pdf",
-                };
-              })
-            );
-          } else {
-            return {
-              filename: `${book.titre}.pdf`,
-              path: book.apiEndpoint,
-              contentType: "application/pdf",
-            };
-          }
-        })
-      );  */
-
-      /* const attachments = await Promise.all(
-        bookIds.map(async (id) => {
-          const book = books.find((b) => b.id === id);
-          
-          // Si book.apiEndpoint est un tableau
-          if (Array.isArray(book.apiEndpoint)) {
-            return await Promise.all(book.apiEndpoint.map(async (url, index) => {
-              const pdf = await url;
-              // Extraire et décoder le nom du fichier
-              const fileName = decodeURIComponent(url.split('/').pop().split('?')[0]);
-              return {
-                filename: `${fileName}.pdf`,
-                content: pdf,
-                contentType: "application/pdf",
-              };
-            }));
-          } else {
-            const pdf = book.apiEndpoint;
-            const fileName = decodeURIComponent(book.apiEndpoint.split('/').pop().split('?')[0]);
-            return [{
-              filename: `${fileName}.pdf`,
-              content: pdf,
-              contentType: "application/pdf",
-            }];
-          }
-        })
-      ); */
-      
-
-      // Préparer les pièces jointes
-      /* const attachments = await Promise.all(
-        bookIds.map(async (id) => {
-          const book = books.find((b) => b.id === id);
-          
-          // Si book.apiEndpoint est un tableau
-          if (Array.isArray(book.apiEndpoint)) {
-            // Traiter chaque URL du tableau
-            return await Promise.all(book.apiEndpoint.map(async (url, index) => {
-              const pdf = await url;
-              return {
-                filename: `${book.titre}.pdf`,
-                content: pdf,
-                contentType: "application/pdf",
-              };
-            }));
-          } else {
-            // Si c'est une seule URL
-            const pdf = book.apiEndpoint;
-            return [{
-              filename: `${book.titre}.pdf`,
-              content: pdf,
-              contentType: "application/pdf",
-            }];
-          }
-        })
-      ); */
-
-      // Aplatir le tableau d'attachments
-      const flattenedAttachments = attachments.flat();
-     /*  const attachments = bookIds.map((id) => {
-        const book = books.find((b) => b.id === id);
         return {
-          filename: `${book.titre}.pdf`,
-          path: book.apiEndpoint, // Assurez-vous que pdfPath est défini book.apiEndpoint
-          contentType: "application/pdf",
+          filename: `${book.titre}.${fileExtension}`,
+          path: book.apiEndpoint,
+          contentType: contentType,
         };
-      }); */
+      });
 
       const transporter = nodemailer.createTransport({
         host: "smtp.ionos.fr",
@@ -226,7 +123,7 @@ router.post("/confirm-payment", async (req, res) => {
           </footer>
         </div>
 </main>`,
-attachments,
+attachments:attachments,
       };
 
       await transporter.sendMail(mailOptions);
