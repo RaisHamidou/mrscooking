@@ -101,14 +101,12 @@ console.log(downloadLinks)
       
             <h2 style="color: #444;">Détails de votre commande :</h2>
             <div style="width:100%; padding:10px; box-sizing: border-box ; background:#F1E3D4;border-radius:7px">
-              <ul style="color: #555; font-size: 1rem; width:50%; font-weight:500;">
-                ${bookIds
-                  .map((id) => {
-                    const book = books.find((b) => b.id === id);
-                    return `<li>${book.titre}</li>`;
-                  })
-                  .join("")}
+              
+                <ul style="color: #555; font-size: 1rem; width:50%; font-weight:500;">
+                ${downloadLinks}
               </ul>
+
+              <
             </div>
             <div style="color:#8E8E8E">
               <p>Vous trouverez <span style="color: #FF4D6D;">

@@ -8,22 +8,22 @@ const __dirname = path.dirname(__filename)
 
 const router = express.Router()
 
-router.get("/:id", (req, res)=>{
-    const id = req.params.id
+router.get("/:id", (req, res) => {
+    const id = decodeURIComponent(req.params.id); // Décoder le paramètre
+    const userHasAccess = true;
 
-    const userHasAccess = true
-
-    if(!userHasAccess){
-        return res.status(403).json({error:"Access denied"})
+    if (!userHasAccess) {
+        return res.status(403).json({ error: "Access denied" });
     }
 
-    const filePath = path.join(__dirname,"../Books", `${id}.zip`)
+    const filePath = path.join(__dirname, "../Books", `${id}.zip`);
 
-    if(!fs.existsSync(filePath)){
-        return res.status(404).json({error:"File not found"})
+    if (!fs.existsSync(filePath)) {
+        return res.status(404).json({ error: "File not found" });
     }
 
-    res.sendFile(filePath)
-})
+    res.sendFile(filePath);
+});
+
 
 export default router
