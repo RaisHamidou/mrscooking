@@ -94,10 +94,17 @@
           height: 22%;
           font-size: 0.7rem;
         }
-        @media (max-width: 320px) {
-          width: 25% ;
-          height: 25%;
+        @media (max-width: 425px) {
+          width: 27% ;
+          height: 27%;
+          font-size: 0.7rem;
+         
+        }
+        @media (max-width: 425px) {
+          width: 27% ;
+          height: 27%;
           font-size: 0.6rem;
+          
         }
       }
       .description-card-16-9 {

@@ -4,11 +4,10 @@ import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import Cards from "@/components/Cards/Cards";
 import { MyContext } from "@/context/Context";
-import URL from "../config/config";
 import axios from "axios";
 import Link from "next/link";
 
-const EbookHome  = () => {
+const EbookHome  = ({URL}) => {
   const [loading, setLoading] = useState(true)
   const [books, setBooks] = useState()
   const { addToCart, checkCart } = useContext(MyContext);
@@ -41,6 +40,7 @@ const EbookHome  = () => {
       <div className="books-page-hero">
         <h1>Mes derniers ebooks</h1>
       </div>
+      <div className="container-ebooks">
 
       <div className="container-cards-16-9">
             {books&&books.map((post) => {
@@ -76,6 +76,8 @@ const EbookHome  = () => {
                 );
             })}
         </div>
+      </div>
+
     </section>
   );
 };

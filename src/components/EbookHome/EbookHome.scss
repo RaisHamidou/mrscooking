@@ -4,11 +4,20 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    background-color: red;
-    margin-bottom: 50px;
+    //margin-bottom: 50px;
+    @media screen and (max-width:768px) {
+        height: auto;
+    }
+    .books-page-hero{
+        margin-bottom: 20px ;
+    }
     .container-ebooks{
-        margin: 0;
+        margin: auto;
+        margin-top: -20px;
     width: 80%;
-    background-color: blue;
+    margin-bottom: 20px;
+    @media screen and (max-width:425px) {
+        width:90%;
+    }
     }
 }

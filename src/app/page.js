@@ -15,6 +15,8 @@ import image7 from "../assets/photo/7.jpeg";
 import image8 from "../assets/photo/8.jpg";
 import image9 from "../assets/photo/9.jpg";
 import image10 from "../assets/photo/10.jpg";
+import EbookHome from "@/components/EbookHome/EbookHome";
+import { URL } from "@/components/config/config";
 
 export default function Home() {
   const images = [
@@ -25,6 +27,7 @@ export default function Home() {
       <Header />
       <Hero />
       <Book />
+      <EbookHome URL={URL}/>
       <About />
       {/* <Posts /> */}
       <InfiniteScroll images={images} />

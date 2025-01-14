@@ -188,7 +188,7 @@
   }
 } */
 
-@media screen and (max-width: 561px) {
+@media screen and (max-width: 576px) {
   #book {
     flex-direction: column-reverse;
     .container-info-book {
@@ -199,6 +199,7 @@
       text-align: center;
       //color: white;
       width: 90%;
+      padding-bottom: 20px;
       h1 {
         font-size: 1.5rem;
         letter-spacing: 0;
