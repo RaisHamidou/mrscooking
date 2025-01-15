@@ -6,6 +6,7 @@ import { Inter } from "next/font/google";
 import Footer from "../components/Footer/Footer"
 import Headers from "../components/Header/Header"
 import MyContextProvider from "../context/Context"
+import CookiesConsent from "@/components/cookiesConsent/cookiesConsent";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,7 +26,7 @@ export default function RootLayout({ children }) {
   <MyContextProvider>
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        
+        <CookiesConsent/>
         {children}
        <Footer/>
       </body>

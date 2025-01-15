@@ -1,0 +1,249 @@
+.cookie-banner {
+    position:fixed;
+    bottom:0;
+    background:#1a1a1a;
+    width:30%;
+    aspect-ratio:1/1;
+    padding:20px;
+    z-index: 90;
+    display:flex;
+    align-items:center;
+    z-index: 100;
+    height: auto;
+    @media screen and (max-width: 576px) {
+        
+        height: 300px;
+      }
+    @media screen and (max-width: 320px) {
+        
+        height: 300px;
+      }
+    .cookie-banner-content{
+      width:auto;
+      height:auto;
+      //background:blue;
+      
+    }
+    @media screen and (max-width: 1024px){
+      //background:red;
+      width:35%;
+    }
+    @media screen and (max-width: 844px){
+      //background:green;
+      width:45%;
+    }
+    @media screen and (max-width: 768px) {
+      border-radius: 7px;
+      width: 90%;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+  }
+  @media screen and (max-width: 375px) {
+    width: 95%;
+  }
+  @media screen and (max-width: 320px) {
+    width: 95%;
+  }
+      h2 {
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #fff;
+  
+        @media screen and (max-width: 1024px){
+          font-size: 1.3rem;
+        }
+        @media screen and (max-width: 320px) {
+          font-size: 1.2rem;
+          
+        }
+      }
+    
+      p {
+        font-size: 1.1rem;
+        color: #888888;
+        margin: 10px 0 20px;
+        font-family: $poppins;
+        line-height: 1.2;
+  
+        @media screen and (max-width: 1024px){
+          font-size: 0.9rem;
+        }
+        
+        @media screen and (max-width: 425px){
+          font-size: 0.7rem;
+        }
+        @media screen and (max-width: 320px) {
+          font-size: .65rem;
+        }
+      }
+    
+      .button-container {
+        display: flex;
+        gap: 4px;
+      }
+    
+      .button-accept {
+        background-color: $goldenPink; 
+        color: #111;
+        padding: 10px 20px;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 14px;
+        transition: background-color 0.3s;
+        
+        @media screen and (max-width: 1024px){
+          font-size: 0.8rem;
+          padding: 9px 10px;
+          
+        }
+        @media screen and (max-width: 375px){
+            font-size: 0.7rem;
+            padding: 1px 5px 1px 5px;
+          }
+        &:hover {
+          background-color: darken($goldenPink, 10);
+        }
+      }
+    
+      .button-decline {
+        background-color: $goldenPink; 
+        color: #111;
+        padding: 10px 20px;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 14px;
+        transition: background-color 0.3s;
+        @media screen and (max-width: 1024px){
+          font-size: 0.8rem;
+          padding: 9px 10px;
+          
+        }
+        @media screen and (max-width: 375px){
+            font-size: 0.7rem;
+            padding: 8px 5px 8px 5px;
+          }
+        &:hover {
+          background-color: darken($goldenPink, 10);
+        }
+      }
+    
+      .button-preferences {
+        background-color: #e0e0e0; 
+        color: #111;
+        padding: 10px 10px;
+        width: 60%;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 14px;
+        margin-top: 4px;
+        transition: background-color 0.3s;
+        font-weight: bold;
+        @media screen and (max-width: 1024px){
+          width: 65%;
+          padding: 9px 10px;
+        }
+        @media screen and (max-width: 768px){
+          width: 35%;
+        }
+        @media screen and (max-width: 425px) {
+          width: 60%;
+          font-size: .8rem;
+        }
+        @media screen and (max-width: 375px){
+            font-size: 0.7rem;
+            padding: 7px 10px;
+          }
+        @media screen and (max-width: 320px) {
+          width: 70%;
+          font-size: .7rem;
+          padding: 8px 10px;
+        }
+        &:hover {
+          background-color: #bdbdbd;
+        }
+      }
+    }
+    
+    .modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #1a1a1a;
+      padding: 50px;
+      z-index: 1001;
+      border-radius: 5px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  
+      @media screen and (max-width:768px) {
+        padding: 40px;
+        width: 70%;
+        
+      }
+  
+      @media screen and (max-width:425px) {
+        width: 95%;
+      }
+    
+      h2 {
+        margin-top: 0;
+        font-size: 18px;
+        color: #ffffff;
+      }
+    
+      p {
+        font-size: 14px;
+        color: #888888;
+        font-family: $poppins;
+        margin-top: 10px;
+          margin-bottom: 10px;
+        @media screen and (max-width:768px) {
+          margin-top: 10px;
+          margin-bottom: 10px;
+        }
+      }
+    
+      button {
+        margin-top: 0px;
+        padding: 8px 12px;
+        background-color: $goldenPink;
+        color: #111;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        border-radius: 3px;
+        font-size: 14px;
+    
+        &:hover {
+          background-color: darken($goldenPink, 10);
+        }
+        
+        
+        &:not(:last-child) {
+          margin-right: 5px;
+          @media screen and (max-width:768px) {
+            margin-top: 5px;
+          }
+        }
+      }
+    }
+    .quite{
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: #2a2a2a;
+      color: #ffffff;
+      width: 30px;
+      height: 30px;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
