@@ -112,8 +112,6 @@ console.log(downloadLinks)
 
       </div>
       <div style="color:#8E8E8E">
-        <p>Vous trouverez <span style="color: #FF4D6D;">
-            en pièce jointe </span> les fichiers correspondants à votre commande. </p>
         <p>Nous vous remercions de votre confiance.</p>
         <p>Cordialement,<br> <span style="font-weight: 700;"> L'équipe </span></p>
       </div>

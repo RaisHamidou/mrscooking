@@ -11,7 +11,7 @@ const PaymentComponents = ({ URL }) => {
   const amount = total > 0 ? total * 100 : 1;
 
   const stripePromise = loadStripe(
-    "pk_test_51QC2ngCtuk8oqqoGX1ed7LADRPRdPcHvZVXleH2S7s3Naa4SwSSV3nRQJGrvaTuRQA59t6kLbkoF2RtJQLUkKMnl00bvjqljuo"
+    "pk_live_51QC2ngCtuk8oqqoGpx3c47XQenjJLX3OiK6P3YCV7A4YWXc7pvPEA0gecxJFhA4n5HmJuBS5BUGUEXtNMvkkxHq000gV9hyAAd"
   );
   const options = {
     mode: "payment",
