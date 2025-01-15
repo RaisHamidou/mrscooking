@@ -107,7 +107,7 @@ console.log(downloadLinks)
       <div style="width:100%; padding:10px; box-sizing: border-box ; background:#F1E3D4;border-radius:7px">
   
         <ul style="color: #555; font-size: 1rem; width:50%; font-weight:500;">
-          <li><a style="color:#FF4D6D" href="${downloadUrl}" download="${book.titre}.pdf">${book.titre}</a></li>
+          <li><a style="color:#FF4D6D" href="${downloadLinks}" download="${book.titre}.pdf">${book.titre}</a></li>
         </ul>
 
       </div>
