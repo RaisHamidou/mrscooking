@@ -43,7 +43,7 @@ const EbookHome  = ({URL}) => {
       <div className="container-ebooks">
 
       <div className="container-cards-16-9">
-            {books&&books.map((post) => {
+            {books&&books.sort((a,b)=>b.id - a.id).slice(0,4).map((post) => {
                 const isInCart = checkCart(post.id);
 
                 return (

@@ -7,6 +7,9 @@ import Footer from "../components/Footer/Footer"
 import Headers from "../components/Header/Header"
 import MyContextProvider from "../context/Context"
 import CookiesConsent from "@/components/cookiesConsent/cookiesConsent";
+import LocalizationWarpper from "@/components/LocalizationWarpper/LocalizationWarpper";
+
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,7 +30,9 @@ export default function RootLayout({ children }) {
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <CookiesConsent/>
+        <LocalizationWarpper>
         {children}
+        </LocalizationWarpper>
        <Footer/>
       </body>
     </html>

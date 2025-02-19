@@ -1,15 +1,26 @@
 "use client";
 import React, { useState, useContext, useEffect } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { FaCalendarDays, FaClock } from "react-icons/fa6";
+import dayjs from 'dayjs';
 import axios from "axios";
 import { MyContext } from "@/context/Context";
 import loader from "@/assets/gif/loader.gif";
 import { useRouter } from "next/navigation";
 import ThankYou from "../ThankYou/ThankYou";
 import Checkout from "./Checkout";
+import { countryCodes } from "../CountryCode/CountryCode";
+import { usePromoCode } from "../promo/PromoCode";
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+
+
 const CheckoutForm = ({ URL }) => {
   const stripe = useStripe();
   const elements = useElements();
+  const { currentCart, total, clearCart, price, promo, setPromo,isPromoValid } =
+    useContext(MyContext);
+
   const [nameValue, setNameValue] = useState();
   const [surnameValue, setSurnameValue] = useState();
   const [emailValue, setEmailValue] = useState();
@@ -19,30 +30,31 @@ const CheckoutForm = ({ URL }) => {
   const [countryValue, setCountryValue] = useState();
   const [codePostalValue, setCodePostalValue] = useState();
   const [nameCardValue, setNameCardValue] = useState();
-  const { currentCart, total, clearCart } = useContext(MyContext);
   const [showAlert, setShowAlert] = useState(false);
   const [isEmailValid, setIsEmailValid] = useState(false);
-  const [isInvalid, setIsInvalid] = useState()
+  const [isInvalid, setIsInvalid] = useState();
+  const [delvery, setDelvery] = useState();
+  const [time, setTime] = useState()
+  const [date, setDate] = useState()
   const route = useRouter();
-  const [paymentStatus, setPaymentStatus] = useState(`Payer ${total} €`);
+  const [paymentStatus, setPaymentStatus] = useState(`Payer ${price} €`);
 
-
-
-  const ValidateEmail = (email)=>{
-    const emailRegex =  /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return emailRegex.test(email)
-  }
-const handleEmail = (e) =>{
-  const email = e.target.value
-  setEmailValue(email)
-  setIsEmailValid(ValidateEmail(email))
-}
+  const physique = currentCart.filter((f) => f.type === "physique");
+  const ValidateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+  const handleEmail = (e) => {
+    const email = e.target.value;
+    setEmailValue(email);
+    setIsEmailValid(ValidateEmail(email));
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setPaymentStatus("paiement en cours...")
-        if (!stripe || !elements) {
-          return;
-        }
+    setPaymentStatus("paiement en cours...");
+    if (!stripe || !elements) {
+      return;
+    }
 
     const response = await fetch(`${URL}/api/payment/create-payment`, {
       method: "POST",
@@ -50,7 +62,9 @@ const handleEmail = (e) =>{
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        amount: total * 100,
+        amount: price * 100,
+        currentTotal: price,
+        total:total,
         name: nameValue,
         surname: surnameValue,
         cardName: nameCardValue,
@@ -59,7 +73,11 @@ const handleEmail = (e) =>{
         city: cityValue,
         codePostal: codePostalValue,
         country: countryValue,
-      }), 
+        products: currentCart,
+       date:date,
+          time:time,
+          delvery:delvery
+      }),
     });
 
     const { clientSecret } = await response.json();
@@ -70,19 +88,19 @@ const handleEmail = (e) =>{
       clientSecret,
       {
         payment_method: {
-           card: cardElement,
+          card: cardElement,
           billing_details: {
-            name: nameCardValue, 
+            name: nameCardValue,
             email: emailValue,
             address: {
               line1: adressValue,
               city: cityValue,
-              
+
               postal_code: codePostalValue,
-              country:countryValue,
+              country: countryValue,
             },
-            phone: numberValue, 
-          }, 
+            phone: numberValue,
+          },
         },
       }
     );
@@ -90,9 +108,9 @@ const handleEmail = (e) =>{
     if (error) {
       console.error(error.message);
       setPaymentStatus("Une erreur s'est produite, Veuillez réessayer");
-      console.log(error.message)
+      console.log(error.message);
       setTimeout(() => {
-        setPaymentStatus(`Payer ${total} €`);
+        setPaymentStatus(`Payer ${price} €`);
       }, 5000);
     } else if (paymentIntent && paymentIntent.status === "succeeded") {
       setPaymentStatus("Paiement réussi !");
@@ -103,9 +121,22 @@ const handleEmail = (e) =>{
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          paymentIntentId: paymentIntent.id, 
+          paymentIntentId: paymentIntent.id,
           email: emailValue,
+          name: nameValue,
+          surname: surnameValue,
           bookIds: bookIds,
+          amount: price * 100,
+          currentTotal: price,
+          total:total,
+          address: adressValue,
+          city: cityValue,
+          codePostal: codePostalValue,
+          country: countryValue,
+          products: currentCart,
+          date:date,
+          time:time,
+          delvery:delvery
         }),
       });
 
@@ -114,238 +145,63 @@ const handleEmail = (e) =>{
     }
   };
 
-
-const fields = {
-  Email: !emailValue,
-  invalidEmail: !isEmailValid,
-  Nom: !nameValue,
-  Prénom: !surnameValue,
-  Adrésse: !adressValue,
-  ville: !cityValue,
-  CodePostal: !codePostalValue,
-  pays: !countryValue,
+  const fields = {
+    Email: !emailValue,
+    invalidEmail: !isEmailValid,
+    Nom: !nameValue,
+    Prénom: !surnameValue,
+    Adrésse: !adressValue,
+    ville: !cityValue,
+    CodePostal: !codePostalValue,
+    pays: !countryValue,
+   
+         
+  };
+  if (physique.length > 0) {
+    fields.date = !date;
+    fields.time = !time;
 }
 
-const invalidFields = Object.keys(fields).filter((key) => fields[key]);
+  const invalidFields = Object.keys(fields).filter((key) => fields[key]);
 
-useEffect(()=>{
-  if (invalidFields.length === 1) {
-    if (invalidFields.includes('Email')) {
-      setIsInvalid("Veuillez mettre votre adresse email") 
-    } else if (invalidFields.includes('invalidEmail')) {
-      setIsInvalid("Votre email est incorrect")
-    } else {
-      setIsInvalid(`Veuillez remplir le champ ${invalidFields[0]}`) 
+  useEffect(() => {
+    if (invalidFields.length === 1) {
+      if (invalidFields.includes("Email")) {
+        setIsInvalid("Veuillez mettre votre adresse email");
+      } else if (invalidFields.includes("invalidEmail")) {
+        setIsInvalid("Votre email est incorrect");
+      } else if (invalidFields.includes("date")) {
+        setIsInvalid(`Veuillez nous donner vos disponibilité`);
+      } else if (invalidFields.includes("time")) {
+        setIsInvalid(`Veuillez nous donner vos disponibilité`);
+      } else {
+        setIsInvalid(`Veuillez remplir le champ ${invalidFields[0]}`);
+      }
+    } else if (invalidFields.length > 1) {
+      if (
+        invalidFields.includes("Email") &&
+        invalidFields.includes("invalidEmail") &&
+        invalidFields.length === 2
+      ) {
+        setIsInvalid("Veuillez vérifier votre email");
+      } else if (
+        invalidFields.includes("Email") &&
+        invalidFields.includes("invalidEmail")
+      ) {
+        setIsInvalid(`Veuillez remplir tout les champs et vérifier l'email.`);
+      }
     }
-  } else if (invalidFields.length > 1) {
-    if (invalidFields.includes('Email') && invalidFields.includes('invalidEmail') && invalidFields.length === 2) {
-      setIsInvalid("Veuillez vérifier votre email") 
-    } else if (invalidFields.includes('Email') && invalidFields.includes('invalidEmail')) {
-      setIsInvalid(`Veuillez remplir tout les champs et vérifier l'email.`) 
-    } 
+  }, [showAlert, invalidFields]);
+
+  const handleCountryChange = (e) => {
+    setCountryValue(e.target.value);
+  };
+
+  const today = dayjs()
+  const shouldDisableDate = (date)=>{
+    return date.isAfter(today,"day") && date.isBefore(today.add(7,"day"),"day")
   }
-},[showAlert, invalidFields])
-
-
-console.log(total)
-
-const countryCodes = {
-  'Afghanistan': 'AF',
-  'Albanie': 'AL',
-  'Algérie': 'DZ',
-  'Andorre': 'AD',
-  'Angola': 'AO',
-  'Antigua-et-Barbuda': 'AG',
-  'Argentine': 'AR',
-  'Arménie': 'AM',
-  'Australie': 'AU',
-  'Autriche': 'AT',
-  'Azerbaïdjan': 'AZ',
-  'Bahamas': 'BS',
-  'Bahreïn': 'BH',
-  'Bangladesh': 'BD',
-  'Barbade': 'BB',
-  'Biélorussie': 'BY',
-  'Belgique': 'BE',
-  'Belize': 'BZ',
-  'Bénin': 'BJ',
-  'Bhoutan': 'BT',
-  'Bolivie': 'BO',
-  'Bosnie-Herzégovine': 'BA',
-  'Botswana': 'BW',
-  'Brésil': 'BR',
-  'Brunei': 'BN',
-  'Bulgarie': 'BG',
-  'Burkina Faso': 'BF',
-  'Burundi': 'BI',
-  'Cap-Vert': 'CV',
-  'Cambodge': 'KH',
-  'Cameroun': 'CM',
-  'Canada': 'CA',
-  'République centrafricaine': 'CF',
-  'Tchad': 'TD',
-  'Chili': 'CL',
-  'Chine': 'CN',
-  'Colombie': 'CO',
-  'Comores': 'KM',
-  'Congo': 'CG',
-  'République du Congo (République Démocratique)': 'CD',
-  'Costa Rica': 'CR',
-  'Croatie': 'HR',
-  'Cuba': 'CU',
-  'Chypre': 'CY',
-  'République tchèque': 'CZ',
-  'Danemark': 'DK',
-  'Djibouti': 'DJ',
-  'Dominique': 'DM',
-  'République Dominicaine': 'DO',
-  'Équateur': 'EC',
-  'Égypte': 'EG',
-  'Salvador': 'SV',
-  'Guinée équatoriale': 'GQ',
-  'Érythrée': 'ER',
-  'Estonie': 'EE',
-  'Eswatini': 'SZ',
-  'Éthiopie': 'ET',
-  'Fidji': 'FJ',
-  'Finlande': 'FI',
-  'France': 'FR',
-  'Gabon': 'GA',
-  'Gambie': 'GM',
-  'Géorgie': 'GE',
-  'Allemagne': 'DE',
-  'Ghana': 'GH',
-  'Grèce': 'GR',
-  'Grenade': 'GD',
-  'Guatemala': 'GT',
-  'Guinée': 'GN',
-  'Guinée-Bissau': 'GW',
-  'Guyane': 'GY',
-  'Haïti': 'HT',
-  'Honduras': 'HN',
-  'Hongrie': 'HU',
-  'Islande': 'IS',
-  'Inde': 'IN',
-  'Indonésie': 'ID',
-  'Iran': 'IR',
-  'Irak': 'IQ',
-  'Irlande': 'IE',
-  'Israël': 'IL',
-  'Italie': 'IT',
-  'Jamaïque': 'JM',
-  'Japon': 'JP',
-  'Jordanie': 'JO',
-  'Kazakhstan': 'KZ',
-  'Kenya': 'KE',
-  'Kiribati': 'KI',
-  'Corée du Nord': 'KP',
-  'Corée du Sud': 'KR',
-  'Koweït': 'KW',
-  'Kirghizistan': 'KG',
-  'Laos': 'LA',
-  'Lettonie': 'LV',
-  'Liban': 'LB',
-  'Lesotho': 'LS',
-  'Liberia': 'LR',
-  'Libye': 'LY',
-  'Liechtenstein': 'LI',
-  'Lituanie': 'LT',
-  'Luxembourg': 'LU',
-  'Madagascar': 'MG',
-  'Malawi': 'MW',
-  'Malaisie': 'MY',
-  'Maldives': 'MV',
-  'Mali': 'ML',
-  'Malte': 'MT',
-  'Îles Marshall': 'MH',
-  'Mauritanie': 'MR',
-  'Maurice': 'MU',
-  'Mexique': 'MX',
-  'Micronésie': 'FM',
-  'Moldavie': 'MD',
-  'Monaco': 'MC',
-  'Mongolie': 'MN',
-  'Monténégro': 'ME',
-  'Maroc': 'MA',
-  'Mozambique': 'MZ',
-  'Myanmar': 'MM',
-  'Namibie': 'NA',
-  'Nauru': 'NR',
-  'Népal': 'NP',
-  'Pays-Bas': 'NL',
-  'Nouvelle-Zélande': 'NZ',
-  'Nicaragua': 'NI',
-  'Niger': 'NE',
-  'Nigeria': 'NG',
-  'Macédoine du Nord': 'MK',
-  'Norvège': 'NO',
-  'Oman': 'OM',
-  'Pakistan': 'PK',
-  'Palaos': 'PW',
-  'Panama': 'PA',
-  'Papouasie-Nouvelle-Guinée': 'PG',
-  'Paraguay': 'PY',
-  'Pérou': 'PE',
-  'Philippines': 'PH',
-  'Pologne': 'PL',
-  'Portugal': 'PT',
-  'Qatar': 'QA',
-  'Roumanie': 'RO',
-  'Russie': 'RU',
-  'Rwanda': 'RW',
-  'Saint-Kitts-et-Nevis': 'KN',
-  'Sainte-Lucie': 'LC',
-  'Saint-Vincent-et-les Grenadines': 'VC',
-  'Samoa': 'WS',
-  'Saint-Marin': 'SM',
-  'São Tomé-et-Principe': 'ST',
-  'Sénégal': 'SN',
-  'Serbie': 'RS',
-  'Seychelles': 'SC',
-  'Sierra Leone': 'SL',
-  'Singapour': 'SG',
-  'Slovaquie': 'SK',
-  'Slovénie': 'SI',
-  'Îles Salomon': 'SB',
-  'Somalie': 'SO',
-  'Afrique du Sud': 'ZA',
-  'Sri Lanka': 'LK',
-  'Soudan': 'SD',
-  'Soudan du Sud': 'SS',
-  'Suriname': 'SR',
-  'Suède': 'SE',
-  'Suisse': 'CH',
-  'Syrie': 'SY',
-  'Tadjikistan': 'TJ',
-  'Tanzanie': 'TZ',
-  'Tchad': 'TD',
-  'Thaïlande': 'TH',
-  'Timor oriental': 'TL',
-  'Togo': 'TG',
-  'Tonga': 'TO',
-  'Trinité-et-Tobago': 'TT',
-  'Tunisie': 'TN',
-  'Turkménistan': 'TM',
-  'Turquie': 'TR',
-  'Tuvalu': 'TV',
-  'Uganda': 'UG',
-  'Ukraine': 'UA',
-  'Uruguay': 'UY',
-  'Vanuatu': 'VU',
-  'Vatican': 'VA',
-  'Venezuela': 'VE',
-  'Vietnam': 'VN',
-  'Yémen': 'YE',
-  'Zambie': 'ZM',
-  'Zimbabwe': 'ZW',
-};
-
-
-
-const handleCountryChange = (e) => {
-  setCountryValue(e.target.value);
-};
-
+  console.log(codePostalValue)
   return (
     <section className="checkout">
       <div className="checkout-cart">
@@ -384,8 +240,41 @@ const handleCountryChange = (e) => {
 
           <div className="containter-total-price">
             <div className="total">Total</div>
-            <div className="price">{`${total} €`} <span className="ttc">TTC</span></div>
+            <div className="price">
+              {" "}
+              {price != total ? (
+                <span className="price-b">{total} €</span>
+              ) : (
+                `${total} €`
+              )}
+              {price != total ? `${price} €` : null}
+              <span className="ttc">ttc</span>
+            </div>
           </div>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              setPromo(e.target.promoInput.value);
+            }}
+            className="form-promo"
+          >
+           {promo ? (
+  isPromoValid ? (
+    <p>Code promo appliqué !</p>
+  ) : (
+    <p>Votre code promo est expiré ou invalide</p>
+  )
+) : null}
+            <div className="container-form-promo">
+            <input
+              name="promoInput"
+              className="input-promo"
+              placeholder="Entrez votre code promo"
+            />
+            <button type="submit">Validé</button>
+            </div>
+
+          </form>
         </div>
       </div>
       <div className="container-form">
@@ -394,15 +283,15 @@ const handleCountryChange = (e) => {
             <h1>Finaliser votre commande</h1>
           </div>
 
-          { showAlert && invalidFields.length > 0 && (
+          {showAlert && invalidFields.length > 0 && (
             <div className="alerte">
               <p>{isInvalid}</p>
             </div>
           )}
           <div className="input-elements">
             <input
-            className="input-email"
-              style={{ }}
+              className="input-email"
+              style={{}}
               onChange={handleEmail}
               type="email"
               placeholder="Email"
@@ -411,10 +300,127 @@ const handleCountryChange = (e) => {
           </div>
           <div className="pay-legal">
             <p>
-              Entrez soigneusement votre email, vos ebooks seront livré
-              directement dans votre boîte de réception.
+              Entrez soigneusement votre email, vos ebooks et votre confirmation
+              de commande seront directement envoyé dans votre boîte de
+              réception.
             </p>
           </div>
+          {physique.length > 0 ? (
+            <div className="delvery-form">
+            <div className="pay-legal">
+            <p>
+            Veuillez indiquer votre disponibilité pour récupérer votre 
+            commande de gâteau. <span className="info-legal">Le retrait se fera à Paris, entre 11h et 19h.</span>  
+            L'adresse vous sera envoyée par email avec la confirmation de votre 
+            commande. Veuillez noter qu’un <span className="info-legal">délai de préparation d’une semaine </span>  est 
+            nécessaire avant le retrait.
+              </p>
+            </div>
+            
+            <div className="input-date-container">
+            <div className="input-with-icons">
+            <DatePicker minDate={today} shouldDisableDate={shouldDisableDate} onChange={(newValue) => setDate(dayjs(newValue).format('MM/DD/YYYY'))} className="input-picker" sx={{
+              "& input":{
+                position:"relative",
+                backgroundColor: "#D9D9D9",
+                width:"100",
+                borderRadius:20,
+              },
+              "& button":{
+                background:"none",
+          
+                position:"relative",
+                top:-5,
+                backgroundColor: "#D9D9D9",
+                
+              },
+              
+    "& .MuiOutlinedInput-root": {
+      position:"relative",
+      backgroundColor: "#D9D9D9",
+      display:"flex",
+      alignItems:"center",
+      
+      "&:hover": { backgroundColor: "#D9D9D9" },
+    },
+    "& .MuiInputBase-input": {
+      fontSize: "16px",
+      color: "#333",
+      
+    },
+    "& .MuiSvgIcon-root": {
+      background: 'none', // Supprime le background
+          alignSelf: 'center', // Centre l'icône verticalement
+          fontSize: '1.5rem',
+          color:"#757575"
+    },
+    '& .MuiOutlinedInput-notchedOutline': { border: 'none', }
+  }} />
+           {/*  <DatePicker className="input-picker"/> */}
+            </div>
+            <div className="input-with-icons">
+
+             <TimePicker onChange={(newValue) => setTime(dayjs(newValue).format('HH:mm'))} ampm={false} minTime={dayjs().set('hour', 11).set('minute', 0)}  // 08:00
+  maxTime={dayjs().set('hour', 19).set('minute', 0)}  className="input-picker" 
+             
+             sx={{
+              "& input":{
+                position:"relative",
+                backgroundColor: "#D9D9D9",
+                width:"100"
+              },
+              "& button":{
+                background:"none",
+          
+                position:"relative",
+                top:-5,
+                backgroundColor: "#D9D9D9",
+                
+              },
+              "& .MuiInputBase-root":{
+                background:"blue"
+              },
+    "& .MuiOutlinedInput-root": {
+      position:"relative",
+      backgroundColor: "#D9D9D9",
+      display:"flex",
+      alignItems:"center",
+      
+      "&:hover": { backgroundColor: "#D9D9D9" },
+    },
+    "& .MuiInputBase-input": {
+      fontSize: "16px",
+      color: "#333",
+      borderRadius:7,
+    },
+    "& .MuiSvgIcon-root": {
+      background: 'none', // Supprime le background
+          alignSelf: 'center', // Centre l'icône verticalement
+          fontSize: '1.5rem',
+          color:"#757575"
+    },
+    '& .MuiOutlinedInput-notchedOutline': { border: 'none', borderRadius:7, }
+  }}  /> 
+            </div>
+          {/*   <div className="input-with-icons">
+            <input className="input-date" onChange={(e)=> setDate(e.target.value)} type="date"/> 
+            <FaCalendarDays className="icon"/>
+            </div>
+            <div className="input-with-icons">
+
+            <input className="input-time" onChange={(e)=> setTime(e.target.value)} type="time" min="11:00" max="19:00"/>
+
+            <FaClock className="icon"/>
+            </div> */}
+            </div>
+              <textarea
+                onChange={(e) => setDelvery(e.target.value)}
+                placeholder="D'autre précision ?"
+              />
+            </div>
+          ) : (
+            ""
+          )}
           <div className="facturation-title">
             <h3>Adresse de facturation</h3>
           </div>
@@ -441,43 +447,37 @@ const handleCountryChange = (e) => {
                 placeholder="Adresse"
                 required
               />
-              <input
-                onChange={(e) => setCityValue(e.target.value)}
-                type="text"
-                placeholder="Ville"
-                required
-              />
-            </div>
-            <div className="input-elements">
+
               <input
                 onChange={(e) => setCodePostalValue(e.target.value)}
                 type="text"
                 placeholder="Code postal"
                 required
               />
-              {/* <input
-                onChange={(e) => setCountryValue(e.target.value)}
+            </div>
+            <div className="input-elements">
+              <input
+                onChange={(e) => setCityValue(e.target.value)}
                 type="text"
-                placeholder="Pays"
+                placeholder="Ville"
                 required
-              /> */}
+              />
               <select onChange={handleCountryChange} value={countryValue}>
-        <option className="test-" value="">Sélectionnez un pays</option>
-        {Object.entries(countryCodes).map(([country, code]) => (
-          <option key={code} value={code}>
-            {country}
-          </option>
-        ))}
-      </select>
+                <option className="test-" value="">
+                  Sélectionnez un pays
+                </option>
+                {Object.entries(countryCodes).map(([country, code]) => (
+                  <option key={code} value={code}>
+                    {country}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
           <div className="facturation-title">
             <h3>Payer par paypal</h3>
           </div>
-          <div 
-        
-          className="paypal-button">
-
+          <div className="paypal-button">
             <Checkout
               URL={URL}
               email={emailValue}
@@ -487,10 +487,16 @@ const handleCountryChange = (e) => {
               city={cityValue}
               codePostal={codePostalValue}
               country={countryValue}
-             
+              date={date}
+              delvery={delvery}
+              time={time}
             />
-            { invalidFields.length > 0 ? ( <div onClick={() => setShowAlert(true)} className="check-button" />) : null}
-
+            {invalidFields.length > 0 ? (
+              <div
+                onClick={() => setShowAlert(true)}
+                className="check-button"
+              />
+            ) : null}
           </div>
           <div className="pay-legal">
             <p>
@@ -512,16 +518,12 @@ const handleCountryChange = (e) => {
           </div>
           <div className="input-elements">
             <input
-            className="name-card-input"
-              
+              className="name-card-input"
               onChange={(e) => setNameCardValue(e.target.value)}
               type="text"
               placeholder="Titulaire de la carte"
               required
-
-             
             />
-            
           </div>
           <div className="card-element">
             <CardElement
@@ -552,7 +554,7 @@ const handleCountryChange = (e) => {
           </div>
 
           <button className="pay-btn" type="submit" disabled={!stripe}>
-            {paymentStatus}
+            Payer {price} €
           </button>
           <div className="pay-legal">
             <p>
@@ -566,7 +568,6 @@ const handleCountryChange = (e) => {
               </a>
             </p>
           </div>
-          {/*  {paymentStatus && <p>{paymentStatus}</p>} */}
         </form>
       </div>
       {paymentStatus === "Paiement réussi !" ? (

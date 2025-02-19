@@ -67,6 +67,7 @@ const Header = () => {
         <ul className="menu">
           <li className={pathName === "/" ? "active":""}> <a href="/">Accueil</a></li>
           <li className={pathName.includes("/ebooks") ? "active":""}><a href="/ebooks">Ebooks</a></li>
+         {/*  <li className={pathName.includes("/gateaux") ? "active":""}><a href="/gateaux">Gâteaux</a></li> */}
           <li className={pathName === "/about" ? "active":""}><a href="/#about">About</a></li>
           <li className={pathName === "/contact" ? "active":""}><a href="/contact">Contact</a></li>
         </ul>

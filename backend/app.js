@@ -6,6 +6,7 @@ import Databooks from "./data/books.js"
 import bookRouter from "./api/book.js"
 import legalData from "./data/legals.js";
 import axios from "axios";
+import cakes from "./data/cakes.js";
 
 const app = express()
 
@@ -35,19 +36,27 @@ function verifyAccessToken(req, res, next) {
 
 
 app.use("/api/payment",paymentRoute)
-/* app.use("/api/book/:id", verifyAccessToken, bookRouter) */
+
 
 
 app.get('/api/books', (req, res) => {
-      const auth = req.headers.authorization;
-    if (auth && auth === PASSWORD) { 
+/*       const auth = req.headers.authorization;
+    if (auth && auth === PASSWORD) {  */
         res.json(Databooks);
-    } else {
+    /* } else {
         res.status(401).json({ message: 'Accès interdit.' });
-    }  
+    }  */ 
   
 });
+app.get('/api/cakes', (req, res) => {
+  const auth = req.headers.authorization;
+if (auth && auth === PASSWORD) { 
+    res.json(cakes);
+} else {
+    res.status(401).json({ message: 'Accès interdit.' });
+}  
 
+});
 
 function formatString(str) {
     return str
@@ -82,6 +91,11 @@ app.get("/api/legals", (req,res)=>{
   res.json(legalData)
 })
 
+app.get("/api/promo", (req,res)=>{
+  const data = [process.env.PROMO,
+    process.env.PROMO_RAMADAN]
+    res.json(data)
+})
 
 export default app
 

@@ -1,33 +1,14 @@
 "use client";
 import { MyContext } from "@/context/Context";
-import axios from "axios";
-import "dotenv/config";
+
 import Link from "next/link";
-import React, { useContext, useState, useEffect } from "react";
-import {URL, PASSWORD} from "../config/config";
+import React, { useContext, } from "react";
+
 
 const Cards = ({ array }) => {
     const { addToCart, checkCart } = useContext(MyContext);
-    const [loading, setLoading] = useState(true)
-   /*  const [posts, setPosts] = useState() */
-
-     /* useEffect(() => {
-        const loadPost = async () => {
-          setLoading(true);
-    
-          const response = await axios.get(`${URL}/api/books`, {
-            method: "GET",
-            headers: {
-              Authorization:PASSWORD,
-              Accept: "Application/json",
-            },
-          });
-    
-          setPosts(response.data);
-          setLoading(false);
-        };
-        loadPost();
-      }, []);  */
+ 
+  
 
     const formatString = (str) => {
         return str
@@ -37,17 +18,14 @@ const Cards = ({ array }) => {
             .toLowerCase();
     };
 
-   /*  if (!Array.isArray(array)) {
-        return <p>Aucune donnée à afficher</p>;
-    } */
+  
 
         const posts = array.sort((a,b)=>b.id-a.id)
-        
 
     return (
         <div className="container-cards-16-9">
-            {/* loading?"": */posts.map((post) => {
-                const isInCart = checkCart(post.id);
+            {posts.map((post) => {
+                const isInCart = checkCart(post.titre);
 
                 return (
                     <div key={post.id} className="content-card-16-9">
@@ -61,7 +39,7 @@ const Cards = ({ array }) => {
                             onClick={(e) => {
                                 e.preventDefault()
                                 if (!isInCart) {
-                                    addToCart(post.id, post.titre, post.price, post.image);
+                                    addToCart(post.id, post.titre, post.price, post.image, post.type, post.apiEndpoint);
                                 }
                             }}
                             disabled={isInCart}

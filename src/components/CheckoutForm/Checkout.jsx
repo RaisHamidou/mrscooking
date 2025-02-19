@@ -6,16 +6,26 @@ import {
 } from "@stripe/react-stripe-js";
 import { MyContext } from "@/context/Context";
 import { useRouter } from "next/navigation";
-const Checkout = ({ URL, email, name, surname, address, city, codePostal, country }) => {
+const Checkout = ({
+  URL,
+  email,
+  name,
+  surname,
+  address,
+  city,
+  codePostal,
+  country,
+  delvery,
+  date,
+  time
+}) => {
   const stripe = useStripe();
   const elements = useElements();
-  const { currentCart, total, clearCart } = useContext(MyContext);
+  const { currentCart, total, clearCart, price } = useContext(MyContext);
 
   const route = useRouter();
 
   const handleExpressCheckout = async (event) => {
-    
-    
     if (!stripe || !elements) {
       return;
     }
@@ -24,7 +34,23 @@ const Checkout = ({ URL, email, name, surname, address, city, codePostal, countr
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ amount: total * 100, name: name, surname:surname,  email: email, address:address, city:city, codePostal:codePostal, country:country }),
+      body: JSON.stringify({
+       
+            email: email,
+            name: name,
+            surname:surname,  
+            bookIds: currentCart.map((book) => book.id),
+            amount:  price * 100, 
+            total:total,
+            address:address, 
+            city:city, 
+            codePostal:codePostal, 
+            country:country,
+            products:currentCart,
+            delvery:delvery,
+            date:date,
+            time:time,
+      }),
     });
 
     const { clientSecret } = await response.json();
@@ -32,7 +58,7 @@ const Checkout = ({ URL, email, name, surname, address, city, codePostal, countr
       const { error, paymentIntent } = await stripe.confirmPayment({
         clientSecret,
         elements,
-        amount: total * 100,
+        amount: price * 100,
         currency: "eur",
         payment_method: {},
         confirmParams: {
@@ -55,7 +81,19 @@ const Checkout = ({ URL, email, name, surname, address, city, codePostal, countr
             paymentIntentId: paymentIntent.id,
             email: email,
             name: name,
+            surname:surname,  
             bookIds: currentCart.map((book) => book.id),
+            amount:  price * 100, 
+            currentTotal: price,
+            total:total,
+            address:address, 
+            city:city, 
+            codePostal:codePostal, 
+            country:country,
+            products:currentCart,
+            delvery:delvery,
+            date:date,
+            time:time,
           }),
         });
       }
@@ -69,20 +107,14 @@ const Checkout = ({ URL, email, name, surname, address, city, codePostal, countr
       <ExpressCheckoutElement
         onConfirm={handleExpressCheckout}
         options={{
-          amount: total * 100,
+          amount: price * 100,
           currency: "eur",
           wallets: { paypal: "auto" },
           appearance: {
-            theme: 'stripe',
+            theme: "stripe",
           },
-          
-      
         }}
-        
       />
-     
- 
-
     </>
   );
 };

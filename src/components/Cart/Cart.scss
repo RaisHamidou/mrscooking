@@ -25,6 +25,7 @@
         background-color: white;
         transform: translateX(100%);
         transition: transform 0.7s ease;
+        overflow-x: scroll;
         .cart-head {
             width: 80%;
             height: 80px;

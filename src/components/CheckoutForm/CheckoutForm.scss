@@ -1,326 +1,550 @@
 .checkout {
-    display: flex;
-    height: auto;
-    position: relative;
-    @media screen and (max-width:768px) {
-        flex-direction: column;
-    }
+  display: flex;
+  height: auto;
+  position: relative;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
 
-    .title-form {
-        margin: 50px auto 30px auto;
-        @media screen and (max-width:425px) {
-            width: 90%;
-        }
-        h1 {
-            font-family: $poppins;
-            font-weight: 500;
-            font-size: 2rem;
-            text-align: center;
-        }
+  .title-form {
+    margin: 50px auto 30px auto;
+    @media screen and (max-width: 430px) {
+      width: 90%;
     }
+    h1 {
+      font-family: $poppins;
+      font-weight: 500;
+      font-size: 2rem;
+      text-align: center;
+    }
+  }
 }
 
 .container-form {
-    position: relative;
-    width: 50%;
-    height: auto;
-    margin-top: -0.5px;
-    background-color: $whiteSecondary;
-    border-left: solid 2px #f6efef;
+  position: relative;
+  width: 50%;
+  height: auto;
+  margin-top: -0.5px;
+  background-color: $whiteSecondary;
+  border-left: solid 2px #f6efef;
 
-    @media screen and (max-width:768px) {
-        width: 100%;
-        border-top: solid 2px #f6efef;
-    }
-
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    border-top: solid 2px #f6efef;
+  }
 }
-.facturation-title{
-    display: flex;
-    width: 60%;
-    margin-bottom: 10px;
-    @media screen and (max-width:576px) {
-        width: 80%;
-    }  
-    h3{
-        font-weight: bold;
-        font-size: 0.9rem;
-        color: #8E8E8E;
-        font-family: $inter;
-        letter-spacing: -1px;
-    }
+.facturation-title {
+  display: flex;
+  width: 60%;
+  margin-bottom: 10px;
+  @media screen and (max-width: 576px) {
+    width: 80%;
+  }
+  h3 {
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: #8e8e8e;
+    font-family: $inter;
+    letter-spacing: -1px;
+  }
 }
 .checkout-form {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    position: sticky;
-    top: 0;
-    .container-input-element{
-        width: 60%;
-        margin-bottom: 10px;
-        //margin: 20px 0px 0px 0px;
-        @media screen and (max-width:576px) {
-            width: 80%;
-        }
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  .container-input-element {
+    width: 60%;
+    margin-bottom: 10px;
+    //margin: 20px 0px 0px 0px;
+    @media screen and (max-width: 576px) {
+      width: 80%;
     }
+  }
 
+  .input-elements {
+    width: 100%;
+    margin-top: 4px;
+    margin-bottom: 3px;
+    display: flex;
+    justify-content: space-between;
 
-    .input-elements {
-       width: 100%;
-        margin-top: 4px;
-        margin-bottom: 3px;
-        display: flex;
-        justify-content: space-between;
-
-        /* @media screen and (max-width:576px) {
+    /* @media screen and (max-width:576px) {
             flex-direction: column;
             
             gap: 5px;
            
         } */
-        @media screen and (max-width:425px) {
-            width: 100%;
-        }
-       
-        .input-email{
-            width: 60%;
-            margin: auto;
-
-            @media screen and (max-width:576px) {
-                width: 80%;
-            } 
-        }
-        .name-card-input{
-            @extend .input-email
-        }
-
-        input {
-            width: 49.5%;
-            height: 50px;
-            padding-left: 15px;
-            border-radius: 7px;
-            border: none;
-            background-color: #D9D9D9;
-            color: #646464;
-            &:focus {
-                outline: none;
-            }
-            /* @media screen and (max-width:576px) {
-                width: 100%;
-            } */
-        }
-        
-        select{
-            width: 49.5%;
-            height: 50px;
-            padding-left: 15px;
-            border-radius: 7px;
-            border: none;
-            background-color: #D9D9D9;
-            font-family: $roboto;
-            font-size: 16px;
-           
-            color: #646464;
-            :first-child:required
-      {
-        color: #FF0000 !important;
-      }
-            &:focus {
-                outline: none;
-            }
-            
-            @media screen and (max-width:425px) {
-                font-size: 12px;
-            }
-           
-        }
-
-        ::placeholder {
-             color: #646464;
-            font-family: $roboto;
-            font-size: 16px;
-            @media screen and (max-width:425px) {
-                font-size: 12px;
-            } 
-        }
+    @media screen and (max-width: 430px) {
+      width: 100%;
     }
 
-    .card-element {
-        background-color: #D9D9D9;
-        width: 60%;
-        padding: 15px 20px 15px 30px;
-        border-radius: 7px;
-        //margin-top: 30px;
-        @media screen and (max-width:576px) {
-            width: 80%;
-        }  
+    .input-email {
+      width: 60%;
+      margin: auto;
 
-        /* @media screen and (max-width:425px) {
+      @media screen and (max-width: 576px) {
+        width: 80%;
+      }
+    }
+    .name-card-input {
+      @extend .input-email;
+    }
+
+    input {
+      width: 49.5%;
+      height: 50px;
+      padding-left: 15px;
+      border-radius: 7px;
+      border: none;
+      background-color: #d9d9d9;
+      color: #646464;
+      &:focus {
+        outline: none;
+      }
+      /* @media screen and (max-width:576px) {
+                width: 100%;
+            } */
+    }
+
+    select {
+      width: 49.5%;
+      height: 50px;
+      padding-left: 15px;
+      border-radius: 7px;
+      border: none;
+      background-color: #d9d9d9;
+      font-family: $roboto;
+      font-size: 16px;
+
+      color: #646464;
+      :first-child:required {
+        color: #ff0000 !important;
+      }
+      &:focus {
+        outline: none;
+      }
+
+      @media screen and (max-width: 430px) {
+        font-size: 12px;
+      }
+    }
+
+    ::placeholder {
+      color: #646464;
+      font-family: $roboto;
+      font-size: 16px;
+      @media screen and (max-width: 430px) {
+        font-size: 12px;
+      }
+    }
+  }
+
+  .card-element {
+    background-color: #d9d9d9;
+    width: 60%;
+    padding: 15px 20px 15px 30px;
+    border-radius: 7px;
+    //margin-top: 30px;
+    @media screen and (max-width: 576px) {
+      width: 80%;
+    }
+
+    /* @media screen and (max-width:425px) {
             width: 90%;
         } */
 
-        &:focus {
-            outline: none;
-            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-        }
-    }
-
-    .pay-btn {
-        background-color: black;
-        color: white;
-        font-family: $inter;
-        font-weight: bold;
-        margin-top: 30px;
-        width: 60%;
-        height: 40px;
-        border: none;
-        border-radius: 50px;
-        cursor: pointer;
-
-        @media screen and (max-width:576px) {
-            width: 80%;
-            height: 45px;
-        }  
-    }
-
-    .pay-legal {
-        width: 58%;
-        margin: auto;
-        margin-top: 10px;
-        padding-bottom: 20px;
-        @media screen and (max-width:425px) {
-            width: 89%;
-        }
-        p {
-            text-align: center;
-            color: #8E8E8E;
-            font-size: .8rem;
-
-            
-        }
-
-        .info-legal {
-            color: $pink;
-            font-size: .8rem;
-            margin: 0px 4px 0px 4px;
-        }
-    }
-}
-
-
-
-.checkout-cart {
-    width: 50%;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    height: auto;
-
-    @media screen and (max-width:768px) {
-        width: 100%;
-    }
-    .Cart {
-        position: relative;
-        height: auto;
-        width: 100%;
-        margin: auto;
-        margin-top: 0;
-        z-index: 10;
-        .hr {
-            width: 70%;
-            height: 2px;
-            margin: auto;
-            border-radius: 10px;
-            background-color: #f6efef;
-        }
-        .container-product-added{
-            background-color: #f5f5f5;
-            width: 70%;
-            margin: auto;
-            border-radius: 7px;
-            border: solid 2px #f6efef;
-            z-index: 10;
-            @media screen and (max-width:425px) {
-                width: 90%;
-            }
-        }
-
-        .product-added {
-            margin-top: 0;
-            z-index: 10;
-            color: #5d5d5d;
-        }
-
-        .containter-total-price {
-            border: none;
-            background-color: #f5f5f5;
-            width: 70%;
-            height: 60px;
-            align-items: center;
-            justify-content: space-around;
-            margin: 20px auto 50px auto;
-            border-radius: 7px;
-            padding: 0;
-            color: #8E8E8E;
-            border: solid 2px #f6efef;
-            @media screen and (max-width:425px) {
-                width: 90%;
-            }
-            .total {
-                font-weight: 500;
-                color: #8E8E8E;
-            }
-            .ttc{
-                font-size: 0.7rem;
-                font-weight: bold;
-            }
-        }
-    }
-}
-
-.paypal-button{
-    width: 60%;
-    position: relative;
-    @media screen and (max-width:576px) {
-        width: 80%;
-    }
-
-    .check-button{
-        width:100%;
-        height: 100%;
-        position:absolute;
-        top: 0;
-        cursor: pointer;
+    &:focus {
+      outline: none;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     }
   }
-.alerte{
-color: #ef233c;
-}
-  
-.separation{
-   display: flex;
+
+  .pay-btn {
+    background-color: black;
+    color: white;
+    font-family: $inter;
+    font-weight: bold;
+    margin-top: 30px;
     width: 60%;
-    align-items: center;
-    justify-content: space-between;
-    margin: 20px 0px 20px 0px;
-    span{
-        background-color: #000000;
-        width: 45%;
-        height: 2px;
-        display: block;
+    height: 40px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+
+    @media screen and (max-width: 576px) {
+      width: 80%;
+      height: 45px;
     }
+  }
+
+  .pay-legal {
+    width: 58%;
+    margin: auto;
+    margin-top: 10px;
+    padding-bottom: 20px;
+    @media screen and (max-width: 430px) {
+      width: 89%;
+    }
+    p {
+      text-align: center;
+      color: #8e8e8e;
+      font-size: 0.8rem;
+    }
+
+    .info-legal {
+      color: $pink;
+      font-size: 0.8rem;
+      margin: 0px 4px 0px 4px;
+    }
+  }
 }
 
-.status{
-    position: absolute;
+.checkout-cart {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: auto;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
+  .Cart {
+    position: relative;
+    height: auto;
+    width: 100%;
+    margin: auto;
+    margin-top: 0;
+    z-index: 10;
+    .hr {
+      width: 70%;
+      height: 2px;
+      margin: auto;
+      border-radius: 10px;
+      background-color: #f6efef;
+    }
+    .container-product-added {
+      background-color: #f5f5f5;
+      width: 70%;
+      margin: auto;
+      border-radius: 7px;
+      border: solid 2px #f6efef;
+      z-index: 10;
+      @media screen and (max-width: 430px) {
+        width: 90%;
+      }
+    }
+
+    .product-added {
+      margin-top: 0;
+      z-index: 10;
+      color: #5d5d5d;
+    }
+
+    .containter-total-price {
+      border: none;
+      background-color: #f5f5f5;
+      width: 70%;
+      height: 60px;
+      align-items: center;
+      justify-content: space-around;
+      margin: 20px auto 50px auto;
+      border-radius: 7px;
+      padding: 0;
+      color: #8e8e8e;
+      border: solid 2px #f6efef;
+      @media screen and (max-width: 430px) {
+        width: 90%;
+      }
+      .total {
+        font-weight: 500;
+        color: #8e8e8e;
+      }
+      .ttc {
+        font-size: 0.7rem;
+        font-weight: bold;
+        margin-left: 5px;
+        text-transform: uppercase;
+      }
+    }
+  }
+}
+
+.paypal-button {
+  width: 60%;
+  position: relative;
+  @media screen and (max-width: 576px) {
+    width: 80%;
+  }
+
+  .check-button {
     width: 100%;
     height: 100%;
-    z-index: 90;
-    background-color: rgba(0, 0, 0, 0.313);
+    position: absolute;
+    top: 0;
+    cursor: pointer;
+  }
+}
+.alerte {
+  color: #ef233c;
+}
+
+.separation {
+  display: flex;
+  width: 60%;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px 0px 20px 0px;
+  span {
+    background-color: #000000;
+    width: 45%;
+    height: 2px;
+    display: block;
+  }
+}
+
+.status {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 90;
+  background-color: rgba(0, 0, 0, 0.313);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  img {
+    width: 70px;
+  }
+}
+
+.form-promo {
+  width: 70%;
+  margin: auto;
+ 
+  .container-form-promo{
+    width: 100%;
+    height: 45px;
+    position: relative;
+  }
+  @media screen and (max-width: 768px) {
+    margin-bottom: 30px;
+  }
+  @media screen and (max-width: 430px) {
+    width: 90%;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    img{
-        width: 70px;
+    flex-direction: column;
+  }
+
+  p {
+    text-align: center;
+    color: #ef233c;
+    margin-bottom: 10px;
+
+    @media screen and (max-width: 430px) {
+      font-size: 0.8rem;
     }
+  }
+  .input-promo {
+    height: 100%;
+    width: 100%;
+    margin-right: 5px;
+    border-radius: 50px;
+    border: none;
+    background-color: #f5f5f5;
+    color: #646464;
+    font-family: $roboto;
+    font-size: 16px;
+    font-style: 500;
+    padding-left: 15px;
+    &:focus {
+      outline: none;
+    }
+    @media screen and (max-width: 576px) {
+      width: 100%;
+    }
+    @media screen and (max-width: 430px) {
+      width: 100%;
+      margin-bottom: 10px;
+      font-size: 0.8rem;
+    }
+  }
+  button {
+    height: 100%;
+    width: 28%;
+    background-color: #000000;
+    color: white;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    position: absolute;
+    top: 0;
+    right: 0;
+    @media screen and (max-width: 430px) {
+      width: 30%;
+      font-size: 0.8rem;
+    }
+  }
+}
+
+.price-b {
+  color: $pink;
+  text-decoration: line-through;
+  text-decoration-thickness: 3px;
+  text-decoration-color: $pink;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.delvery-form {
+  width: 60%;
+  margin: auto;
+
+  display: flex;
+  flex-direction: column;
+  @media screen and (max-width: 430px) {
+    width: 80%;
+  }
+  .pay-legal {
+    width: 100%;
+    margin-bottom: 0;
+    p {
+      text-align: left;
+      margin-bottom: -10px;
+    }
+  }
+  textarea {
+    margin: 0px 0px 10px;
+    resize: none;
+    height: 70px;
+    width: 100%;
+    margin-right: 5px;
+    border-radius: 5px;
+    border: none;
+    background-color: #d9d9d9;
+    color: #646464;
+    font-family: $roboto;
+    font-size: 16px;
+    font-style: 500;
+    padding-left: 15px;
+    padding-top: 15px;
+    &:focus {
+      outline: none;
+    }
+    @media screen and (max-width: 430px) {
+      font-size: 0.8rem;
+    }
+  }
+  button {
+    height: 40px;
+
+    background-color: #000000;
+    color: white;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+    @media screen and (max-width: 430px) {
+      width: 100%;
+      font-size: 0.9rem;
+    }
+  }
+}
+.input-date-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px 0px 10px;
+  @media screen and (max-width: 430px) {
+    width: 100% !important;
+  }
+  .input-with-icons {
+    width: 49.5%;
+    height: 50px;
+    position: relative;
+    @media screen and (max-width: 430px) {
+      font-size: 0.5rem;
+      height: 45px;
+      margin-bottom: 5px;
+    }
+
+    .icon {
+      position: absolute;
+      top: 50%;
+      right: 15px;
+      transform: translateY(-50%);
+      color: $pink;
+    }
+  }
+}
+.input-picker {
+  width: 100%;
+  height: 100%;
+  background-color: #d9d9d9;
+  color: #646464;
+  @media screen and (max-width: 430px) {
+    font-size: 0.8rem;
+  }
+  &:focus {
+    outline: none;
+  }
+}
+.input-date {
+  width: 100%;
+  height: 100%;
+  background-color: #d9d9d9;
+  color: #646464;
+  padding-left: 15px;
+  border-radius: 7px;
+  border: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: relative;
+
+  @media screen and (max-width: 430px) {
+    font-size: 0.5rem;
+  }
+}
+
+.input-time {
+  background-color: #d9d9d9;
+  color: #646464;
+  width: 100%;
+  height: 100%;
+  padding-left: 15px;
+  border-radius: 7px;
+  border: none;
+  position: relative;
+  @media screen and (max-width: 430px) {
+    font-size: 0.5rem;
+  }
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background: transparent;
+  bottom: 0;
+  color: transparent;
+  cursor: pointer;
+  height: auto;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: auto;
+}
+input[type="time"]::-webkit-calendar-picker-indicator {
+  background: transparent;
+  bottom: 0;
+  color: transparent;
+  cursor: pointer;
+  height: auto;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: auto;
 }
