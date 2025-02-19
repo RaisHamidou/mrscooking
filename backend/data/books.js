@@ -77,9 +77,19 @@ const books = [
     fileType: "zip",
     type:"ebook",
     apiEndpoint: `https://www.mrscooking.com/api/book/Pack Duo festif Recettes spécial ramadan  et gâteaux traditionnels?token=${process.env.BOOK_TOKEN}`,
-   
   },
- 
+  {
+    id: 7,
+    titre: "Pack complet : Un large choix de recettes variées",
+    price: 34.99,
+    description:"<p>Dans ce pack, tu trouveras des recettes variées entre plats, desserts et gâteaux traditionnels pour te régaler et sublimer ta table. Ce pack regroupe tous les e-books du site avec l’ensemble des recettes proposées sur le site.</P>",
+    detail: { pages: 35, format: "PDF", langue: "Français" },
+    image: "/image/book/pack-3.png",
+    image_books:["/image/photo/pack-3/1.png","/image/photo/pack-3/2.jpg","/image/photo/pack-3/3.png","/image/photo/pack-3/4.jpg","/image/photo/pack-3/5.jpg","/image/photo/pack-3/6.jpg","/image/photo/pack-3/7.jpg","/image/photo/pack-3/8.jpg","/image/photo/pack-3/9.jpg","/image/photo/pack-3/10.jpg","/image/photo/pack-3/11.jpg","/image/photo/pack-3/12.jpg"],
+    fileType: "zip",
+    type:"ebook",
+    apiEndpoint: `https://www.mrscooking.com/api/book/Pack complet Un large choix de recettes variées?token=${process.env.BOOK_TOKEN}`,
+  },
 ];
 
 export default books;
