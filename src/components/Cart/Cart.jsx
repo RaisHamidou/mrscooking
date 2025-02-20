@@ -62,7 +62,7 @@ const Cart = ({ display, cartDisplay, setCartDisplay, cart, setCart }) => {
                           </div>
                           <div className="containter-price">
                             <div>Prix :</div>
-                            <div>{post.price} €</div>
+                            <div>{post.price/100} €</div>
                           </div>
                           <div onClick={()=>remove(post.id)} className="delete">Retiré du panier</div>
                         </div>
@@ -73,7 +73,7 @@ const Cart = ({ display, cartDisplay, setCartDisplay, cart, setCart }) => {
               : null}
             <div className="containter-total-price">
               <div className="total">Total</div>
-              <div className="price">{`${total} €`}</div>
+              <div className="price">{`${total/100} €`}</div>
             </div>
             <Link href="/checkout">
               <div className="btn-buy">Confirmer la commande</div>

@@ -62,7 +62,7 @@ const CheckoutForm = ({ URL }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        amount: price * 100,
+        amount: price,
         currentTotal: price,
         total:total,
         name: nameValue,
@@ -110,7 +110,7 @@ const CheckoutForm = ({ URL }) => {
       setPaymentStatus("Une erreur s'est produite, Veuillez réessayer");
       console.log(error.message);
       setTimeout(() => {
-        setPaymentStatus(`Payer ${price} €`);
+        setPaymentStatus(`Payer ${price/100} €`);
       }, 5000);
     } else if (paymentIntent && paymentIntent.status === "succeeded") {
       setPaymentStatus("Paiement réussi !");
@@ -126,7 +126,7 @@ const CheckoutForm = ({ URL }) => {
           name: nameValue,
           surname: surnameValue,
           bookIds: bookIds,
-          amount: price * 100,
+          amount: price,
           currentTotal: price,
           total:total,
           address: adressValue,
@@ -225,7 +225,7 @@ const CheckoutForm = ({ URL }) => {
                           </div>
                           <div className="containter-price">
                             <div>Prix :</div>
-                            <div>{post.price} €</div>
+                            <div>{post.price/100} €</div>
                           </div>
                         </div>
                       </div>
@@ -243,11 +243,11 @@ const CheckoutForm = ({ URL }) => {
             <div className="price">
               {" "}
               {price != total ? (
-                <span className="price-b">{total} €</span>
+                <span className="price-b">{total/100} €</span>
               ) : (
-                `${total} €`
+                `${total/100} €`
               )}
-              {price != total ? `${price} €` : null}
+              {price != total ? `${price/100} €` : null}
               <span className="ttc">ttc</span>
             </div>
           </div>
@@ -554,7 +554,7 @@ const CheckoutForm = ({ URL }) => {
           </div>
 
           <button className="pay-btn" type="submit" disabled={!stripe}>
-            Payer {price} €
+            Payer {price/100} €
           </button>
           <div className="pay-legal">
             <p>

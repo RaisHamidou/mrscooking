@@ -11,10 +11,10 @@ const PaymentComponents = ({ URL }) => {
  
   const amount = () => {
     if (price !== undefined && price > 0) {
-      return price * 100;
+      return price;
     }
     if (total > 0) {
-      return total * 100;
+      return total;
     }
     return 1; 
   };

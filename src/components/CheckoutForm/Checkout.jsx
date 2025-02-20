@@ -40,7 +40,7 @@ const Checkout = ({
             name: name,
             surname:surname,  
             bookIds: currentCart.map((book) => book.id),
-            amount:  price * 100, 
+            amount:  price, 
             total:total,
             address:address, 
             city:city, 
@@ -58,7 +58,7 @@ const Checkout = ({
       const { error, paymentIntent } = await stripe.confirmPayment({
         clientSecret,
         elements,
-        amount: price * 100,
+       amount: price,
         currency: "eur",
         payment_method: {},
         confirmParams: {
@@ -83,7 +83,7 @@ const Checkout = ({
             name: name,
             surname:surname,  
             bookIds: currentCart.map((book) => book.id),
-            amount:  price * 100, 
+           amount:  price,
             currentTotal: price,
             total:total,
             address:address, 
@@ -102,12 +102,14 @@ const Checkout = ({
     }
   };
 
+  console.log(price)
+
   return (
     <>
       <ExpressCheckoutElement
         onConfirm={handleExpressCheckout}
         options={{
-          amount: price * 100,
+          amount: price/100,
           currency: "eur",
           wallets: { paypal: "auto" },
           appearance: {

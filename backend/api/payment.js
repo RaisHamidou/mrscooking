@@ -242,8 +242,8 @@ router.post("/confirm-payment", async (req, res) => {
          ${productList}
         </ul>
         <div class="price">
-        ${currentTotal != total ? (`<h4>Total : <span style="color:#FF4D6D">${total} €</span></h4>
-          <h4>Total payé: <span style="color:#FF4D6D">${currentTotal} €</span></h4>`) : `<h4>Total payé: <span style="color:#FF4D6D">${total} €</span></h4>` }
+        ${currentTotal != total ? (`<h4>Total : <span style="color:#FF4D6D">${total/100} €</span></h4>
+          <h4>Total payé: <span style="color:#FF4D6D">${currentTotal/100} €</span></h4>`) : `<h4>Total payé: <span style="color:#FF4D6D">${total} €</span></h4>` }
         </div>
       </div>
       <div>
@@ -448,10 +448,10 @@ router.post("/confirm-payment", async (req, res) => {
         <ul>
             ${productList}
         </ul>
-        <div class="price">
-            ${currentTotal != total ? (`<h4>Total : <span style="color:#FF4D6D">${total} €</span></h4>
-              <h4>Total payé: <span style="color:#FF4D6D">${currentTotal} €</span></h4>`) : `<h4>Total payé: <span style="color:#FF4D6D">${total} €</span></h4>` }
-            </div>
+         <div class="price">
+        ${currentTotal != total ? (`<h4>Total : <span style="color:#FF4D6D">${total/100} €</span></h4>
+          <h4>Total payé: <span style="color:#FF4D6D">${currentTotal/100} €</span></h4>`) : `<h4>Total payé: <span style="color:#FF4D6D">${total} €</span></h4>` }
+        </div>
        
       </div>
       <div>
@@ -668,8 +668,8 @@ router.post("/confirm-payment", async (req, res) => {
          ${downloadLinks}
         </ul>
          <div class="price">
-        ${currentTotal != total ? (`<h4>Total : <span style="color:#FF4D6D">${total} €</span></h4>
-          <h4>Total payé: <span style="color:#FF4D6D">${currentTotal} €</span></h4>`) : `<h4>Total payé: <span style="color:#FF4D6D">${total} €</span></h4>` }
+        ${currentTotal != total ? (`<h4>Total : <span style="color:#FF4D6D">${total/100} €</span></h4>
+          <h4>Total payé: <span style="color:#FF4D6D">${currentTotal/100} €</span></h4>`) : `<h4>Total payé: <span style="color:#FF4D6D">${total/100} €</span></h4>` }
         </div>
        
       </div>
@@ -871,9 +871,9 @@ router.post("/confirm-payment", async (req, res) => {
             ${productList}
         </ul>
         <div class="price">
-            ${currentTotal != total ? (`<h4>Total : <span style="color:#FF4D6D">${total} €</span></h4>
-              <h4>Total payé: <span style="color:#FF4D6D">${currentTotal} €</span></h4>`) : `<h4>Total payé: <span style="color:#FF4D6D">${total} €</span></h4>` }
-            </div>
+        ${currentTotal != total ? (`<h4>Total : <span style="color:#FF4D6D">${total/100} €</span></h4>
+          <h4>Total payé: <span style="color:#FF4D6D">${currentTotal/100} €</span></h4>`) : `<h4>Total payé: <span style="color:#FF4D6D">${total} €</span></h4>` }
+        </div>
        
       </div>
       <div>
@@ -1071,9 +1071,9 @@ router.post("/confirm-payment", async (req, res) => {
         <ul>
          ${productList}
         </ul>
-        <div class="price">
-        ${currentTotal != total ? (`<h4>Total : <span style="color:#FF4D6D">${total} €</span></h4>
-          <h4>Total payé: <span style="color:#FF4D6D">${currentTotal} €</span></h4>`) : `<h4>Total payé: <span style="color:#FF4D6D">${total} €</span></h4>` }
+         <div class="price">
+        ${currentTotal != total ? (`<h4>Total : <span style="color:#FF4D6D">${total/100} €</span></h4>
+          <h4>Total payé: <span style="color:#FF4D6D">${currentTotal/100} €</span></h4>`) : `<h4>Total payé: <span style="color:#FF4D6D">${total} €</span></h4>` }
         </div>
       </div>
       <div>

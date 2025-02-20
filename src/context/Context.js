@@ -49,6 +49,7 @@ export const MyContext = createContext();
     };
 
       const total = currentCart.reduce((acc, item) => acc + Number(item.price), 0);
+      //const total = (totalInCentime / 100).toFixed(2);
       const [price, setPrice] =useState(total)
       const clearCart = () => {
         setCurrentCart([]); // Vider le panier dans l'état
@@ -58,18 +59,18 @@ export const MyContext = createContext();
 
       
       useEffect(() => {
-       
-        const checkPromoCode = async() => {
-          if (promoCodes && promoCodes.includes(promo) ) {
-            const calculPrice = await total * promoValue
-            const newPrice = parseFloat(calculPrice.toFixed(2));
-            await setPrice(newPrice);
+        const checkPromoCode = () => {
+          if (promoCodes && promoCodes.includes(promo)) {
+            const discountedPrice = Math.round(total * 0.9); // Réduit de 10% et arrondit à l'entier
+            setPrice(discountedPrice);
           } else {
             setPrice(total);
           }
         };
+        
         checkPromoCode();
-      }, [total, price, promoCodes, promo]);
+      }, [total, promoCodes, promo]); // Enlève price des dépendances
+      console.log(total)
     return(
         <MyContext.Provider value={{currentCart, setCurrentCart, addToCart, checkCart, total, clearCart, price, setPromo,promo,isPromoValid}}>
             {children}
