@@ -32,7 +32,10 @@ const Cards = ({ array }) => {
                         <Link href={`/ebooks/${formatString(post.titre)}`}>
                             <div className="img-card-16-9">
                                 <img src={post.image} alt={post.titre} />
-                                <h2 className="card-price">{post.price /100} €</h2>
+                                <h2 className="card-price">{new Intl.NumberFormat('fr-FR', { 
+      style: 'currency', 
+      currency: 'EUR' 
+    }).format(post.price / 100)}</h2>
                                 <button
                             style={{ cursor: isInCart ? "inherit" : "pointer" }}
                             className="buy"

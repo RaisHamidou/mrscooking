@@ -31,8 +31,13 @@ const Details = ({ posts }) => {
               <h2>Mrs Cooking</h2>
             </div>
             <div className="price-detail-book">
-              <h2>{posts.price} €</h2>
-            </div>
+  <h2>
+    {new Intl.NumberFormat('fr-FR', { 
+      style: 'currency', 
+      currency: 'EUR' 
+    }).format(posts.price / 100)}
+  </h2>
+</div>
             <button
               disabled={isInCart}
               style={{ cursor: isInCart ? "inherit" : "pointer" }}

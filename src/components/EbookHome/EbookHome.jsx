@@ -64,7 +64,10 @@ const EbookHome  = ({URL}) => {
                             >
                                 {isInCart ? "Déjà dans le panier" : "Ajouter au panier"}
                             </button>
-                            <h2 className="card-price">{post.price} €</h2>
+                            <h2 className="card-price">{new Intl.NumberFormat('fr-FR', { 
+      style: 'currency', 
+      currency: 'EUR' 
+    }).format(post.price / 100)}</h2>
                         </div>
                     </Link>
                     <div className="description-card-16-9">
