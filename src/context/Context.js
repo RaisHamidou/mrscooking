@@ -1,5 +1,6 @@
 "use client"
-import URL from "@/components/config/config";
+
+
 import { usePromoCode } from "@/components/promo/PromoCode";
 import axios from "axios";
 import React,{createContext, useState, useEffect} from "react";
@@ -15,11 +16,10 @@ export const MyContext = createContext();
 
 
 
-    
 
     useEffect(()=>{
       const promoLoad = async ()=>{
-        const res = await axios.get(`http://localhost:4000/api/promo`)
+        const res = await axios.get(`https://www.mrscooking.com/api/promo`)
         setPromoCodes(res.data)
       }
       promoLoad()
