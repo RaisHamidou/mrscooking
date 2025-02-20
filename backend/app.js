@@ -40,12 +40,12 @@ app.use("/api/payment",paymentRoute)
 
 
 app.get('/api/books', (req, res) => {
-/*       const auth = req.headers.authorization;
-    if (auth && auth === PASSWORD) {  */
+      const auth = req.headers.authorization;
+    if (auth && auth === PASSWORD) {  
         res.json(Databooks);
-    /* } else {
+     } else {
         res.status(401).json({ message: 'Accès interdit.' });
-    }  */ 
+    }  
   
 });
 app.get('/api/cakes', (req, res) => {
