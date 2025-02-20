@@ -92,8 +92,7 @@ app.get("/api/legals", (req,res)=>{
 })
 
 app.get("/api/promo", (req,res)=>{
-  const data = [process.env.PROMO,
-    process.env.PROMO_RAMADAN]
+  const data = ["ARBIA10","Ramadan10"]
     res.json(data)
 })
 

@@ -78,7 +78,7 @@ const books = [
     type:"ebook",
     apiEndpoint: `https://www.mrscooking.com/api/book/Pack Duo festif Recettes spécial ramadan  et gâteaux traditionnels?token=${process.env.BOOK_TOKEN}`,
   },
-  {
+ /*  {
     id: 7,
     titre: "Pack complet : Un large choix de recettes variées",
     price: 34.99,
@@ -89,7 +89,7 @@ const books = [
     fileType: "zip",
     type:"ebook",
     apiEndpoint: `https://www.mrscooking.com/api/book/Pack complet Un large choix de recettes variées?token=${process.env.BOOK_TOKEN}`,
-  },
+  }, */
 ];
 
 export default books;
