@@ -254,7 +254,7 @@ const CheckoutForm = ({ URL }) => {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              setPromo(e.target.promoInput.value);
+              setPromo(e.target.promoInput.value.trim());
             }}
             className="form-promo"
           >
