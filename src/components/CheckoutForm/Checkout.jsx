@@ -6,8 +6,8 @@ import {
 } from "@stripe/react-stripe-js";
 import { MyContext } from "@/context/Context";
 import { useRouter } from "next/navigation";
+import { URL } from "../config/config";
 const Checkout = ({
-  URL,
   email,
   name,
   surname,
@@ -24,7 +24,7 @@ const Checkout = ({
   const { currentCart, total, clearCart, price } = useContext(MyContext);
 
   const route = useRouter();
-
+console.log(URL)
   const handleExpressCheckout = async (event) => {
     if (!stripe || !elements) {
       return;
@@ -102,7 +102,6 @@ const Checkout = ({
     }
   };
 
-  console.log(price)
 
   return (
     <>

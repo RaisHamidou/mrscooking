@@ -70,7 +70,7 @@ export const MyContext = createContext();
         
         checkPromoCode();
       }, [total, promoCodes, promo]); // Enlève price des dépendances
-      console.log(total)
+  
     return(
         <MyContext.Provider value={{currentCart, setCurrentCart, addToCart, checkCart, total, clearCart, price, setPromo,promo,isPromoValid}}>
             {children}

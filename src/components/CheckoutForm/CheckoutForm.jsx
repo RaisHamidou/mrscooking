@@ -13,9 +13,10 @@ import { countryCodes } from "../CountryCode/CountryCode";
 import { usePromoCode } from "../promo/PromoCode";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { URL } from "../config/config";
 
 
-const CheckoutForm = ({ URL }) => {
+const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
   const { currentCart, total, clearCart, price, promo, setPromo,isPromoValid } =
@@ -38,6 +39,8 @@ const CheckoutForm = ({ URL }) => {
   const [date, setDate] = useState()
   const route = useRouter();
   const [paymentStatus, setPaymentStatus] = useState(`Payer ${price} €`);
+
+  console.log(URL)
 
   const physique = currentCart.filter((f) => f.type === "physique");
   const ValidateEmail = (email) => {
@@ -201,7 +204,6 @@ const CheckoutForm = ({ URL }) => {
   const shouldDisableDate = (date)=>{
     return date.isAfter(today,"day") && date.isBefore(today.add(7,"day"),"day")
   }
-  console.log(codePostalValue)
   return (
     <section className="checkout">
       <div className="checkout-cart">

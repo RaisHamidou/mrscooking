@@ -6,7 +6,7 @@ import CheckoutForm from "../CheckoutForm/CheckoutForm";
 import { MyContext } from "@/context/Context";
 import { useContext } from "react";
 
-const PaymentComponents = ({ URL }) => {
+const PaymentComponents = () => {
   const { total, price } = useContext(MyContext);
  
   const amount = () => {
@@ -29,7 +29,7 @@ const amountValue = amount()
   };
   return (
     <Elements options={options} stripe={stripePromise}>
-      <CheckoutForm URL={URL} />
+      <CheckoutForm />
     </Elements>
   );
 };
