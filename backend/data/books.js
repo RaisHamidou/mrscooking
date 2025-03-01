@@ -27,7 +27,7 @@ const books = [
     apiEndpoint: `https://www.mrscooking.com/api/book/10%20recettes%20de%20plat%20comme%20au%20resto?token=${process.env.BOOK_TOKEN}`,
     
   },
-  {
+ /*  {
     id: 3,
     titre: "Pack desserts et plats",
     price: 1199,
@@ -39,7 +39,7 @@ const books = [
     type:"ebook",
     apiEndpoint: `https://www.mrscooking.com/api/book/Pack%20desserts%20et%20plats?token=${process.env.BOOK_TOKEN}`,
    
-  },
+  }, */
   {
     id: 4,
     titre: "E-book 3 : Délices aux multiples saveurs",
