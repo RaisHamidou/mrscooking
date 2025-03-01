@@ -42,7 +42,7 @@ const books = [
   },
   {
     id: 4,
-    titre: "E-book 3 : 30 recettes spécial ramadan",
+    titre: "E-book 3 : Délices aux multiples saveurs",
     price: 1699,
     description:"<p>Retrouvez 30 recettes incontournables aux multiples saveurs pour le mois du ramadan. Des recettes variées entre le traditionnel et la modernité.</p> <p>Des recettes faciles à réaliser, détaillées et bien expliquées afin de permettre à chacune d’entre vous de réussir.</p> <p>Dans cet E-book, tu trouveras 30 recettes simples et délicieuses pour varier tes plats durant le ramadan :</p> <ul> <li>Matlouh</li> <li>Chorba frik</li> <li>Chorba vermicelles</li> <li>Hrira</li> <li>Tagine de poisson</li> <li>Cuisses de poulet rôties et potatoes citronnée</li> <li>Beef balls aux champignons</li> <li>Tagine Kefta</li> <li>Chou farcie à la viande hachée</li> <li>Jarret de veau aux olives</li> <li>Mille feuille d’aubergines</li> <li>Ham lahlou</li> <li>Poulet aux olives</li> <li>Chicken dynamite</li> <li>Cheesy balls</li> <li>Pains farcis au poulet curry</li> <li>Soufflé au thon</li> <li>Galette saumon fumée boursin</li> <li>Mini tacos au poulet</li> <li>Bourek aux oignons et thon</li> <li>Bourek annabi</li> <li>Bourek poulet curry</li> <li>Bourek crevette</li> <li>Makouda</li> <li>Cheesy donut au poulet</li> <li>Baklava turc</li> <li>Kunfee</li> <li>Milkshake dattes avocat</li> <li>Kalb el louse</li> </ul>",
     detail: { pages: 35, format: "PDF", langue: "Français" },
@@ -50,7 +50,7 @@ const books = [
     image_books:["/image/photo/ebook-3/1.png","/image/photo/ebook-3/2.jpg","/image/photo/ebook-3/3.jpg","/image/photo/ebook-3/4.jpg","/image/photo/ebook-3/5.jpg","/image/photo/ebook-3/6.jpg","/image/photo/ebook-3/7.jpg","/image/photo/ebook-3/8.png","/image/photo/ebook-3/9.png","/image/photo/ebook-3/10.png"],
     fileType: "zip",
     type:"ebook",
-    apiEndpoint: `https://www.mrscooking.com/api/book/30 recettes spécial ramadan?token=${process.env.BOOK_TOKEN}`,
+    apiEndpoint: `https://www.mrscooking.com/api/book/Délices aux multiples saveurs?token=${process.env.BOOK_TOKEN}`,
    
   },
   {
@@ -77,6 +77,18 @@ const books = [
     fileType: "zip",
     type:"ebook",
     apiEndpoint: `https://www.mrscooking.com/api/book/Pack Duo festif Recettes spécial ramadan  et gâteaux traditionnels?token=${process.env.BOOK_TOKEN}`,
+  },
+  {
+    id: 7,
+    titre: "Pack complet : Un large choix de recettes variées",
+    price: 3499,
+    description:"<p>Dans ce pack, tu trouveras des recettes variées entre plats, desserts et gâteaux traditionnels pour te régaler et sublimer ta table. Ce pack regroupe tous les e-books du site avec l’ensemble des recettes proposées sur le site.</P>",
+    detail: { pages: 35, format: "PDF", langue: "Français" },
+    image: "/image/book/pack-3.png",
+    image_books:["/image/photo/pack-3/1.png","/image/photo/pack-3/2.jpg","/image/photo/pack-3/3.png","/image/photo/pack-3/4.jpg","/image/photo/pack-3/5.jpg","/image/photo/pack-3/6.jpg","/image/photo/pack-3/7.jpg","/image/photo/pack-3/8.jpg","/image/photo/pack-3/9.jpg","/image/photo/pack-3/10.jpg","/image/photo/pack-3/11.jpg","/image/photo/pack-3/12.jpg"],
+    fileType: "zip",
+    type:"ebook",
+    apiEndpoint: `https://www.mrscooking.com/api/book/Pack complet Un large choix de recettes variées?token=${process.env.BOOK_TOKEN}`,
   },
 
 ];
