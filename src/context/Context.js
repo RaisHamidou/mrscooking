@@ -13,7 +13,7 @@ export const MyContext = createContext();
     const [refrech, setRefrech] = useState(false);
     const [promo, setPromo] = useState()
     const [promoCodes, setPromoCodes] = useState()
-
+    const [reduction, setReduction] = useState()
 
 
 
@@ -27,7 +27,7 @@ export const MyContext = createContext();
     const promoValue = (1-0.1)
     const isPromoValid = promo && promoCodes && promoCodes.includes(promo);
 
-     
+     console.log(promoCodes)
     useEffect(() => {
         const storedCart = localStorage.getItem("book");
         if (storedCart) {
@@ -61,6 +61,15 @@ export const MyContext = createContext();
       useEffect(() => {
         const checkPromoCode = () => {
           if (promoCodes && promoCodes.includes(promo)) {
+            
+            const reductionCode = promo.match(/\d+$/)[0]
+            if(parseInt(reductionCode) === 10){
+              setReduction(0.9)
+       
+            }else if(parseInt(reductionCode) === 20){
+              setReduction(0.80)
+            }
+            console.log(reduction)
             const discountedPrice = Math.round(total * 0.9); // Réduit de 10% et arrondit à l'entier
             setPrice(discountedPrice);
           } else {
@@ -69,7 +78,7 @@ export const MyContext = createContext();
         };
         
         checkPromoCode();
-      }, [total, promoCodes, promo]); // Enlève price des dépendances
+      }, [total, promoCodes, promo, reduction]); // Enlève price des dépendances
   
     return(
         <MyContext.Provider value={{currentCart, setCurrentCart, addToCart, checkCart, total, clearCart, price, setPromo,promo,isPromoValid}}>
