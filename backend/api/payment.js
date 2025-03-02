@@ -702,9 +702,14 @@ router.post("/confirm-payment", async (req, res) => {
 
 </html>`,
         };
-
-        await transporter.sendMail(mailClient);
-        console.log("Email ebooks envoyé au client.");
+        try {
+          await transporter.sendMail(mailClient);
+          console.log("Email envoyé au client.");
+        } catch (error) {
+          console.error("Erreur lors de l'envoi de l'email au client:", error);
+        }
+       /*  await transporter.sendMail(mailClient);
+        console.log("Email ebooks envoyé au client."); */
       }
 
       // 📩 2️⃣ Email pour l'admin (détails de la commande)
