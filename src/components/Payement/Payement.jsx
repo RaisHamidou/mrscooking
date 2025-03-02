@@ -21,7 +21,7 @@ const PaymentComponents = () => {
   console.log()
 const amountValue = amount()  
   const stripePromise = loadStripe(
-    "process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY"
+    process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY
   );
   const options = {
     mode: "payment",
