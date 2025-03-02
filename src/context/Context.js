@@ -69,8 +69,7 @@ export const MyContext = createContext();
             }else if(parseInt(reductionCode) === 20){
               setReduction(0.80)
             }
-            console.log(reduction)
-            const discountedPrice = Math.round(total * 0.9); // Réduit de 10% et arrondit à l'entier
+            const discountedPrice = Math.round(total * reduction); 
             setPrice(discountedPrice);
           } else {
             setPrice(total);
@@ -78,7 +77,7 @@ export const MyContext = createContext();
         };
         
         checkPromoCode();
-      }, [total, promoCodes, promo, reduction]); // Enlève price des dépendances
+      }, [total, promoCodes, promo, reduction]); 
   
     return(
         <MyContext.Provider value={{currentCart, setCurrentCart, addToCart, checkCart, total, clearCart, price, setPromo,promo,isPromoValid}}>

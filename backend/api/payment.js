@@ -8,7 +8,7 @@ import nodemailer from "nodemailer";
 
 const router = express.Router();
 // Instanciez Stripe avec la clé secrète
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY_TEST);
 
 router.post("/create-payment", async (req, res) => {
   const { amount, email, name, surname, nameCard, address, city, codePostal, country } = req.body;

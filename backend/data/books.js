@@ -68,7 +68,7 @@ const books = [
   },
   {
     id: 6,
-    titre: "Pack Duo festif : Recettes spécial ramadan  et gâteaux traditionnels",
+    titre: "Pack Duo festif sucrée salée",
     price: 2499,
     description:"<p>Dans ce pack tu trouveras des recettes variées entre plats et gâteaux traditionnels pour te régaler et sublimer ta table le jour du ramadan et de l’Aïd.</p> <p>Un pack avec 43 recettes inédites. Tu trouveras un large choix de plats et desserts diversifiés spécial ramadan, à savoir :</p> <ul> <li>Matlouh</li> <li>Chorba frik</li> <li>Chorba vermicelles</li> <li>Hrira</li> <li>Tagine de poisson</li> <li>Cuisses de poulet rôties et potatoes citronnée</li> <li>Beef balls aux champignons</li> <li>Tagine Kefta</li> <li>Chou farcie à la viande hachée</li> <li>Jarret de veau aux olives</li> <li>Mille feuille d’aubergines</li> <li>Ham lahlou</li> <li>Poulet aux olives</li> <li>Chicken dynamite</li> <li>Cheesy balls</li> <li>Pains farcis au poulet curry</li> <li>Soufflé au thon</li> <li>Galette saumon fumée boursin</li> <li>Mini tacos au poulet</li> <li>Bourek aux oignons et thon</li> <li>Bourek annabi</li> <li>Bourek poulet curry</li> <li>Bourek crevette</li> <li>Makouda</li> <li>Cheesy donut au poulet</li> <li>Baklava turc</li> <li>Kunfee</li> <li>Milkshake dattes avocat</li> <li>Kalb el louse</li> </ul> <p>En ce qui concerne les gâteaux traditionnels, diverses recettes sont également disponibles :</p> <ul> <li>Gâteau coeur pistache</li> <li>Bniwen</li> <li>Gâteaux façon snikers</li> <li>Makrout el louse</li> <li>Sablé sucre glace</li> <li>Sablé marbre</li> <li>Gâteau gaufrette</li> <li>Puits coco abricot</li> <li>Mchawek</li> <li>Tcharek</li> <li>Baklawa</li> <li>Maktout</li> <li>Makrout prestige</li> </ul>",
     detail: { pages: 35, format: "PDF", langue: "Français" },
@@ -76,7 +76,7 @@ const books = [
     image_books:["/image/photo/pack-2/1.png","/image/photo/pack-2/2.jpg","/image/photo/pack-2/3.jpg","/image/photo/pack-2/4.jpg","/image/photo/pack-2/5.png","/image/photo/pack-2/6.jpg","/image/photo/pack-2/7.jpg","/image/photo/pack-2/8.jpg"],
     fileType: "zip",
     type:"ebook",
-    apiEndpoint: `https://www.mrscooking.com/api/book/Pack Duo festif Recettes spécial ramadan  et gâteaux traditionnels?token=${process.env.BOOK_TOKEN}`,
+    apiEndpoint: `https://www.mrscooking.com/api/book/Pack Duo festif sucrée salée?token=${process.env.BOOK_TOKEN}`,
   },
   {
     id: 7,

@@ -40,7 +40,6 @@ const CheckoutForm = () => {
   const route = useRouter();
   const [paymentStatus, setPaymentStatus] = useState(`Payer ${price} €`);
 
-  console.log(URL)
 
   const physique = currentCart.filter((f) => f.type === "physique");
   const ValidateEmail = (email) => {
