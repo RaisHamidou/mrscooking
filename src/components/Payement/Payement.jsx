@@ -18,9 +18,10 @@ const PaymentComponents = () => {
     }
     return 1; 
   };
+  console.log()
 const amountValue = amount()  
   const stripePromise = loadStripe(
-    "pk_test_51Qp72mBGRP0qKyRodwRrKWsFTdHgwkDeTCAbX4eDABGs4F8s3OZN1sdCsqEStci2ts5tzWUnUX0Q92LJI8Getu3t00jfMd4UrH"
+    "process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY"
   );
   const options = {
     mode: "payment",
