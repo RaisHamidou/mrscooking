@@ -68,6 +68,8 @@ export const MyContext = createContext();
        
             }else if(parseInt(reductionCode) === 20){
               setReduction(0.80)
+            }else if(parseInt(reductionCode) === 30){
+              setReduction(0.70)
             }
             const discountedPrice = Math.round(total * reduction); 
             setPrice(discountedPrice);
