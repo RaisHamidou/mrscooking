@@ -654,9 +654,7 @@ const CheckoutForm = () => {
           {/* Section Carte Bancaire - DÉSACTIVÉE PENDANT LA VALIDATION */}
           {paymentMethod === 'card' && stripeEnabled && (
             <>
-              <div className="separation">
-                <span></span> ou <span></span>
-              </div>
+              
               
               <div className="facturation-title">
                 <h3>Payer par carte</h3>

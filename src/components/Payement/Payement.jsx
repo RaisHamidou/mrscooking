@@ -20,10 +20,7 @@ const PaymentComponents = () => {
   };
   console.log()
 const amountValue = amount()  
-  const stripePromise = loadStripe(
-    
-    "pk_live_51QC2ngCtuk8oqqoGpx3c47XQenjJLX3OiK6P3YCV7A4YWXc7pvPEA0gecxJFhA4n5HmJuBS5BUGUEXtNMvkkxHq000gV9hyAAd"
-  );
+  const stripePromise = loadStripe("pk_live_51QC2ngCtuk8oqqoGpx3c47XQenjJLX3OiK6P3YCV7A4YWXc7pvPEA0gecxJFhA4n5HmJuBS5BUGUEXtNMvkkxHq000gV9hyAAd");
   const options = {
     mode: "payment",
     amount: amountValue,

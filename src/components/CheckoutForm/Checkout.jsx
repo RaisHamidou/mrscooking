@@ -108,7 +108,7 @@ console.log(URL)
       <ExpressCheckoutElement
         onConfirm={handleExpressCheckout}
         options={{
-          amount: price/100,
+          amount: price,
           currency: "eur",
           wallets: { paypal: "auto" },
           appearance: {
