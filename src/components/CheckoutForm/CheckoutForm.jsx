@@ -15,11 +15,56 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { URL } from "../config/config";
 
+// Composant séparé pour le code promo avec gestion d'état local
+const PromoCodeSection = ({ onPromoApplied }) => {
+  const { promo, isPromoValid } = useContext(MyContext);
+  const [isApplying, setIsApplying] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const promoCode = e.target.promoInput.value.trim();
+    
+    if (!promoCode) return;
+    
+    setIsApplying(true);
+    
+    try {
+      // Désactiver Stripe pendant l'application du promo
+      await onPromoApplied(promoCode);
+    } finally {
+      setIsApplying(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="form-promo">
+      {promo ? (
+        isPromoValid ? (
+          <p>Code promo appliqué !</p>
+        ) : (
+          <p>Votre code promo est expiré ou invalide</p>
+        )
+      ) : null}
+      
+      <div className="container-form-promo">
+        <input
+          name="promoInput"
+          className="input-promo"
+          placeholder="Entrez votre code promo"
+          disabled={isApplying}
+        />
+        <button type="submit" disabled={isApplying}>
+          {isApplying ? "Application..." : "Validé"}
+        </button>
+      </div>
+    </form>
+  );
+};
 
 const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
-  const { currentCart, total, clearCart, price, promo, setPromo, isPromoValid } =
+  const { currentCart, total, clearCart, price, setPromo, isPromoValid } =
     useContext(MyContext);
 
   const [nameValue, setNameValue] = useState();
@@ -39,17 +84,38 @@ const CheckoutForm = () => {
   const [date, setDate] = useState()
   const route = useRouter();
   
-  // CORRECTION : Utiliser price pour le paymentStatus au lieu d'une valeur fixe
   const [paymentStatus, setPaymentStatus] = useState(`Payer ${price/100} €`);
   const [cardError, setCardError] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState('card');
+  const [stripeEnabled, setStripeEnabled] = useState(true); // NOUVEAU STATE
+  const [formKey, setFormKey] = useState(0);
 
-  // CORRECTION : Mettre à jour le paymentStatus quand le prix change
+  // Mettre à jour le paymentStatus quand le prix change
   useEffect(() => {
     setPaymentStatus(`Payer ${price/100} €`);
   }, [price]);
 
-  console.log("price :",price)
+  const handlePromoApplied = async (promoCode) => {
+    // DÉSACTIVER Stripe pendant la validation du promo
+    setStripeEnabled(false);
+    
+    try {
+      // Attendre un peu pour s'assurer que Stripe est désactivé
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      // Appliquer le promo
+      setPromo(promoCode);
+      
+      // Attendre que le contexte soit mis à jour
+      await new Promise(resolve => setTimeout(resolve, 200));
+      
+    } finally {
+      // RÉACTIVER Stripe et forcer la recréation des éléments
+      setStripeEnabled(true);
+      setFormKey(prev => prev + 1);
+    }
+  };
+
   const physique = currentCart.filter((f) => f.type === "physique");
   
   const ValidateEmail = (email) => {
@@ -63,16 +129,11 @@ const CheckoutForm = () => {
     setIsEmailValid(ValidateEmail(email));
   };
 
-  const handlePromoSubmit = async (e) => {
-    e.preventDefault();
-    const promoCode = e.target.promoInput.value.trim();
-    setPromo(promoCode);
-  };
-
-  const handleSubmit = async (e) => {
+  const handleCardSubmit = async (e) => {
     e.preventDefault();
     
-    if (paymentMethod === 'paypal') {
+    if (!stripeEnabled) {
+      setCardError("Veuillez patienter pendant l'application du code promo");
       return;
     }
     
@@ -298,29 +359,13 @@ const CheckoutForm = () => {
             </div>
           </div>
           
-          <form onSubmit={handlePromoSubmit} className="form-promo">
-            {promo ? (
-              isPromoValid ? (
-                <p>Code promo appliqué !</p>
-              ) : (
-                <p>Votre code promo est expiré ou invalide</p>
-              )
-            ) : null}
-            
-            <div className="container-form-promo">
-              <input
-                name="promoInput"
-                className="input-promo"
-                placeholder="Entrez votre code promo"
-              />
-              <button type="submit">Validé</button>
-            </div>
-          </form>
+          <PromoCodeSection onPromoApplied={handlePromoApplied} />
         </div>
       </div>
       
-      <div className="container-form">
-        <form className="checkout-form" onSubmit={handleSubmit}>
+      {/* DÉSACTIVER TOUT LE FORMULAIRE STRIPE PENDANT LA VALIDATION PROMO */}
+      <div key={formKey} className="container-form">
+        <div className="checkout-form">
           <div className="title-form">
             <h1>Finaliser votre commande</h1>
           </div>
@@ -337,6 +382,14 @@ const CheckoutForm = () => {
             </div>
           )}
 
+          {!stripeEnabled && (
+            <div className="alerte info">
+              <p>Application du code promo en cours...</p>
+            </div>
+          )}
+
+          {/* ... TOUS VOS CHAMPS DE FORMULAIRE ... */}
+          
           <div className="input-elements">
             <input
               className="input-email"
@@ -344,6 +397,7 @@ const CheckoutForm = () => {
               type="email"
               placeholder="Email"
               required
+              disabled={!stripeEnabled}
             />
           </div>
           
@@ -374,6 +428,7 @@ const CheckoutForm = () => {
                     shouldDisableDate={shouldDisableDate} 
                     onChange={(newValue) => setDate(dayjs(newValue).format('MM/DD/YYYY'))} 
                     className="input-picker" 
+                    disabled={!stripeEnabled}
                     sx={{
                       "& input": {
                         position: "relative",
@@ -416,6 +471,7 @@ const CheckoutForm = () => {
                     minTime={dayjs().set('hour', 11).set('minute', 0)}
                     maxTime={dayjs().set('hour', 19).set('minute', 0)} 
                     className="input-picker"
+                    disabled={!stripeEnabled}
                     sx={{
                       "& input": {
                         position: "relative",
@@ -458,6 +514,7 @@ const CheckoutForm = () => {
               <textarea
                 onChange={(e) => setDelvery(e.target.value)}
                 placeholder="D'autre précision ?"
+                disabled={!stripeEnabled}
               />
             </div>
           ) : (
@@ -475,12 +532,14 @@ const CheckoutForm = () => {
                 type="text"
                 placeholder="Prénom"
                 required
+                disabled={!stripeEnabled}
               />
               <input
                 onChange={(e) => setNameValue(e.target.value)}
                 type="text"
                 placeholder="Nom"
                 required
+                disabled={!stripeEnabled}
               />
             </div>
             <div className="input-elements">
@@ -489,12 +548,14 @@ const CheckoutForm = () => {
                 type="text"
                 placeholder="Adresse"
                 required
+                disabled={!stripeEnabled}
               />
               <input
                 onChange={(e) => setCodePostalValue(e.target.value)}
                 type="text"
                 placeholder="Code postal"
                 required
+                disabled={!stripeEnabled}
               />
             </div>
             <div className="input-elements">
@@ -503,8 +564,9 @@ const CheckoutForm = () => {
                 type="text"
                 placeholder="Ville"
                 required
+                disabled={!stripeEnabled}
               />
-              <select onChange={handleCountryChange} value={countryValue}>
+              <select onChange={handleCountryChange} value={countryValue} disabled={!stripeEnabled}>
                 <option className="test-" value="">
                   Sélectionnez un pays
                 </option>
@@ -527,6 +589,7 @@ const CheckoutForm = () => {
                 value="card"
                 checked={paymentMethod === 'card'}
                 onChange={(e) => setPaymentMethod(e.target.value)}
+                disabled={!stripeEnabled}
               />
               <label htmlFor="card">Payer par carte</label>
             </div>
@@ -538,13 +601,14 @@ const CheckoutForm = () => {
                 value="paypal"
                 checked={paymentMethod === 'paypal'}
                 onChange={(e) => setPaymentMethod(e.target.value)}
+                disabled={!stripeEnabled}
               />
               <label htmlFor="paypal">Payer par PayPal</label>
             </div>
           </div>
 
-          {/* Section PayPal */}
-          {paymentMethod === 'paypal' && (
+          {/* Section PayPal - DÉSACTIVÉE PENDANT LA VALIDATION */}
+          {paymentMethod === 'paypal' && stripeEnabled && (
             <>
               <div className="facturation-title">
                 <h3>Payer par PayPal</h3>
@@ -587,12 +651,12 @@ const CheckoutForm = () => {
             </>
           )}
 
-          {/* Section Carte Bancaire */}
-          {paymentMethod === 'card' && (
+          {/* Section Carte Bancaire - DÉSACTIVÉE PENDANT LA VALIDATION */}
+          {paymentMethod === 'card' && stripeEnabled && (
             <>
-             {/*  <div className="separation">
+              <div className="separation">
                 <span></span> ou <span></span>
-              </div> */}
+              </div>
               
               <div className="facturation-title">
                 <h3>Payer par carte</h3>
@@ -646,7 +710,8 @@ const CheckoutForm = () => {
               <button 
                 className="pay-btn" 
                 type="submit" 
-                disabled={!stripe || cardError}
+                onClick={handleCardSubmit}
+                disabled={!stripe || cardError || !stripeEnabled}
               >
                 {paymentStatus}
               </button>
@@ -665,7 +730,14 @@ const CheckoutForm = () => {
               </div>
             </>
           )}
-        </form>
+
+          {/* Message pendant la validation */}
+          {!stripeEnabled && (
+            <div className="payment-disabled-message">
+              <p>Application du code promo en cours, veuillez patienter...</p>
+            </div>
+          )}
+        </div>
       </div>
       
       {paymentStatus === "Paiement réussi !" ? (
