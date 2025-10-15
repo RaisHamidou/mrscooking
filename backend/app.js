@@ -92,7 +92,7 @@ app.get("/api/legals", (req,res)=>{
 })
 
 app.get("/api/promo", (req,res)=>{
-  const data = ['mrs30']
+  const data = ['Mrs50']
     res.json(data)
 })
 
