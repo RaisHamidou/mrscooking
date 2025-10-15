@@ -1,123 +1,37 @@
-import React, { useContext, useEffect, useState } from "react";
-import {
-  ExpressCheckoutElement,
-  useStripe,
-  useElements,
-} from "@stripe/react-stripe-js";
+"use client";
+
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import CheckoutForm from "../CheckoutForm/CheckoutForm";
 import { MyContext } from "@/context/Context";
-import { useRouter } from "next/navigation";
-import { URL } from "../config/config";
-const Checkout = ({
-  email,
-  name,
-  surname,
-  address,
-  city,
-  codePostal,
-  country,
-  delvery,
-  date,
-  time
-}) => {
-  const stripe = useStripe();
-  const elements = useElements();
-  const { currentCart, total, clearCart, price } = useContext(MyContext);
+import { useContext } from "react";
 
-  const route = useRouter();
-console.log(URL)
-  const handleExpressCheckout = async (event) => {
-    if (!stripe || !elements) {
-      return;
+const PaymentComponents = () => {
+  const { total, price } = useContext(MyContext);
+
+  const amount = () => {
+    if (price !== undefined && price > 0) {
+      return price;
     }
-    const response = await fetch(`https://www.mrscooking.com/api/payment/create-payment`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-       
-            email: email,
-            name: name,
-            surname:surname,  
-            bookIds: currentCart.map((book) => book.id),
-            amount:  price, 
-            total:total,
-            address:address, 
-            city:city, 
-            codePostal:codePostal, 
-            country:country,
-            products:currentCart,
-            delvery:delvery,
-            date:date,
-            time:time,
-      }),
-    });
-
-    const { clientSecret } = await response.json();
-    try {
-      const { error, paymentIntent } = await stripe.confirmPayment({
-        clientSecret,
-        elements,
-       amount: price,
-        currency: "eur",
-        payment_method: {},
-        confirmParams: {
-          return_url: `${URL}/thank-you`,
-        },
-        redirect: "if_required",
-      });
-
-      if (error) {
-        console.error("Erreur lors de la confirmation :", error.message);
-        alert("Une erreur est survenue lors du paiement.");
-      } else if (paymentIntent?.status === "succeeded") {
-        route.push("/thank-you");
-
-        clearCart();
-        await fetch(`${URL}/api/payment/confirm-payment`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            paymentIntentId: paymentIntent.id,
-            email: email,
-            name: name,
-            surname:surname,  
-            bookIds: currentCart.map((book) => book.id),
-           amount:  price,
-            currentTotal: price,
-            total:total,
-            address:address, 
-            city:city, 
-            codePostal:codePostal, 
-            country:country,
-            products:currentCart,
-            delvery:delvery,
-            date:date,
-            time:time,
-          }),
-        });
-      }
-    } catch (error) {
-      console.error("Erreur lors de la confirmation du paiement :", error);
+    if (total > 0) {
+      return total;
     }
+    return 1; 
   };
-
-
+  console.log()
+const amountValue = amount()  
+  const stripePromise = loadStripe(
+    
+    "pk_live_51QC2ngCtuk8oqqoGpx3c47XQenjJLX3OiK6P3YCV7A4YWXc7pvPEA0gecxJFhA4n5HmJuBS5BUGUEXtNMvkkxHq000gV9hyAAd"
+  );
+  const options = {
+    mode: "payment",
+    amount: amountValue,
+    currency: "eur",
+  };
   return (
-    <>
-      <ExpressCheckoutElement
-        onConfirm={handleExpressCheckout}
-        options={{
-          amount: price/100,
-          currency: "eur",
-          wallets: { paypal: "auto" },
-          appearance: {
-            theme: "stripe",
-          },
-        }}
-      />
-    </>
+    <Elements options={options} stripe={stripePromise}>
+      <CheckoutForm />
+    </Elements>
   );
 };
-
-export default Checkout;
