@@ -575,11 +575,11 @@ const CheckoutForm = () => {
               <div className="pay-legal">
                 <p>
                   En cliquant sur PayPal, vous acceptez nos
-                  <a href="#" className="info-legal">
+                  <a href="/legal/condition-general-de-vente" className="info-legal">
                     conditions générales de vente
                   </a>
                   ainsi que nos
-                  <a href="#" className="info-legal">
+                  <a href="/legal/condition-general-d-utilisation" className="info-legal">
                     conditions générales d'utilisation.
                   </a>
                 </p>
@@ -654,11 +654,11 @@ const CheckoutForm = () => {
               <div className="pay-legal">
                 <p>
                   En cliquant sur Payer, vous acceptez nos
-                  <a href="#" className="info-legal">
+                  <a href="/legal/condition-general-de-vente" className="info-legal">
                     conditions générales de vente
                   </a>
                   ainsi que nos
-                  <a href="#" className="info-legal">
+                  <a href="/legal/condition-general-d-utilisation" className="info-legal">
                     conditions générales d'utilisation.
                   </a>
                 </p>

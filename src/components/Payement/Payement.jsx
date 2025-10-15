@@ -1,12 +1,10 @@
-"use client";
-
+ "use client";
 
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "../CheckoutForm/CheckoutForm";
 import { MyContext } from "@/context/Context";
 import { useContext } from "react";
-
 
 const PaymentComponents = () => {
   const { total, price } = useContext(MyContext);
@@ -36,6 +34,5 @@ const amountValue = amount()
     </Elements>
   );
 };
-
 
 export default PaymentComponents;
