@@ -35,3 +35,5 @@ const amountValue = amount()
     </Elements>
   );
 };
+
+export default PaymentComponents;
