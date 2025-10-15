@@ -615,19 +615,19 @@ const CheckoutForm = () => {
               </div>
               
               <div className="paypal-button">
-                <Checkout
-                  URL={URL}
-                  email={emailValue}
-                  name={nameValue}
-                  surname={surnameValue}
-                  address={adressValue}
-                  city={cityValue}
-                  codePostal={codePostalValue}
-                  country={countryValue}
-                  date={date}
-                  delvery={delvery}
-                  time={time}
-                />
+               <Checkout
+              URL={URL}
+              email={emailValue}
+              name={nameValue}
+              surname={surnameValue}
+              address={adressValue}
+              city={cityValue}
+              codePostal={codePostalValue}
+              country={countryValue}
+              date={date}
+              delvery={delvery}
+              time={time}
+            />
                 {invalidFields.length > 0 && (
                   <div
                     onClick={() => setShowAlert(true)}

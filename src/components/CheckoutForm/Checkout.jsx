@@ -106,16 +106,16 @@ console.log(URL)
   return (
     <>
       <ExpressCheckoutElement
-  options={{
-    wallets: {
-      paypal: 'always',
-    },
-    amount: price/100,
-    currency: 'eur',
-  }}
-  onConfirm={handleExpressCheckout}
-/>
-
+        onConfirm={handleExpressCheckout}
+        options={{
+          amount: price,
+          currency: "eur",
+          wallets: { paypal: "auto" },
+          appearance: {
+            theme: "stripe",
+          },
+        }}
+      />
     </>
   );
 };
