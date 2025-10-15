@@ -19,7 +19,7 @@ import { URL } from "../config/config";
 const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
-  const { currentCart, total, clearCart, price, promo, setPromo,isPromoValid } =
+  const { currentCart, total, clearCart, price, promo, setPromo, isPromoValid } =
     useContext(MyContext);
 
   const [nameValue, setNameValue] = useState();
@@ -38,112 +38,157 @@ const CheckoutForm = () => {
   const [time, setTime] = useState()
   const [date, setDate] = useState()
   const route = useRouter();
-  const [paymentStatus, setPaymentStatus] = useState(`Payer ${price} €`);
+  
+  // CORRECTION : Utiliser price pour le paymentStatus au lieu d'une valeur fixe
+  const [paymentStatus, setPaymentStatus] = useState(`Payer ${price/100} €`);
+  const [cardError, setCardError] = useState(null);
+  const [paymentMethod, setPaymentMethod] = useState('card');
 
+  // CORRECTION : Mettre à jour le paymentStatus quand le prix change
+  useEffect(() => {
+    setPaymentStatus(`Payer ${price/100} €`);
+  }, [price]);
 
+  console.log("price :",price)
   const physique = currentCart.filter((f) => f.type === "physique");
+  
   const ValidateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
+  
   const handleEmail = (e) => {
     const email = e.target.value;
     setEmailValue(email);
     setIsEmailValid(ValidateEmail(email));
   };
+
+  const handlePromoSubmit = async (e) => {
+    e.preventDefault();
+    const promoCode = e.target.promoInput.value.trim();
+    setPromo(promoCode);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (paymentMethod === 'paypal') {
+      return;
+    }
+    
     setPaymentStatus("paiement en cours...");
+    setCardError(null);
+    
     if (!stripe || !elements) {
+      setCardError("Stripe n'est pas initialisé");
       return;
     }
 
-    const response = await fetch(`https://www.mrscooking.com/api/payment/create-payment`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        amount: price,
-        currentTotal: price,
-        total:total,
-        name: nameValue,
-        surname: surnameValue,
-        cardName: nameCardValue,
-        email: emailValue,
-        address: adressValue,
-        city: cityValue,
-        codePostal: codePostalValue,
-        country: countryValue,
-        products: currentCart,
-       date:date,
-          time:time,
-          delvery:delvery
-      }),
-    });
+    if (invalidFields.length > 0) {
+      setShowAlert(true);
+      setPaymentStatus(`Payer ${price/100} €`);
+      return;
+    }
 
-    const { clientSecret } = await response.json();
-
-    const cardElement = elements.getElement(CardElement);
-
-    const { error, paymentIntent } = await stripe.confirmCardPayment(
-      clientSecret,
-      {
-        payment_method: {
-          card: cardElement,
-          billing_details: {
-            name: nameCardValue,
-            email: emailValue,
-            address: {
-              line1: adressValue,
-              city: cityValue,
-
-              postal_code: codePostalValue,
-              country: countryValue,
-            },
-            phone: numberValue,
-          },
-        },
-      }
-    );
-
-    if (error) {
-      console.error(error.message);
-      setPaymentStatus("Une erreur s'est produite, Veuillez réessayer");
-      console.log(error.message);
-      setTimeout(() => {
+    try {
+      const cardElement = elements.getElement(CardElement);
+      
+      if (!cardElement) {
+        setCardError("Élément de carte non disponible.");
         setPaymentStatus(`Payer ${price/100} €`);
-      }, 5000);
-    } else if (paymentIntent && paymentIntent.status === "succeeded") {
-      setPaymentStatus("Paiement réussi !");
-      const bookIds = currentCart.map((book) => book.id);
-      await fetch(`${URL}/api/payment/confirm-payment`, {
+        return;
+      }
+
+      const response = await fetch(`https://www.mrscooking.com/api/payment/create-payment`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          paymentIntentId: paymentIntent.id,
-          email: emailValue,
-          name: nameValue,
-          surname: surnameValue,
-          bookIds: bookIds,
           amount: price,
           currentTotal: price,
-          total:total,
+          total: total,
+          name: nameValue,
+          surname: surnameValue,
+          cardName: nameCardValue,
+          email: emailValue,
           address: adressValue,
           city: cityValue,
           codePostal: codePostalValue,
           country: countryValue,
           products: currentCart,
-          date:date,
-          time:time,
-          delvery:delvery
+          date: date,
+          time: time,
+          delvery: delvery
         }),
       });
 
-      clearCart();
-      route.push("/thank-you");
+      const { clientSecret } = await response.json();
+
+      const { error, paymentIntent } = await stripe.confirmCardPayment(
+        clientSecret,
+        {
+          payment_method: {
+            card: cardElement,
+            billing_details: {
+              name: nameCardValue,
+              email: emailValue,
+              address: {
+                line1: adressValue,
+                city: cityValue,
+                postal_code: codePostalValue,
+                country: countryValue,
+              },
+              phone: numberValue,
+            },
+          },
+        }
+      );
+
+      if (error) {
+        console.error(error.message);
+        setCardError(error.message);
+        setPaymentStatus("Une erreur s'est produite, Veuillez réessayer");
+        
+        setTimeout(() => {
+          setPaymentStatus(`Payer ${price/100} €`);
+        }, 5000);
+      } else if (paymentIntent && paymentIntent.status === "succeeded") {
+        setPaymentStatus("Paiement réussi !");
+        const bookIds = currentCart.map((book) => book.id);
+        
+        await fetch(`${URL}/api/payment/confirm-payment`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            paymentIntentId: paymentIntent.id,
+            email: emailValue,
+            name: nameValue,
+            surname: surnameValue,
+            bookIds: bookIds,
+            amount: price,
+            currentTotal: price,
+            total: total,
+            address: adressValue,
+            city: cityValue,
+            codePostal: codePostalValue,
+            country: countryValue,
+            products: currentCart,
+            date: date,
+            time: time,
+            delvery: delvery
+          }),
+        });
+
+        clearCart();
+        route.push("/thank-you");
+      }
+    } catch (error) {
+      console.error("Erreur lors du paiement:", error);
+      setCardError("Une erreur inattendue s'est produite");
+      setPaymentStatus(`Payer ${price/100} €`);
     }
   };
 
@@ -156,13 +201,12 @@ const CheckoutForm = () => {
     ville: !cityValue,
     CodePostal: !codePostalValue,
     pays: !countryValue,
-   
-         
   };
+  
   if (physique.length > 0) {
     fields.date = !date;
     fields.time = !time;
-}
+  }
 
   const invalidFields = Object.keys(fields).filter((key) => fields[key]);
 
@@ -200,9 +244,10 @@ const CheckoutForm = () => {
   };
 
   const today = dayjs()
-  const shouldDisableDate = (date)=>{
-    return date.isAfter(today,"day") && date.isBefore(today.add(7,"day"),"day")
+  const shouldDisableDate = (date) => {
+    return date.isAfter(today, "day") && date.isBefore(today.add(7, "day"), "day")
   }
+
   return (
     <section className="checkout">
       <div className="checkout-cart">
@@ -252,32 +297,28 @@ const CheckoutForm = () => {
               <span className="ttc">ttc</span>
             </div>
           </div>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              setPromo(e.target.promoInput.value.trim());
-            }}
-            className="form-promo"
-          >
-           {promo ? (
-  isPromoValid ? (
-    <p>Code promo appliqué !</p>
-  ) : (
-    <p>Votre code promo est expiré ou invalide</p>
-  )
-) : null}
+          
+          <form onSubmit={handlePromoSubmit} className="form-promo">
+            {promo ? (
+              isPromoValid ? (
+                <p>Code promo appliqué !</p>
+              ) : (
+                <p>Votre code promo est expiré ou invalide</p>
+              )
+            ) : null}
+            
             <div className="container-form-promo">
-            <input
-              name="promoInput"
-              className="input-promo"
-              placeholder="Entrez votre code promo"
-            />
-            <button type="submit">Validé</button>
+              <input
+                name="promoInput"
+                className="input-promo"
+                placeholder="Entrez votre code promo"
+              />
+              <button type="submit">Validé</button>
             </div>
-
           </form>
         </div>
       </div>
+      
       <div className="container-form">
         <form className="checkout-form" onSubmit={handleSubmit}>
           <div className="title-form">
@@ -289,16 +330,23 @@ const CheckoutForm = () => {
               <p>{isInvalid}</p>
             </div>
           )}
+          
+          {cardError && (
+            <div className="alerte card-error">
+              <p>{cardError}</p>
+            </div>
+          )}
+
           <div className="input-elements">
             <input
               className="input-email"
-              style={{}}
               onChange={handleEmail}
               type="email"
               placeholder="Email"
               required
             />
           </div>
+          
           <div className="pay-legal">
             <p>
               Entrez soigneusement votre email, vos ebooks et votre confirmation
@@ -306,114 +354,107 @@ const CheckoutForm = () => {
               réception.
             </p>
           </div>
+          
           {physique.length > 0 ? (
             <div className="delvery-form">
-            <div className="pay-legal">
-            <p>
-            Veuillez indiquer votre disponibilité pour récupérer votre 
-            commande de gâteau. <span className="info-legal">Le retrait se fera à Paris, entre 11h et 19h.</span>  
-            L'adresse vous sera envoyée par email avec la confirmation de votre 
-            commande. Veuillez noter qu’un <span className="info-legal">délai de préparation d’une semaine </span>  est 
-            nécessaire avant le retrait.
-              </p>
-            </div>
-            
-            <div className="input-date-container">
-            <div className="input-with-icons">
-            <DatePicker minDate={today} shouldDisableDate={shouldDisableDate} onChange={(newValue) => setDate(dayjs(newValue).format('MM/DD/YYYY'))} className="input-picker" sx={{
-              "& input":{
-                position:"relative",
-                backgroundColor: "#D9D9D9",
-                width:"100",
-                borderRadius:20,
-              },
-              "& button":{
-                background:"none",
-          
-                position:"relative",
-                top:-5,
-                backgroundColor: "#D9D9D9",
-                
-              },
+              <div className="pay-legal">
+                <p>
+                  Veuillez indiquer votre disponibilité pour récupérer votre 
+                  commande de gâteau. <span className="info-legal">Le retrait se fera à Paris, entre 11h et 19h.</span>  
+                  L'adresse vous sera envoyée par email avec la confirmation de votre 
+                  commande. Veuillez noter qu'un <span className="info-legal">délai de préparation d'une semaine </span> est 
+                  nécessaire avant le retrait.
+                </p>
+              </div>
               
-    "& .MuiOutlinedInput-root": {
-      position:"relative",
-      backgroundColor: "#D9D9D9",
-      display:"flex",
-      alignItems:"center",
-      
-      "&:hover": { backgroundColor: "#D9D9D9" },
-    },
-    "& .MuiInputBase-input": {
-      fontSize: "16px",
-      color: "#333",
-      
-    },
-    "& .MuiSvgIcon-root": {
-      background: 'none', // Supprime le background
-          alignSelf: 'center', // Centre l'icône verticalement
-          fontSize: '1.5rem',
-          color:"#757575"
-    },
-    '& .MuiOutlinedInput-notchedOutline': { border: 'none', }
-  }} />
-           {/*  <DatePicker className="input-picker"/> */}
-            </div>
-            <div className="input-with-icons">
-
-             <TimePicker onChange={(newValue) => setTime(dayjs(newValue).format('HH:mm'))} ampm={false} minTime={dayjs().set('hour', 11).set('minute', 0)}  // 08:00
-  maxTime={dayjs().set('hour', 19).set('minute', 0)}  className="input-picker" 
-             
-             sx={{
-              "& input":{
-                position:"relative",
-                backgroundColor: "#D9D9D9",
-                width:"100"
-              },
-              "& button":{
-                background:"none",
-          
-                position:"relative",
-                top:-5,
-                backgroundColor: "#D9D9D9",
+              <div className="input-date-container">
+                <div className="input-with-icons">
+                  <DatePicker 
+                    minDate={today} 
+                    shouldDisableDate={shouldDisableDate} 
+                    onChange={(newValue) => setDate(dayjs(newValue).format('MM/DD/YYYY'))} 
+                    className="input-picker" 
+                    sx={{
+                      "& input": {
+                        position: "relative",
+                        backgroundColor: "#D9D9D9",
+                        width: "100",
+                        borderRadius: 20,
+                      },
+                      "& button": {
+                        background: "none",
+                        position: "relative",
+                        top: -5,
+                        backgroundColor: "#D9D9D9",
+                      },
+                      "& .MuiOutlinedInput-root": {
+                        position: "relative",
+                        backgroundColor: "#D9D9D9",
+                        display: "flex",
+                        alignItems: "center",
+                        "&:hover": { backgroundColor: "#D9D9D9" },
+                      },
+                      "& .MuiInputBase-input": {
+                        fontSize: "16px",
+                        color: "#333",
+                      },
+                      "& .MuiSvgIcon-root": {
+                        background: 'none',
+                        alignSelf: 'center',
+                        fontSize: '1.5rem',
+                        color: "#757575"
+                      },
+                      '& .MuiOutlinedInput-notchedOutline': { border: 'none', }
+                    }} 
+                  />
+                </div>
                 
-              },
-              "& .MuiInputBase-root":{
-                background:"blue"
-              },
-    "& .MuiOutlinedInput-root": {
-      position:"relative",
-      backgroundColor: "#D9D9D9",
-      display:"flex",
-      alignItems:"center",
-      
-      "&:hover": { backgroundColor: "#D9D9D9" },
-    },
-    "& .MuiInputBase-input": {
-      fontSize: "16px",
-      color: "#333",
-      borderRadius:7,
-    },
-    "& .MuiSvgIcon-root": {
-      background: 'none', // Supprime le background
-          alignSelf: 'center', // Centre l'icône verticalement
-          fontSize: '1.5rem',
-          color:"#757575"
-    },
-    '& .MuiOutlinedInput-notchedOutline': { border: 'none', borderRadius:7, }
-  }}  /> 
-            </div>
-          {/*   <div className="input-with-icons">
-            <input className="input-date" onChange={(e)=> setDate(e.target.value)} type="date"/> 
-            <FaCalendarDays className="icon"/>
-            </div>
-            <div className="input-with-icons">
-
-            <input className="input-time" onChange={(e)=> setTime(e.target.value)} type="time" min="11:00" max="19:00"/>
-
-            <FaClock className="icon"/>
-            </div> */}
-            </div>
+                <div className="input-with-icons">
+                  <TimePicker 
+                    onChange={(newValue) => setTime(dayjs(newValue).format('HH:mm'))} 
+                    ampm={false} 
+                    minTime={dayjs().set('hour', 11).set('minute', 0)}
+                    maxTime={dayjs().set('hour', 19).set('minute', 0)} 
+                    className="input-picker"
+                    sx={{
+                      "& input": {
+                        position: "relative",
+                        backgroundColor: "#D9D9D9",
+                        width: "100"
+                      },
+                      "& button": {
+                        background: "none",
+                        position: "relative",
+                        top: -5,
+                        backgroundColor: "#D9D9D9",
+                      },
+                      "& .MuiInputBase-root": {
+                        background: "blue"
+                      },
+                      "& .MuiOutlinedInput-root": {
+                        position: "relative",
+                        backgroundColor: "#D9D9D9",
+                        display: "flex",
+                        alignItems: "center",
+                        "&:hover": { backgroundColor: "#D9D9D9" },
+                      },
+                      "& .MuiInputBase-input": {
+                        fontSize: "16px",
+                        color: "#333",
+                        borderRadius: 7,
+                      },
+                      "& .MuiSvgIcon-root": {
+                        background: 'none',
+                        alignSelf: 'center',
+                        fontSize: '1.5rem',
+                        color: "#757575"
+                      },
+                      '& .MuiOutlinedInput-notchedOutline': { border: 'none', borderRadius: 7, }
+                    }} 
+                  />
+                </div>
+              </div>
+              
               <textarea
                 onChange={(e) => setDelvery(e.target.value)}
                 placeholder="D'autre précision ?"
@@ -422,6 +463,7 @@ const CheckoutForm = () => {
           ) : (
             ""
           )}
+          
           <div className="facturation-title">
             <h3>Adresse de facturation</h3>
           </div>
@@ -448,7 +490,6 @@ const CheckoutForm = () => {
                 placeholder="Adresse"
                 required
               />
-
               <input
                 onChange={(e) => setCodePostalValue(e.target.value)}
                 type="text"
@@ -475,102 +516,158 @@ const CheckoutForm = () => {
               </select>
             </div>
           </div>
-          <div className="facturation-title">
-            <h3>Payer par paypal</h3>
-          </div>
-          <div className="paypal-button">
-            <Checkout
-              URL={URL}
-              email={emailValue}
-              name={nameValue}
-              surname={surnameValue}
-              address={adressValue}
-              city={cityValue}
-              codePostal={codePostalValue}
-              country={countryValue}
-              date={date}
-              delvery={delvery}
-              time={time}
-            />
-            {invalidFields.length > 0 ? (
-              <div
-                onClick={() => setShowAlert(true)}
-                className="check-button"
+
+          {/* Sélecteur de méthode de paiement */}
+          <div className="payment-method-selector">
+            <div className="payment-option">
+              <input
+                type="radio"
+                id="card"
+                name="paymentMethod"
+                value="card"
+                checked={paymentMethod === 'card'}
+                onChange={(e) => setPaymentMethod(e.target.value)}
               />
-            ) : null}
-          </div>
-          <div className="pay-legal">
-            <p>
-              En cliquant sur paypal, vous acceptez nos
-              <a href="#" className="info-legal">
-                conditions générales de vente
-              </a>
-              ainsi que nos
-              <a href="#" className="info-legal">
-                conditions générales d’utilisation.
-              </a>
-            </p>
-          </div>
-          <div className="separation">
-            <span></span> ou <span></span>
-          </div>
-          <div className="facturation-title">
-            <h3>Payer par carte</h3>
-          </div>
-          <div className="input-elements">
-            <input
-              className="name-card-input"
-              onChange={(e) => setNameCardValue(e.target.value)}
-              type="text"
-              placeholder="Titulaire de la carte"
-              required
-            />
-          </div>
-          <div className="card-element">
-            <CardElement
-              options={{
-                iconStyle: "solid",
-                style: {
-                  base: {
-                    iconColor: "#8E8E8E",
-                    color: "#ff4d6d",
-                    fontWeight: 500,
-                    fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
-                    fontSize: "16px",
-                    fontSmoothing: "antialiased",
-                    ":-webkit-autofill": {
-                      color: "#ff4d6d",
-                    },
-                    "::placeholder": {
-                      color: "#8E8E8E",
-                    },
-                  },
-                  invalid: {
-                    iconColor: "#ffc7ee",
-                    color: "#ffc7ee",
-                  },
-                },
-              }}
-            />
+              <label htmlFor="card">Payer par carte</label>
+            </div>
+            <div className="payment-option">
+              <input
+                type="radio"
+                id="paypal"
+                name="paymentMethod"
+                value="paypal"
+                checked={paymentMethod === 'paypal'}
+                onChange={(e) => setPaymentMethod(e.target.value)}
+              />
+              <label htmlFor="paypal">Payer par PayPal</label>
+            </div>
           </div>
 
-          <button className="pay-btn" type="submit" disabled={!stripe}>
-            Payer {price/100} €
-          </button>
-          <div className="pay-legal">
-            <p>
-              En cliquant sur Payer, vous acceptez nos
-              <a href="#" className="info-legal">
-                conditions générales de vente
-              </a>
-              ainsi que nos
-              <a href="#" className="info-legal">
-                conditions générales d’utilisation.
-              </a>
-            </p>
-          </div>
+          {/* Section PayPal */}
+          {paymentMethod === 'paypal' && (
+            <>
+              <div className="facturation-title">
+                <h3>Payer par PayPal</h3>
+              </div>
+              
+              <div className="paypal-button">
+                <Checkout
+                  URL={URL}
+                  email={emailValue}
+                  name={nameValue}
+                  surname={surnameValue}
+                  address={adressValue}
+                  city={cityValue}
+                  codePostal={codePostalValue}
+                  country={countryValue}
+                  date={date}
+                  delvery={delvery}
+                  time={time}
+                />
+                {invalidFields.length > 0 && (
+                  <div
+                    onClick={() => setShowAlert(true)}
+                    className="check-button"
+                  />
+                )}
+              </div>
+              
+              <div className="pay-legal">
+                <p>
+                  En cliquant sur PayPal, vous acceptez nos
+                  <a href="#" className="info-legal">
+                    conditions générales de vente
+                  </a>
+                  ainsi que nos
+                  <a href="#" className="info-legal">
+                    conditions générales d'utilisation.
+                  </a>
+                </p>
+              </div>
+            </>
+          )}
+
+          {/* Section Carte Bancaire */}
+          {paymentMethod === 'card' && (
+            <>
+             {/*  <div className="separation">
+                <span></span> ou <span></span>
+              </div> */}
+              
+              <div className="facturation-title">
+                <h3>Payer par carte</h3>
+              </div>
+              
+              <div className="input-elements">
+                <input
+                  className="name-card-input"
+                  onChange={(e) => setNameCardValue(e.target.value)}
+                  type="text"
+                  placeholder="Titulaire de la carte"
+                  required
+                />
+              </div>
+              
+              <div className="card-element">
+                <CardElement
+                  options={{
+                    iconStyle: "solid",
+                    style: {
+                      base: {
+                        iconColor: "#8E8E8E",
+                        color: "#ff4d6d",
+                        fontWeight: 500,
+                        fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
+                        fontSize: "16px",
+                        fontSmoothing: "antialiased",
+                        ":-webkit-autofill": {
+                          color: "#ff4d6d",
+                        },
+                        "::placeholder": {
+                          color: "#8E8E8E",
+                        },
+                      },
+                      invalid: {
+                        iconColor: "#ffc7ee",
+                        color: "#ffc7ee",
+                      },
+                    },
+                  }}
+                  onChange={(event) => {
+                    if (event.error) {
+                      setCardError(event.error.message);
+                    } else {
+                      setCardError(null);
+                    }
+                  }}
+                />
+              </div>
+
+              <button 
+                className="pay-btn" 
+                type="submit" 
+                disabled={!stripe || cardError}
+              >
+                {paymentStatus}
+              </button>
+              
+              <div className="pay-legal">
+                <p>
+                  En cliquant sur Payer, vous acceptez nos
+                  <a href="#" className="info-legal">
+                    conditions générales de vente
+                  </a>
+                  ainsi que nos
+                  <a href="#" className="info-legal">
+                    conditions générales d'utilisation.
+                  </a>
+                </p>
+              </div>
+            </>
+          )}
         </form>
       </div>
+      
       {paymentStatus === "Paiement réussi !" ? (
         <div className="status">
           <img src={loader.src} alt="" />

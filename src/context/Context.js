@@ -59,28 +59,22 @@ export const MyContext = createContext();
 
       
       useEffect(() => {
-        const checkPromoCode = () => {
-          if (promoCodes && promoCodes.includes(promo)) {
-            
-            const reductionCode = promo.match(/\d+$/)[0]
-            if(parseInt(reductionCode) === 10){
-              setReduction(0.9)
-       
-            }else if(parseInt(reductionCode) === 20){
-              setReduction(0.80)
-            }else if(parseInt(reductionCode) === 30){
-              setReduction(0.70)
-            }
-            const discountedPrice = Math.round(total * reduction); 
-            setPrice(discountedPrice);
-          } else {
-            setPrice(total);
-          }
-        };
-        
-        checkPromoCode();
-      }, [total, promoCodes, promo, reduction]); 
-  
+  if (!promoCodes) return;
+
+  const valid = promoCodes.includes(promo);
+  if (!valid) {
+    setPrice(total);
+    return;
+  }
+
+  const reductionCode = promo.match(/\d+$/)?.[0];
+  const reductionValue = reductionCode ? (1 - parseInt(reductionCode) / 100) : 1;
+  const discountedPrice = Math.round(total * reductionValue);
+
+  setPrice(discountedPrice);
+}, [total, promoCodes, promo]);
+
+  console.log(total)
     return(
         <MyContext.Provider value={{currentCart, setCurrentCart, addToCart, checkCart, total, clearCart, price, setPromo,promo,isPromoValid}}>
             {children}
