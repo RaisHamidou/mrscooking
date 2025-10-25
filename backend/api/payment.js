@@ -26,7 +26,7 @@ router.post("/create-payment", async (req, res) => {
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amount,
       currency: "eur",
-      payment_method_types: ["card", "paypal"],
+      //payment_method_types: ["card"],
       customer: customer.id,
     });
     // Envoyez l'ID et le client_secret au frontend

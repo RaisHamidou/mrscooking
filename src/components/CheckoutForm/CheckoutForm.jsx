@@ -159,7 +159,7 @@ const CheckoutForm = () => {
         setPaymentStatus(`Payer ${price/100} €`);
         return;
       }
-
+//http://localhost:4000 https://www.mrscooking.com/api/payment/create-payment
       const response = await fetch(`https://www.mrscooking.com/api/payment/create-payment`, {
         method: "POST",
         headers: {

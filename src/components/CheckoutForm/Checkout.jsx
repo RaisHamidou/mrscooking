@@ -29,6 +29,7 @@ console.log(URL)
     if (!stripe || !elements) {
       return;
     }
+    
     const response = await fetch(`https://www.mrscooking.com/api/payment/create-payment`, {
       method: "POST",
       headers: {
