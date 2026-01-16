@@ -15,7 +15,7 @@ const Info = ()=>{
             </div>
             <div className="info">
                 <LiaMoneyBillWaveSolid className="icon-info" />
-                <p>Payement sécuriser</p>
+                <p>paiement sécuriser</p>
             </div>
         </section>
     )

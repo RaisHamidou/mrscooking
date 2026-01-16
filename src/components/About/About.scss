@@ -4,7 +4,7 @@
     align-items: center;
     //margin-top: 50px;
     //background-color: red;
-    height: 600px;
+    height: 690px;
     padding-bottom: 50px;
     background-color:$beige ;
 
@@ -21,14 +21,18 @@
             color: $grey;
             margin-bottom: 20px;
         }
-        p{
+        .info-about{
             font-size: 1.2rem;
             margin: 1rem 0;
             color: #737373;
             letter-spacing: -1.2px;
             line-height: 1.5;
-            width: 80%;
+            width: 90% !important;
             text-align: justify;
+            //background-color: red;
+            p{
+                width: 100%;
+            }
         }
         .about-social {
           
@@ -70,7 +74,7 @@
             h1{
                 font-size: 3.5rem; 
             }
-            p{
+            .info-about{
                 font-size: 2rem;
                 
             }
@@ -137,7 +141,7 @@
                 font-size: 2rem;
                 font-family: $poppins;
             }
-            p{
+            .info-about{
                 font-size: 0.9rem;
                 margin-top: 20px;
                 width: 90%;
@@ -176,7 +180,7 @@
             h1{
                 font-size: 2rem;
             }
-            p{
+            .info-about{
                 font-size: 0.9rem;
                 margin: 1rem 0;
             }
@@ -189,7 +193,7 @@
             
         }
         .about-img{
-            width: 30%;
+            width: 50%;
             height: 300px;
             padding : 0;
             margin-bottom: 10px;
@@ -212,7 +216,7 @@
              h1{
                  font-size: 1.5rem;
              }
-             p{
+             .info-about{
                  font-size: 0.9rem;
                 
              }

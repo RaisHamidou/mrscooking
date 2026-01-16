@@ -17,15 +17,25 @@ const About = () => {
             <li><a href="https://www.tiktok.com/@mrs__cooking_?_t=ZN-8snJRXUdJjS&_r=1&fbclid=IwZXh0bgNhZW0CMTAAAR0g3-HICPYh_n3I7nDEt0HzwKRyVaIxWhal3E2Lz__ZWLai2_j0PGkC3SE_aem_8eY5satE9VDlc6CtGr2ptQ"><FaTiktok /></a></li>
           </ul>
         </div>
-        <p className="info-about">
-        Passionnée de cuisine, je te partage mes réalisations culinaires depuis maintenant des années. 
-        Soucieuse de toujours bien faire, je ne cesse de perfectionner mes recettes afin de te
-        proposer mes réalisations les plus goûteuses.<br/>
-        Aujourd’hui, c’est avec grand plaisir que je souhaite te faire découvrir mon univers à travers mes e-bookes rempli de douceur.
-        Certaines me connaissent à travers les plats réalisés pour mon mari. Il a su être conquis, c’est la raison pour laquelle je souhaite te faire découvrir cet univers culinaire et te permettre à toi aussi d’exceller dans le domaine.
-        À travers la diversité de mes e-books, tu pourras voyager et découvrir diverses spécialités.
-        N’hésite plus, mets ton tablier et régale-toi ! 
-        </p>
+        <article className="info-about">
+        <p>Passionnée de cuisine depuis de nombreuses années, je partage mes réalisations 
+        culinaires avec l’envie constante de bien faire et de toujours m’améliorer. 
+        Chaque recette est pensée, testée et perfectionnée afin de te proposer 
+        des plats savoureux, accessibles et riches en goût.</p> <br/>
+
+        <p>À travers mes e-books, je t’invite à découvrir mon univers 
+        gourmand, empreint de douceur et de générosité. Certaines me 
+        connaissent déjà à travers les plats que je prépare pour mon 
+        mari, premier et fidèle gourmet, conquis depuis longtemps. 
+        C’est cette passion et ce plaisir de cuisiner que je souhaite 
+        aujourd’hui partager avec toi.</p> <br/>
+
+        <p>Grâce à la diversité de mes e-books, tu pourras voyager à travers différentes 
+        saveurs et spécialités, tout en prenant confiance en cuisine. Ici, pas de pression : 
+        seulement l’envie de se faire plaisir et de régaler ceux qu’on aime.</p> <br/>
+        
+        <p>Alors n’hésite plus, enfile ton tablier et laisse-toi guider 🍽️✨</p>
+        </article>
        
       </div>
       
