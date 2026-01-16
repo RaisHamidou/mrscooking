@@ -30,10 +30,14 @@ const EbookHome  = ({URL}) => {
   }, []);
   function formatString(str) {
     return str
-        .normalize("NFD") // Décompose les caractères accentués en caractères de base et leurs diacritiques
-        .replace(/[\u0300-\u036f]/g, "") // Supprime les diacritiques (accents)
-        .replace(/\s+/g, "-") // Remplace les espaces par des tirets
-        .toLowerCase(); // Convertit la chaîne en minuscules (optionnel)
+    .trim() 
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, "")
+    .replace(/[^a-zA-Z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .toLowerCase();
 }
   return (
     <section id="ebooks">
