@@ -17,7 +17,7 @@ const EmblaCarousel = ({posts , alt, toggleTab, options},props) => {
     <section className="embla">
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container">
-          {posts.map((post,index) => (
+          {posts?.map((post,index) => (
             <div onClick={()=> toggleTab(index)} className="embla__slide" key={index}>
               <img src={post} alt={alt} />
             </div>

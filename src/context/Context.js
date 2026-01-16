@@ -27,7 +27,7 @@ export const MyContext = createContext();
     const promoValue = (1-0.1)
     const isPromoValid = promo && promoCodes && promoCodes.includes(promo);
 
-     console.log(promoCodes)
+    
     useEffect(() => {
         const storedCart = localStorage.getItem("book");
         if (storedCart) {
@@ -74,7 +74,7 @@ export const MyContext = createContext();
   setPrice(discountedPrice);
 }, [total, promoCodes, promo]);
 
-  console.log(total)
+  
     return(
         <MyContext.Provider value={{currentCart, setCurrentCart, addToCart, checkCart, total, clearCart, price, setPromo,promo,isPromoValid}}>
             {children}

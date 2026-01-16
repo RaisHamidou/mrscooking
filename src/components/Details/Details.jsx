@@ -9,7 +9,7 @@ const Details = ({ posts }) => {
     const toggleTab = (index)=>{
         setToggleState(index)
     }
-    console.log(toggleState)
+    
   const { addToCart, checkCart } = useContext(MyContext);
   const isInCart = checkCart(posts.id);
   return (
@@ -17,7 +17,7 @@ const Details = ({ posts }) => {
      <section className="details-page">
       <div className="Container-details-img">
         <div className="details-img">
-        <img src={posts.image_books[toggleState]} alt={posts.title} /> 
+        <img  src={posts.image_books?.[toggleState]} alt={posts.title} /> 
         </div>
       <EmblaCarousel posts={posts.image_books} alt={posts.title} toggleTab={toggleTab}  />
       </div>

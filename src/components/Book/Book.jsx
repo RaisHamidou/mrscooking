@@ -14,10 +14,12 @@ const Book = () => {
       <div className="container-info-book">
         <h1>Ebook 1 : 10 recettes de desserts édition tête-à-tête avec Mr</h1>
         <p className="info-book">
-        Retrouvez 10 recettes de desserts incontournables et 
-        faciles à réaliser pour vous régaler avec Mr. E-book 
-        détaillé et bien expliqué afin de permettre à chacune 
-        d’entre vous de réussir votre tête-à-tête avec Mr.
+        Envie de faire fondre Mr. avec des desserts aussi gourmands que faciles à réaliser ? <br/> <br/>  
+       Cet e-book exclusif a été pensé pour t’accompagner pas à pas et t’aider à réussir, sans stress, 
+       un moment complice et savoureux à deux.<br/> <br/>  À l’intérieur, tu découvriras 10 recettes i
+       ncontournables, détaillées et accessibles, conçues pour impressionner tout en te faisant plaisir. 
+       Chaque recette est expliquée étape par étape pour garantir une réussite à coup sûr.<br/> <br/>  
+      
         </p>
         <button
           onClick={(e) => {

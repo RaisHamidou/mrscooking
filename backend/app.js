@@ -60,11 +60,15 @@ if (auth && auth === PASSWORD) {
 
 function formatString(str) {
     return str
-        .normalize("NFD") // Décompose les caractères accentués en caractères de base et leurs diacritiques
-        .replace(/[\u0300-\u036f]/g, "") // Supprime les diacritiques (accents)
-        .replace(/\s+/g, "-") // Remplace les espaces par des tirets
-        .replace(/['’]/g, "-")
-        .toLowerCase(); // Convertit la chaîne en minuscules
+        .trim() // ✅ enlève les espaces au début et à la fin
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, "")
+    .replace(/[^a-zA-Z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .toLowerCase();
+
 }
 app.get("/api/books/:title", (req, res) => {
     const params = req.params.title.toLowerCase();
@@ -72,12 +76,12 @@ app.get("/api/books/:title", (req, res) => {
     const auth = req.headers.authorization
     const data = Databooks.filter(book => formatString(book.titre) === params);
     
-    
-    if(auth && auth === PASSWORD){
+    res.json(data[0])
+    /* if(auth && auth === PASSWORD){
         res.json(data[0]);
     }else{
         res.status(401).json({ message: 'Accès interdit.' })
-    }
+    } */
 });
 
 app.get("/api/legals/:id", (req,res)=>{
