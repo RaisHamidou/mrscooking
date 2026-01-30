@@ -74,7 +74,7 @@ export const MyContext = createContext();
   setPrice(discountedPrice);
 }, [total, promoCodes, promo]);
 
-  
+  console.log(price)
     return(
         <MyContext.Provider value={{currentCart, setCurrentCart, addToCart, checkCart, total, clearCart, price, setPromo,promo,isPromoValid}}>
             {children}

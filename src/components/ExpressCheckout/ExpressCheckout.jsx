@@ -2,7 +2,7 @@ import React from "react";
 import { ExpressCheckoutElement } from "@stripe/react-stripe-js";
 import PropTypes from "prop-types";
 
-const PayPalCheckout = ({ clientSecret, onPaymentComplete }) => {
+const PayPalCheckout = ({ onPaymentComplete }) => {
   return (
     <div className="paypal-checkout-container">
       <ExpressCheckoutElement
@@ -15,14 +15,13 @@ const PayPalCheckout = ({ clientSecret, onPaymentComplete }) => {
           },
         }}
         onConfirm={onPaymentComplete}
-        clientSecret={clientSecret}
       />
     </div>
   );
 };
 
 PayPalCheckout.propTypes = {
-  clientSecret: PropTypes.string.isRequired,
+  onPaymentComplete: PropTypes.func.isRequired,
 };
 
 export default PayPalCheckout;

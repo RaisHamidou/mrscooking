@@ -14,7 +14,7 @@ router.post("/create-payment", async (req, res) => {
   try {
     const customer = await stripe.customers.create({
       email: email,
-      name: ` ${surname} ${name}  `,
+      name: `${surname} ${name}`,
       address: {
         line1: address,
         city: city,
@@ -24,10 +24,14 @@ router.post("/create-payment", async (req, res) => {
     });
 
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: amount,
+      amount: Math.round(Number(amount) * 100),
       currency: "eur",
       //payment_method_types: ["card"],
       customer: customer.id,
+      automatic_payment_methods: {
+      enabled: true,
+      allow_redirects: "always",
+  },
     });
     // Envoyez l'ID et le client_secret au frontend
     res.status(200).send({

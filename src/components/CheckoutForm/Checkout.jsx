@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import {
   ExpressCheckoutElement,
   useStripe,
@@ -7,6 +7,7 @@ import {
 import { MyContext } from "@/context/Context";
 import { useRouter } from "next/navigation";
 import { URL } from "../config/config";
+
 const Checkout = ({
   email,
   name,
@@ -22,101 +23,71 @@ const Checkout = ({
   const stripe = useStripe();
   const elements = useElements();
   const { currentCart, total, clearCart, price } = useContext(MyContext);
-
   const route = useRouter();
-console.log(URL)
-  const handleExpressCheckout = async (event) => {
-    if (!stripe || !elements) {
-      return;
-    }
-    
-    const response = await fetch(`https://www.mrscooking.com/api/payment/create-payment`, {
+
+ const handleExpressCheckout = async () => {
+  if (!stripe || !elements) return;
+
+  const response = await fetch(
+    "https://www.mrscooking.com/api/payment/create-payment",
+    {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-       
-            email: email,
-            name: name,
-            surname:surname,  
-            bookIds: currentCart.map((book) => book.id),
-            amount:  price, 
-            total:total,
-            address:address, 
-            city:city, 
-            codePostal:codePostal, 
-            country:country,
-            products:currentCart,
-            delvery:delvery,
-            date:date,
-            time:time,
+        email,
+        name,
+        surname,
+        bookIds: currentCart.map((b) => b.id),
+        amount: Number(price),
+        total,
+        address,
+        city,
+        codePostal,
+        country,
+        products: currentCart,
+        delvery,
+        date,
+        time,
       }),
-    });
-
-    const { clientSecret } = await response.json();
-    try {
-      const { error, paymentIntent } = await stripe.confirmPayment({
-        clientSecret,
-        elements,
-       amount: price,
-        currency: "eur",
-        payment_method: {},
-        confirmParams: {
-          return_url: `${URL}/thank-you`,
-        },
-        redirect: "if_required",
-      });
-
-      if (error) {
-        console.error("Erreur lors de la confirmation :", error.message);
-        alert("Une erreur est survenue lors du paiement.");
-      } else if (paymentIntent?.status === "succeeded") {
-        route.push("/thank-you");
-
-        clearCart();
-        await fetch(`${URL}/api/payment/confirm-payment`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            paymentIntentId: paymentIntent.id,
-            email: email,
-            name: name,
-            surname:surname,  
-            bookIds: currentCart.map((book) => book.id),
-           amount:  price,
-            currentTotal: price,
-            total:total,
-            address:address, 
-            city:city, 
-            codePostal:codePostal, 
-            country:country,
-            products:currentCart,
-            delvery:delvery,
-            date:date,
-            time:time,
-          }),
-        });
-      }
-    } catch (error) {
-      console.error("Erreur lors de la confirmation du paiement :", error);
     }
-  };
+  );
+
+  const { clientSecret } = await response.json();
+
+  const { error, paymentIntent } = await stripe.confirmPayment({
+    elements,
+    clientSecret,
+    confirmParams: {
+      return_url: `${URL}/thank-you`,
+    },
+    redirect: "if_required",
+  });
+
+  if (error) {
+    console.error(error.message);
+    alert(error.message);
+  }
+};
 
 
   return (
     <>
-      <ExpressCheckoutElement
-        onConfirm={handleExpressCheckout}
-        options={{
-          amount: price,
-          currency: "eur",
-          wallets: { paypal: "auto" },
-          appearance: {
-            theme: "stripe",
-          },
-        }}
-      />
+      {/* N'afficher que si le prix est chargé et valide */}
+      {price && Number(price) > 0 ? (
+        <ExpressCheckoutElement
+          onConfirm={handleExpressCheckout}
+          options={{
+            amount: Number(price),
+            currency: "eur",
+            wallets: { paypal: "auto" },
+            appearance: {
+              theme: "stripe",
+            },
+          }}
+        />
+      ) : (
+        <p>Chargement du module de paiement...</p>
+      )}
     </>
   );
 };
