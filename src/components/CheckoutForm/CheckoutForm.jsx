@@ -23,11 +23,11 @@ const PromoCodeSection = ({ onPromoApplied }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const promoCode = e.target.promoInput.value.trim();
-    
+
     if (!promoCode) return;
-    
+
     setIsApplying(true);
-    
+
     try {
       // Désactiver Stripe pendant l'application du promo
       await onPromoApplied(promoCode);
@@ -45,7 +45,7 @@ const PromoCodeSection = ({ onPromoApplied }) => {
           <p>Votre code promo est expiré ou invalide</p>
         )
       ) : null}
-      
+
       <div className="container-form-promo">
         <input
           name="promoInput"
@@ -83,7 +83,7 @@ const CheckoutForm = () => {
   const [time, setTime] = useState()
   const [date, setDate] = useState()
   const route = useRouter();
-  
+
   const [paymentStatus, setPaymentStatus] = useState(`Payer ${price/100} €`);
   const [cardError, setCardError] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState('card');
@@ -98,17 +98,17 @@ const CheckoutForm = () => {
   const handlePromoApplied = async (promoCode) => {
     // DÉSACTIVER Stripe pendant la validation du promo
     setStripeEnabled(false);
-    
+
     try {
       // Attendre un peu pour s'assurer que Stripe est désactivé
       await new Promise(resolve => setTimeout(resolve, 100));
-      
+
       // Appliquer le promo
       setPromo(promoCode);
-      
+
       // Attendre que le contexte soit mis à jour
       await new Promise(resolve => setTimeout(resolve, 200));
-      
+
     } finally {
       // RÉACTIVER Stripe et forcer la recréation des éléments
       setStripeEnabled(true);
@@ -117,12 +117,12 @@ const CheckoutForm = () => {
   };
 
   const physique = currentCart.filter((f) => f.type === "physique");
-  
+
   const ValidateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
-  
+
   const handleEmail = (e) => {
     const email = e.target.value;
     setEmailValue(email);
@@ -131,15 +131,15 @@ const CheckoutForm = () => {
 
   const handleCardSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!stripeEnabled) {
       setCardError("Veuillez patienter pendant l'application du code promo");
       return;
     }
-    
+
     setPaymentStatus("paiement en cours...");
     setCardError(null);
-    
+
     if (!stripe || !elements) {
       setCardError("Stripe n'est pas initialisé");
       return;
@@ -153,14 +153,15 @@ const CheckoutForm = () => {
 
     try {
       const cardElement = elements.getElement(CardElement);
-      
+
       if (!cardElement) {
         setCardError("Élément de carte non disponible.");
         setPaymentStatus(`Payer ${price/100} €`);
         return;
       }
+
 //http://localhost:4000 https://www.mrscooking.com/api/payment/create-payment
-      const response = await fetch(`https://www.mrscooking.com/api/payment/create-payment`, {
+      const response = await fetch(`http://localhost:4000/api/payment/create-payment`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -210,14 +211,14 @@ const CheckoutForm = () => {
         console.error(error.message);
         setCardError(error.message);
         setPaymentStatus("Une erreur s'est produite, Veuillez réessayer");
-        
+
         setTimeout(() => {
           setPaymentStatus(`Payer ${price/100} €`);
         }, 5000);
       } else if (paymentIntent && paymentIntent.status === "succeeded") {
         setPaymentStatus("Paiement réussi !");
         const bookIds = currentCart.map((book) => book.id);
-        
+
         await fetch(`${URL}/api/payment/confirm-payment`, {
           method: "POST",
           headers: {
@@ -263,7 +264,7 @@ const CheckoutForm = () => {
     CodePostal: !codePostalValue,
     pays: !countryValue,
   };
-  
+
   if (physique.length > 0) {
     fields.date = !date;
     fields.time = !time;
@@ -358,11 +359,11 @@ const CheckoutForm = () => {
               <span className="ttc">ttc</span>
             </div>
           </div>
-          
+
           <PromoCodeSection onPromoApplied={handlePromoApplied} />
         </div>
       </div>
-      
+
       {/* DÉSACTIVER TOUT LE FORMULAIRE STRIPE PENDANT LA VALIDATION PROMO */}
       <div key={formKey} className="container-form">
         <div className="checkout-form">
@@ -375,7 +376,7 @@ const CheckoutForm = () => {
               <p>{isInvalid}</p>
             </div>
           )}
-          
+
           {cardError && (
             <div className="alerte card-error">
               <p>{cardError}</p>
@@ -389,7 +390,7 @@ const CheckoutForm = () => {
           )}
 
           {/* ... TOUS VOS CHAMPS DE FORMULAIRE ... */}
-          
+
           <div className="input-elements">
             <input
               className="input-email"
@@ -400,7 +401,7 @@ const CheckoutForm = () => {
               disabled={!stripeEnabled}
             />
           </div>
-          
+
           <div className="pay-legal">
             <p>
               Entrez soigneusement votre email, vos ebooks et votre confirmation
@@ -408,7 +409,7 @@ const CheckoutForm = () => {
               réception.
             </p>
           </div>
-          
+
           {physique.length > 0 ? (
             <div className="delvery-form">
               <div className="pay-legal">
@@ -420,7 +421,7 @@ const CheckoutForm = () => {
                   nécessaire avant le retrait.
                 </p>
               </div>
-              
+
               <div className="input-date-container">
                 <div className="input-with-icons">
                   <DatePicker 
@@ -463,7 +464,7 @@ const CheckoutForm = () => {
                     }} 
                   />
                 </div>
-                
+
                 <div className="input-with-icons">
                   <TimePicker 
                     onChange={(newValue) => setTime(dayjs(newValue).format('HH:mm'))} 
@@ -510,7 +511,7 @@ const CheckoutForm = () => {
                   />
                 </div>
               </div>
-              
+
               <textarea
                 onChange={(e) => setDelvery(e.target.value)}
                 placeholder="D'autre précision ?"
@@ -520,7 +521,7 @@ const CheckoutForm = () => {
           ) : (
             ""
           )}
-          
+
           <div className="facturation-title">
             <h3>Adresse de facturation</h3>
           </div>
@@ -613,7 +614,7 @@ const CheckoutForm = () => {
               <div className="facturation-title">
                 <h3>Payer par PayPal</h3>
               </div>
-              
+
               <div className="paypal-button">
                <Checkout
               URL={URL}
@@ -635,7 +636,7 @@ const CheckoutForm = () => {
                   />
                 )}
               </div>
-              
+
               <div className="pay-legal">
                 <p>
                   En cliquant sur PayPal, vous acceptez nos
@@ -654,12 +655,12 @@ const CheckoutForm = () => {
           {/* Section Carte Bancaire - DÉSACTIVÉE PENDANT LA VALIDATION */}
           {paymentMethod === 'card' && stripeEnabled && (
             <>
-              
-              
+
+
               <div className="facturation-title">
                 <h3>Payer par carte</h3>
               </div>
-              
+
               <div className="input-elements">
                 <input
                   className="name-card-input"
@@ -669,7 +670,7 @@ const CheckoutForm = () => {
                   required
                 />
               </div>
-              
+
               <div className="card-element">
                 <CardElement
                   options={{
@@ -713,7 +714,7 @@ const CheckoutForm = () => {
               >
                 {paymentStatus}
               </button>
-              
+
               <div className="pay-legal">
                 <p>
                   En cliquant sur Payer, vous acceptez nos
@@ -737,7 +738,7 @@ const CheckoutForm = () => {
           )}
         </div>
       </div>
-      
+
       {paymentStatus === "Paiement réussi !" ? (
         <div className="status">
           <img src={loader.src} alt="" />
@@ -748,5 +749,4 @@ const CheckoutForm = () => {
     </section>
   );
 };
-
-export default CheckoutForm;
+export default CheckoutForm
