@@ -30,7 +30,7 @@ console.log(URL)
       return;
     }
     
-    const response = await fetch(`http://localhost:4000/api/payment/create-payment`, {
+    const response = await fetch(`https://www.mrscooking.com/api/payment/create-payment`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

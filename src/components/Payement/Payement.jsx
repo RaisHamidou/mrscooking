@@ -21,7 +21,7 @@ const PaymentComponents = () => {
   useEffect(() => {
     if (!amount || amount < 1) return;
 
-    fetch(`http://localhost:4000/api/payment/create-payment`, {
+    fetch(`https://www.mrscooking.com/api/payment/create-payment`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

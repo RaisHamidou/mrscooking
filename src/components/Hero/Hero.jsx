@@ -38,7 +38,6 @@ const Hero = () => {
                   : "Acheter maintenant ! "
               }
             >
-              {" "}
               {isInCart ? "Déjà dans le panier" : "Acheter maintenant ! "}
             </button>
           </a>
