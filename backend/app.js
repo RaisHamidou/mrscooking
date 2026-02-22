@@ -96,7 +96,7 @@ app.get("/api/legals", (req,res)=>{
 })
 
 app.get("/api/promo", (req,res)=>{
-  const data = ['Mrs50']
+  const data = ['Ramadan60']
     res.json(data)
 })
 

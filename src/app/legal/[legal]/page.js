@@ -4,13 +4,18 @@ import LegalComponents from "@/components/LegalsComponents/LegalsComponents"
 import axios from "axios"
 
 const Page = async ({params}) =>{
-    const {legal} = params
-    const res = await axios.get(`${URL}/api/legals/${legal}`)
-    const data = await res.data
+    const {legal} = await params
+    
+
+    const {data : post} = await await axios.get(`https://www.mrscooking.com/api/legals/${legal}`,{
+        Header:{
+            Accept:"application/json"
+        }
+    })
     return (
         <div>
             <Header/>
-            <LegalComponents post={data}/>
+            <LegalComponents post={post}/>
         </div>
     )
 }
